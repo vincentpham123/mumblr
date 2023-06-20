@@ -2,11 +2,11 @@ import { useState, useEffect} from "react"
 import * as sessionActions from '../../store/session';
 import csrfFetch from "../../store/csrf";
 import { Redirect } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import './passwordSignup.css';
 
-const PasswordSignUp = ({email}) =>{
-    const sessionUser = useSelector(state=> state.session.user);
+const PasswordSignUp = ({email},{setshowModal}) =>{
+    
 
     const dispatch = useDispatch();
     const [username,setUserName] = useState();
@@ -15,37 +15,38 @@ const PasswordSignUp = ({email}) =>{
     const [errors,setErrors] = useState([]);
     const [buttonColor,setButtonColor] = useState('');
     const [fontColor,setFontColor] = useState('');
-    if (sessionUser) return <Redirect to="/" />;
-
+    
     useEffect(()=>{
-        if (confirmPassword.length && password.length ){
+        if (confirmPassword.length && password.length && username.length){
             setButtonColor('white');
             setFontColor('black');
         } else {
             setButtonColor('');
             setFontColor('');
         }
-    },[password,confirmPassword]);
+    },[password,confirmPassword,username]);
+
     const handleSubmit = (event) => {
         event.preventDefault();
         if (password===confirmPassword) {
-        setErrors([]);
-        return dispatch(sessionActions.signup({email,username, password}))
-            .catch(async (res) => {
-                let data;
-                try {
-                    data = await res.clone().json();
-                } catch {
-                    data = await res.text();
-                }
+            setErrors([]);
+            return dispatch(sessionActions.signup({email,username, password}))
+                .catch(async (res) => {
+                    let data;
+                    try {
+                        data = await res.clone().json();
+                    } catch {
+                        data = await res.text();
+                    }
 
-                if (data?.errors) setErrors(data.errors);
-                else if (data) setErrors([data]);
-                else setErrors([res.statusText]);
+                    if (data?.errors) setErrors(data.errors);
+                    else if (data) setErrors([data]);
+                    else setErrors([res.statusText]);
 
-            });
+                });
         }
-        // return setErrors(['Confirm Password field must be the same as the Password field']);
+        return setErrors(['Confirm Password field must be the same as the Password field']);
+    
     }
     
     return (

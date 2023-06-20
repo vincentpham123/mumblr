@@ -5,7 +5,7 @@ import csrfFetch from "../../store/csrf";
 import { Redirect } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import './passwordLogin.css';
-const PasswordLogin = ({email}) =>{
+const PasswordLogin = ({email},{setshowModal}) =>{
     const dispatch = useDispatch();
     const [password,setPassword] = useState('');
     const [errors,setErrors] = useState([]);

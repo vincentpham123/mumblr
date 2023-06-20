@@ -8,7 +8,7 @@ import csrfFetch from '../../store/csrf';
 import EmailCheck from './EmailCheck';
 import PasswordLogin from './passwordLogin';
 import PasswordSignUp from './passwordSignUp';
-const LoginForm = ()=>{
+const LoginForm = ({setshowModal})=>{
     const dispatch = useDispatch();
     // grab user info from current logged in user
     // most likely be blank
@@ -48,8 +48,8 @@ const LoginForm = ()=>{
         <>
         <div className='loginModal'>
         {!emailCheck && <EmailCheck setEmail={setEmail} onEmailClick={onEmailClick} />}
-        {emailCheck===true && emailExists && <PasswordLogin email={email}/>}
-        {emailCheck===true && !emailExists && <PasswordSignUp email={email}/>}
+        {emailCheck===true && emailExists && <PasswordLogin email={email} setshowModal={setshowModal}/>}
+        {emailCheck===true && !emailExists && <PasswordSignUp email={email} setshowModal={setshowModal}/>}
         </div>
         </>
     );
