@@ -1,0 +1,15 @@
+.sign-in-button{
+    --button-text: #000000;
+    background-color: #00cf35;
+    font-family: 'Favorit Tumblr';
+    border-style: none;
+    margin-right: 10px;
+    padding-left: 15px;
+    padding-top: 6px;
+    padding-right: 15px;
+    padding-bottom: 6px;
+    border-radius: 3px;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.5;
+}

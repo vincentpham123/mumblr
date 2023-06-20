@@ -1,0 +1,52 @@
+@font-face {
+    font-family: 'Favorit Tumblr 85';
+    src: url('FavoritTumblr-85.eot');
+    src: local('Favorit Tumblr 85'), local('FavoritTumblr-85'),
+        url('FavoritTumblr-85.eot?#iefix') format('embedded-opentype'),
+        url('FavoritTumblr-85.woff2') format('woff2'),
+        url('FavoritTumblr-85.woff') format('woff'),
+        url('FavoritTumblr-85.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Favorit Tumblr';
+    src: url('FavoritTumblr-MediumItalic.eot');
+    src: local('Favorit Tumblr Medium Italic'), local('FavoritTumblr-MediumItalic'),
+        url('FavoritTumblr-MediumItalic.eot?#iefix') format('embedded-opentype'),
+        url('FavoritTumblr-MediumItalic.woff2') format('woff2'),
+        url('FavoritTumblr-MediumItalic.woff') format('woff'),
+        url('FavoritTumblr-MediumItalic.ttf') format('truetype');
+    font-weight: 500;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Favorit Tumblr 85';
+    src: url('FavoritTumblr85-Italic.eot');
+    src: local('Favorit Tumblr 85 Italic'), local('FavoritTumblr85-Italic'),
+        url('FavoritTumblr85-Italic.eot?#iefix') format('embedded-opentype'),
+        url('FavoritTumblr85-Italic.woff2') format('woff2'),
+        url('FavoritTumblr85-Italic.woff') format('woff'),
+        url('FavoritTumblr85-Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Favorit Tumblr';
+    src: url('FavoritTumblr-Medium.eot');
+    src: local('Favorit Tumblr Medium'), local('FavoritTumblr-Medium'),
+        url('FavoritTumblr-Medium.eot?#iefix') format('embedded-opentype'),
+        url('FavoritTumblr-Medium.woff2') format('woff2'),
+        url('FavoritTumblr-Medium.woff') format('woff'),
+        url('FavoritTumblr-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
