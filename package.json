@@ -20,8 +20,5 @@
   "bugs": {
     "url": "https://github.com/vincentpham123/mumblr/issues"
   },
-  "homepage": "https://github.com/vincentpham123/mumblr#readme",
-  "engines": {
-    "node": "16.20.0"
-  }
+  "homepage": "https://github.com/vincentpham123/mumblr#readme"
 }

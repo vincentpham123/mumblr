@@ -1,5 +1,5 @@
 {
-  "name": "mumblr.",
+  "name": "frontend",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -42,6 +42,9 @@
   "description": "mumblr, a site for sharing blog posts",
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "engines": {
+    "node": "16.20.0"
+  }
 
 }

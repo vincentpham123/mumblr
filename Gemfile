@@ -40,11 +40,11 @@ gem "bootsnap", require: false
 gem 'bcrypt'
 gem 'jbuilder'
 gem 'faker'
-gem "sassc"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "byebug", platforms: %i[ mri mingw x64_mingw ]
+  gem "sassc"
 end
 
 group :development do

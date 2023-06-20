@@ -10,12 +10,12 @@ function App() {
   
   return (
     <> 
+   
       <Navigation />
       <Route path='/signup'>
         <SignupFormPage />
       </Route>
       <Route path='/'>
-
       </Route>
     </>
   );
