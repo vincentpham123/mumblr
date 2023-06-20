@@ -42,9 +42,6 @@
   "description": "mumblr, a site for sharing blog posts",
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "engines": {
-    "node": "16.20.0"
-  }
+  "license": "ISC"
 
 }
