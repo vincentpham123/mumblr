@@ -6,12 +6,17 @@ import { useDispatch } from "react-redux";
 import './passwordSignup.css';
 
 const PasswordSignUp = ({email}) =>{
+    const sessionUser = useSelector(state=> state.session.user);
+
     const dispatch = useDispatch();
+    const [username,setUserName] = useState();
     const [password,setPassword] = useState('');
     const [confirmPassword,setConfirmPassword] = useState('');
     const [errors,setErrors] = useState([]);
     const [buttonColor,setButtonColor] = useState('');
     const [fontColor,setFontColor] = useState('');
+    if (sessionUser) return <Redirect to="/" />;
+
     useEffect(()=>{
         if (confirmPassword.length && password.length ){
             setButtonColor('white');
@@ -25,7 +30,7 @@ const PasswordSignUp = ({email}) =>{
         event.preventDefault();
         if (password===confirmPassword) {
         setErrors([]);
-        return dispatch(sessionActions.login({email, password}))
+        return dispatch(sessionActions.signup({email,username, password}))
             .catch(async (res) => {
                 let data;
                 try {
@@ -40,7 +45,7 @@ const PasswordSignUp = ({email}) =>{
 
             });
         }
-        return setErrors(['Confirm Password field must be the same as the Password field']);
+        // return setErrors(['Confirm Password field must be the same as the Password field']);
     }
     
     return (
@@ -49,6 +54,9 @@ const PasswordSignUp = ({email}) =>{
                 <div className='password-title'>mumblr</div>
                 <form className = 'password-form' onSubmit={handleSubmit}>
                     <div className='password-instructions'><p>Welcome to your corner of the internet. Glad you're here</p></div>
+                    <input className= 'username-text' placeholder='Username' 
+                    value={username} onChange={event=>setUserName(event.target.value)} required
+                    />
                     <input className= 'password-text' type='password' placeholder='Password' 
                     value={password} onChange={event=>setPassword(event.target.value)} required
                     />
@@ -57,7 +65,7 @@ const PasswordSignUp = ({email}) =>{
                     />
                     
                     <button style={{ backgroundColor:`${buttonColor}`,color:`${fontColor}`}} className='password-button' type='submit' >
-                    Sign Up<i className="fa-solid fa-arrow-right" style={{border: 'none', color: `${fontColor}` }}></i> 
+                    Sign Up<i className="fa-solid fa-arrow-right icon" style={{border: 'none', color: `${fontColor}` }}></i> 
                     </button>
                 </form>
                 <ul>

@@ -50,7 +50,7 @@ const PasswordLogin = ({email}) =>{
                     />
                 
                     <button style={{ backgroundColor:`${buttonColor}`,color:`${fontColor}`}} className='password-button' type='submit' >
-                    Log in<i className="fa-solid fa-arrow-right" style={{border: 'none', color: `${fontColor}` }}></i> 
+                    Log in<i className="fa-solid fa-arrow-right icon" style={{border: 'none', color: `${fontColor}` }}></i> 
                     </button>
                 </form>
                 <ul>

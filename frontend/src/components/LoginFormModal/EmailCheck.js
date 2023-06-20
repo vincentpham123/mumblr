@@ -50,7 +50,7 @@ const EmailCheck = ({setEmail,onEmailClick}) =>{
                 
                 {<div>{emailError}</div>}
                     <button style={{ backgroundColor:`${buttonColor}`,color:`${fontColor}`}} className='email-button' type='submit' >
-                    Next<i className="fa-solid fa-arrow-right" style={{border: 'none', color: `${fontColor}` }}></i> 
+                    Next<i className="fa-solid fa-arrow-right icon" style={{border: 'none', color: `${fontColor}` }}></i> 
                     </button>
                 </form>
             </div>

@@ -81,8 +81,10 @@
     line-height: 1.3333;
     display: flex;
     justify-content: center;;
+}
 
-
+.icon{
+    margin-top:5px;
 }
 
 /* create wrapper around email instructions, email text, and button

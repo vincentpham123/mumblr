@@ -12,6 +12,7 @@ const LoginForm = ()=>{
     const dispatch = useDispatch();
     // grab user info from current logged in user
     // most likely be blank
+    // make closeModal
     const sessionUser = useSelector(state=> state.session.user);
     const [email,setEmail] = useState('')
     const [errors,setErrors] = useState([]);
