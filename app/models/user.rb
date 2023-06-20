@@ -28,6 +28,12 @@ class User < ApplicationRecord
 
   before_validation :ensure_session_token 
 
+
+  #associations
+  has_many :posts,
+    foreign_key: :author_id,
+    class_name: :Post,
+    dependent: :destroy
   #controller methods
 
   def self.find_by_credentials(credential,password)

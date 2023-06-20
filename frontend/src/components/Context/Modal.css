@@ -17,13 +17,12 @@
     right: 0;
     left: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 25, 53, 0.85);
   }
   
   #modal-content {
-    background-color: rgba(0, 0, 0, 0.7);
     position: absolute;
-
+    background-color: rgba(0, 25, 53, 0.85);
     display:flex;
     justify-content: center;
     align-items: center;

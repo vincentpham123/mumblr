@@ -57,6 +57,9 @@
     
    
 }
+.logout:hover{
+    cursor: pointer;
+}
 .dropdownlink{
     width:100%;
     
