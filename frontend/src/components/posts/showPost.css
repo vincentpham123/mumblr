@@ -1,0 +1,22 @@
+.postMain{
+    box-sizing: border-box;
+    width:540px;
+    font-family:'Favorit Tumblr';
+    position:relative;
+    
+}
+
+
+
+.postContainer{
+    position: relative;
+}
+.postContent{
+    border-radius: 3px;
+    width: 100%;
+    background-color: rgba(var(--white));
+}
+.postContent *{
+    background-color: inherit;
+    color: black;
+}

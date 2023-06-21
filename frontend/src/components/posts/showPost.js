@@ -9,10 +9,10 @@ const ShowPost = ({post})=>{
     return (
         <>
         <div className='postMain'>
-            <div className='postContent'>
-                <article>
+            <div className='postContainer'>
+                <article className='postContent'>
                     <PostHeader username={post.author.username} dateCreated={post.dateCreated} timeCreated={post.timeCreated} />
-                    <h2> where a post will go </h2>
+                    <p>{post.body}</p>
                 </article>
             </div>
         </div>

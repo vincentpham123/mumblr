@@ -1,0 +1,80 @@
+
+.postHeader{
+    display: flex;
+    justify-content: space-between;
+    color: black;
+    padding: 20px 15px 20px 15px;
+    background-color: inherit;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+   
+}
+
+.headerHover{
+    z-index: 10;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    
+}
+.headerHover:hover .postHeader {
+    background-color: rgba(var(--black),0.05);
+}
+.headercontent{
+    background-color: transparent;
+    display: flex;
+    justify-content: space-between;
+    height: 21px;
+    width: 448px;
+    margin: auto;
+    font-size: 14px;
+}
+.headercontent *{
+    background-color: inherit;
+
+    color: black;
+}
+
+.username-follow {
+    background-color: inherit;
+
+    display:flex;
+    align-items: center;
+}
+
+
+.follow-button span{
+    color: rgb(0,184,255);
+    font-size: .875rem;
+    font-weight:700;
+    line-height: 1.5;
+    text-decoration: none;
+}
+.optionsMenu{
+    background-color: inherit;
+    position: absolute;
+    display:flex;
+    flex-direction: column;
+}
+
+.options-button{
+    background-color: inherit;
+
+    display: block;
+    border-style:none;
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+}
+
+.options-button:hover {
+    cursor: pointer;
+    background-color: rgba(var(--black),0.1);
+
+}
+.button-content{
+    background-color: transparent;
+}
+
+
+
+
