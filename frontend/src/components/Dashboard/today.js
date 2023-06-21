@@ -1,20 +1,21 @@
 import ShowPost from "../posts/showPost";
 import { useEffect,useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Redirect } from "react-router-dom";
 import * as postActions from "../../store/posts";
 const TodayDashboard = () =>{
+    const sessionUser = useSelector(state=>state.session.user);
     const dispatch = useDispatch();
     const randomPost = Math.floor(Math.random()*50)+1;
-    const [test,setTest] = useState('')
     const post = useSelector(state=>state.posts[2])
-    console.log(post);
+    useEffect(()=>{
+        dispatch(postActions.fetchPost(2));
+    },[]);
+    if (sessionUser) return <Redirect to="/" />;
     //all Today dashboard will be in here
     //select posts that were reblogged by 
     //todayonmumblr
     // in seeding, need to have posts reblogged by todayonmumblr
-    useEffect(()=>{
-        dispatch(postActions.fetchPost(2));
-    },[]);
     return (
         <ShowPost post={post} />
     );

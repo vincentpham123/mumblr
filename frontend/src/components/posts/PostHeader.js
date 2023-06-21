@@ -1,7 +1,7 @@
 
 import { Link } from "react-router-dom";
 import { useSelector} from "react-redux";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import './postheader.css';
 
 const PostHeader =({username,dateCreated,timeCreated}) =>{
@@ -10,10 +10,20 @@ const PostHeader =({username,dateCreated,timeCreated}) =>{
 
     const [showOptions, setShowOptions] = useState(false);
 
-    const openMenu = ()=> {
+    const openOptions = ()=> {
         if(showOptions) return;
         setShowOptions(true);
     }
+
+    const closeOptions= () =>{
+        if (showOptions) setShowOptions(false);
+    }
+
+    useEffect(()=>{
+        if (!showOptions) return;
+        document.addEventListener('click',closeOptions);
+        return ()=> document.removeEventListener('click',closeOptions);
+    },[showOptions]);
 
     //need formula that will change the formate of dateCreated and timecreated
 
@@ -36,13 +46,13 @@ const PostHeader =({username,dateCreated,timeCreated}) =>{
                                 </span>
                             </div>
                         </div>
-                        {!followed && <button className='follow-button' style={{ backgroundColor: 'transparent', border: 'none', boxShadow: 'none' }}><span>follow</span></button>}
+                        {!followed && <button className='follow-button' style={{ backgroundColor: 'transparent', border: 'none', boxShadow: 'none' }}><span>Follow</span></button>}
                     </div>
                     {/* make div for extra things like post creation date */}
                     <div className='options-box'>
                         <span className='options-container'>
                             <span className='options-content'>
-                                <button className='options-button' onClick={openMenu}>
+                                <button className='options-button' onClick={openOptions}>
                                     <span className='button-content'>
                                         <i className='fa-solid fa-ellipsis fa-xl buttonicon' ></i>
                                     </span>
@@ -51,19 +61,20 @@ const PostHeader =({username,dateCreated,timeCreated}) =>{
                         </span>
                     
                     {showOptions && (
+                        
                         <div className='optionsMenu'>
                             <div className='time-date'>
                                 {dateCreated}
                                 {timeCreated}
                             </div>
-                            <ul className='optionsContent'>
+                            <ul className='optionscontent'>
                                 <li className='option-links'>
                                     Copy Link
                                     {/* button that will copy 
                                     link of post page to user
                                     will need to pass url as prop */}
                                 </li>
-                                <li className='option-links'>
+                                <li className='option-links' onClick={closeOptions}>
                                     Close 
                                     {/* set showMenu to false */}
                                 </li>

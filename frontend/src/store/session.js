@@ -43,7 +43,7 @@ export const restoreSession = () => async dispatch => {
 }
 export const signup =(user)=> async(dispatch) => {
     const {email,username,password} = user;
-    const response = await csrfFetch('./api/users',{
+    const response = await csrfFetch('/api/users',{
         method:"POST",
         body: JSON.stringify({email,username,password})
     });
@@ -54,7 +54,7 @@ export const signup =(user)=> async(dispatch) => {
 }
 export const login =(user)=> async(dispatch) => {
     const {email,password} = user;
-    const response = await csrfFetch('./api/session',{
+    const response = await csrfFetch('/api/session',{
         method:"POST",
         body: JSON.stringify({email,password})
     });

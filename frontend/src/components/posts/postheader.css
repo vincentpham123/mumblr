@@ -7,7 +7,7 @@
     background-color: inherit;
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
-   
+    font-family: 'Favorit Tumblr';
 }
 
 .headerHover{
@@ -41,6 +41,13 @@
     align-items: center;
 }
 
+.follow-button{
+    margin-top:1px;
+}
+.follow-button:hover{
+    cursor: pointer;
+}
+
 
 .follow-button span{
     color: rgb(0,184,255);
@@ -49,11 +56,28 @@
     line-height: 1.5;
     text-decoration: none;
 }
+
 .optionsMenu{
-    background-color: inherit;
+    background-color: rgba(var(--white));
     position: absolute;
     display:flex;
     flex-direction: column;
+    width: 250px;
+    height: auto;
+    box-shadow: 0 0 15px rgba(0,0,0,.5);
+    border-radius: 3px;
+    /* left: 296px; */
+    right: -6px;
+    
+}
+.optionsMenu *{
+    /* width: 100%; */
+    padding: 10px;
+    text-align: center;
+    font-size:1rem;
+    font-weight: 400px;
+    line-height:1.5;
+    
 }
 
 .options-button{
@@ -65,6 +89,18 @@
     width: 2rem;
     height: 2rem;
 }
+.optionscontent{
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    width:250px;
+
+   
+}
+.time-date{
+    border-bottom: solid black 1px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
 
 .options-button:hover {
     cursor: pointer;
@@ -73,6 +109,13 @@
 }
 .button-content{
     background-color: transparent;
+}
+
+.option-links:hover{
+
+    cursor: pointer;
+    background-color: rgba(var(--black),0.05);
+    
 }
 
 

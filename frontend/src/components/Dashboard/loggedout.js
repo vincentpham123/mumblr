@@ -20,7 +20,7 @@ const LoggedOut = () => {
                 </li>
                 <li className='tabs'>
                     <NavLink to='/explore/spotlight'>
-                        spotlight
+                        Spotlight
                     </NavLink>
                 </li>
                 <li>More with arrow</li>

@@ -1,0 +1,21 @@
+
+.post-paragraph:first-child{
+    margin-top: 8px;
+}
+.post-paragraph{
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    white-space: pre-wrap;
+    word-break: break-word;
+    width:100%;
+    min-height: 1.5em;
+    font-size:1em;
+    font-weight: 400px;
+    line-height:1.5;
+    font-family: 'Favorit Tumblr 85';
+
+}
+
+

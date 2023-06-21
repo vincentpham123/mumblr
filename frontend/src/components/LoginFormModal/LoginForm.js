@@ -20,7 +20,7 @@ const LoginForm = ({setshowModal})=>{
     const [emailExists,setEmailExists] = useState(null);
     if (sessionUser) return <Redirect to="/" />;
     const checkEmail = async (email) => {
-        const response = await csrfFetch('./api/check-email',{
+        const response = await csrfFetch('/api/check-email',{
             method:"POST",
             body: JSON.stringify(email)
         });

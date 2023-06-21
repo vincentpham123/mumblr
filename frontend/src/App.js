@@ -5,10 +5,12 @@ import Navigation from './components/Navigation';
 import { useSelector } from "react-redux";
 import Dashboard from './components/Dashboard/dashboard';
 import TodayDashboard from './components/Dashboard/today';
+import LoginFormModel from './components/LoginFormModal';
 import './app.css'
 function App() {
   const sessionUser = useSelector(state=> state.session.user);
   const [loggedIn,setLoggedIn] = useState(false);
+  
   
   return (
     <> 
@@ -28,13 +30,12 @@ function App() {
         <Route path='/explore/spotlight'>
             {/* render spotlight */}
         </Route>
+
         </Switch>
     
       </div>
       {/* routes */}
-      <Route path='/signup'>
-        <SignupFormPage />
-      </Route>
+      
       <Route path='/'>
       </Route>
       <Route path='/explore'>

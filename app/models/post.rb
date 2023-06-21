@@ -19,4 +19,7 @@ class Post < ApplicationRecord
         foreign_key: :author_id,
         class_name: :User,
         inverse_of: :posts
+    
+    #photo association
+    has_one_attached :photo
 end
