@@ -36,10 +36,13 @@ ApplicationRecord.transaction do
   puts "Creating posts..."
   User.all.each do |user|
     5.times do
+      paragraphs = Faker::Lorem.paragraphs(number: 3)
+      body = paragraphs.join("\n")
+      
       Post.create!(
         author_id: user.id,
         title: Faker::Lorem.sentence,
-        body: Faker::Lorem.paragraph(sentence_count: 3)
+        body: body
       )
     end
   end

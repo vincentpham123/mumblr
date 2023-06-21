@@ -30,7 +30,7 @@ const Navigation = ()=>{
     };
     return (
         <>
-        <header>
+        <header className='navBar-header'>
         <div className = 'navBody'>
             <ul className='navButtons'>
                     {sessionLinks}

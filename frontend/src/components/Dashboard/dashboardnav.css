@@ -1,0 +1,32 @@
+
+.dashboard-main{
+    height: 52px;
+    box-sizing: border-box;
+}
+.tabs{
+    height: inherit;
+}
+.tabs a.active{
+    border-bottom: 2px solid RGB(var(--accent));
+}
+.tab-selection{
+    width: 540px;
+    font-family: 'Favorit Tumblr';
+    flex-wrap: nowrap;
+    display: flex;
+    height: inherit;
+
+}
+
+.tabs a{
+    font-size: 18px;
+    padding: 14px 16px 14px 16px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    height: inherit;
+
+}
+.active{
+    color: RGB(var(--accent));
+}
