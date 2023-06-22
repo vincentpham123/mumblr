@@ -1,0 +1,85 @@
+.selection-container{
+    width: 100px;
+    height: 100px;
+    margin-right: 30px;
+   
+}
+.selection-container:last-child{
+    margin-right:0;
+}
+
+.selection-link{
+    text-decoration: none;
+    border-radius: 50%;
+
+}
+.selection-link:hover{
+    cursor: pointer;
+}
+
+.selection-button{
+    border-radius:50%;
+    width:100px;
+    height:100px;
+    display: flex;
+    transform-origin: 50%;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.2s linear;
+
+
+}
+.selection-button i {
+    background-color: transparent;
+    color: RGB(var(--navy));
+    font-size: 40px;
+}
+.selection-button:hover i {
+    animation: move 1s linear infinite;
+  
+}
+.selection-button:hover{
+    animation: bigcircle .1s forwards;
+}
+
+.selection-text{
+    
+    
+
+    font-family: "Favorit Tumblr 85";
+    color: RGB(var(--white-on-dark));
+    text-align: center;
+    opacity: 1;
+    width: 100%;
+    padding-top: 10px;
+    font-size: 1.125rem;
+    font-weight: 400;
+    line-height: 1.333;
+    
+}
+
+@keyframes move{
+    0%{
+        transform: rotate(0deg)
+    }
+    25%{
+        transform: rotate(25deg)
+    }
+    50%{
+        transform: rotate(-25deg)
+    }
+    75%{
+        transform: rotate(0deg)
+    }
+    100%{
+        transform: rotate(0deg)
+    }
+}
+@keyframes bigcircle{
+    0%{
+        transform: scale(1);
+    }
+    100%{
+        transform:scale(1.1);
+    }
+}

@@ -2,7 +2,6 @@
 import './index.css'
 import React,{useState,useEffect} from 'react';
 import {useDispatch,useSelector} from 'react-redux'
-import * as sessionActions from '../../store/session';
 import { Redirect } from 'react-router-dom'
 import csrfFetch from '../../store/csrf';
 import EmailCheck from './EmailCheck';

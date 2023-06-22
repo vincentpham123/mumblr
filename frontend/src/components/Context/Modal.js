@@ -16,7 +16,7 @@ const ModalProvider = ({children})=>{
         <ModalContext.Provider value={value}>
             {children}
         </ModalContext.Provider>
-            <div ref={modalRef}></div>
+            <div className='modal-container'ref={modalRef}></div>
         </>
     )
 
