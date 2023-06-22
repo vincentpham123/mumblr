@@ -20,6 +20,9 @@ class Post < ApplicationRecord
         class_name: :User,
         inverse_of: :posts
     
+    has_many :likes,
+        dependent: :destroy
+    
     #photo association
     has_one_attached :photo
 end

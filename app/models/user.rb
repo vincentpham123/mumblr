@@ -34,6 +34,9 @@ class User < ApplicationRecord
     foreign_key: :author_id,
     class_name: :Post,
     dependent: :destroy
+  
+  has_many :likes,
+    dependent: :destroy
   #controller methods
 
   def self.find_by_credentials(credential,password)
