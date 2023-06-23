@@ -1,4 +1,4 @@
-import './postcircle.css';
+import './styling/postcircle.css';
 import { useEffect,useState } from "react"
 import { Link } from "react-router-dom";
 const PostCircle = ({type}) =>{
@@ -19,7 +19,7 @@ const PostCircle = ({type}) =>{
             case "text":
                 setDecorators({
                     color:'white',
-                    icon: 'fa-solid fa-camera-retro fa-2xl',
+                    icon: 'fa-solid fa-a fa-2xl',
                     text: 'Text'
                 }
                 )

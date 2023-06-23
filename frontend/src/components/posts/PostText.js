@@ -1,4 +1,4 @@
-import './posttext.css';
+import './styling/posttext.css';
 const PostText = ({post}) => {
     // need to check if post has a title
     // if post has a title, then that will be the first child of post-paragraph and have bigger font

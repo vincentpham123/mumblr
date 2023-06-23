@@ -1,5 +1,5 @@
 import PostCircle from "./PostCircle";
-import './postselection.css';
+import './styling/postselection.css';
 const PostSelection = () => {
 
     return(

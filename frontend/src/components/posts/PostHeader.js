@@ -2,7 +2,7 @@
 import { Link } from "react-router-dom";
 import { useSelector} from "react-redux";
 import { useState, useEffect } from "react";
-import './postheader.css';
+import './styling/postheader.css';
 
 const PostHeader =({username,dateCreated,timeCreated}) =>{
     const sessionUser = useSelector(state=> state.session.user);

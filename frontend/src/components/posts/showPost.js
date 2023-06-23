@@ -1,4 +1,4 @@
-import "./showPost.css";
+import "./styling/showPost.css";
 import PostHeader from "./PostHeader";
 import PostText from "./PostText";
 const ShowPost = ({post})=>{
