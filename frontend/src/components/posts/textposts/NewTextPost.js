@@ -4,6 +4,7 @@ import { createPost } from "../../../store/posts";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Redirect } from "react-router-dom";
+import NewPostInput from "../NewPostInputs";
 import '../styling/newtextpost.css';
 const NewTextPost = () => {
     const [bodyCheck,setBodyCheck] = useState(true);
@@ -63,8 +64,12 @@ const NewTextPost = () => {
             })
             console.log(paragraphs);
             setTimeout(()=>{
-                event.target.nextElementSibling.focus()
-            },0);
+                let currentElement=event.target;
+                while(currentElement.parentNode && !currentElement.parentNode.matches('.textbox-contents')){
+                    currentElement=currentElement.parentNode;
+                }
+                currentElement.nextElementSibling.querySelector('p').focus();
+            },10);
             
         }
         
@@ -108,7 +113,7 @@ return (
                             <div className='textbox-contents'>
                                 <h1 onKeyDown={event=>handleTitleKeyDown(event)} className="contentEdit text-title" contentEditable='true'></h1>
                                 {Object.keys(paragraphs).map((paragraph,index)=>{
-                                return <p  key={index} data-type={index} onKeyDown={(event)=>handleKeyDown(event)} id={`paragraph-${index}`}  className='contentEdit text-paragraph' contentEditable='true'></p>
+                                return <NewPostInput handleKeyDown={handleKeyDown} index={index} />
                                 })}
                                 {/* <div className = 'newText-inputs'>
                                     <textarea 

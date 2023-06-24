@@ -4,6 +4,7 @@ import { createPost } from "../../store/posts";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Redirect } from "react-router-dom";
+import NewPostInput from "./NewPostInputs";
 const NewPhotoPost = () => {
     const [bodyCheck,setBodyCheck] = useState(false);
     const dispatch = useDispatch();
@@ -56,8 +57,12 @@ const NewPhotoPost = () => {
             })
             console.log(paragraphs);
             setTimeout(()=>{
-                event.target.nextElementSibling.focus()
-            },0);
+                let currentElement=event.target;
+                while(currentElement.parentNode && !currentElement.parentNode.matches('.textbox-contents')){
+                    currentElement=currentElement.parentNode;
+                }
+                currentElement.nextElementSibling.querySelector('p').focus();
+            },10);
             
         }
         
@@ -112,22 +117,8 @@ return (
                         <div className='text-box'>
                             <div className='textbox-contents'>
                                 {Object.keys(paragraphs).map((paragraph,index)=>{
-                                return <p  key={index} data-type={index} onKeyDown={(event)=>handleKeyDown(event)} id={`paragraph-${index}`}  className='contentEdit text-paragraph' contentEditable='true'></p>
-                                })}
-                                {/* <div className = 'newText-inputs'>
-                                    <textarea 
-                                    className='text-title'
-                                    value={title}
-                                    onChange={(event)=>setTitle(event.target.value)}
-                                    placeholder='title (optional)'
-                                    />
-                                    <textarea
-                                    className='text-body'
-                                    value={body}
-                                    onChange={(event)=>setBody(event.target.value)}
-                                    placeholder='Go ahead, put anything.'
-                                    />
-                                </div> */}
+                                return <NewPostInput handleKeyDown={handleKeyDown} index={index} />})}
+                               
                             </div>
                         </div>
                     <div className='text-footer'>
