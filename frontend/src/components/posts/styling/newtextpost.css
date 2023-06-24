@@ -10,6 +10,7 @@
 
 .postheader-container{
     background-color: RGB(var(--white));
+
     border-top-left-radius:3px;
     border-top-right-radius: 3px;
     display: flex;
@@ -53,15 +54,13 @@
 .postheader-right{
     width: 50px;
 }
-.text-box *{
-    background-color: RGB(var(--white));
+.text-box p,h1 {
     color: black;
 }
 .text-box{
     width: 100%
 }
-.newtext-container{
-    
+.newtext-container{    
     font-family: "Favorite Tumblr 85";
     outline: none;
     width: 100%;
@@ -80,7 +79,9 @@
     position: relative;
     padding-top: 8px;
     background-color: RGB(var(--white));
-
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    
 }
 
 .newText-inputs{
@@ -90,7 +91,7 @@
     flex-direction: column;
     align-items: flex-start;
     width: 540px;
-
+    
 }
 
 
@@ -113,6 +114,8 @@
 }
 
 .contentEdit{
+    background-color: RGB(var(--white));
+
     white-space: pre-wrap;
     width:540px;
     padding-left:20px;
@@ -145,12 +148,14 @@
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
+
 }
 .text-title{
     resize: none;
     width: 100%;
     font-size: 1.625rem;
     line-height: 1.3077;
+    
 }
 .post-options{
     border:none;

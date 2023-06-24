@@ -7,35 +7,54 @@
 // a menu will be displayed if it is focused on
 import './newpostinputs.css';
 import { useState, useRef } from "react";
-const NewPostInput = ({handleKeyDown,index}) => {
-    const [type,setType] = useState('text');
-    const [showInputMenu,,setInputMenu] = useState(false);
+const NewPostInput = ({ handleKeyDown, index }) => {
+    const [type, setType] = useState('text');
+    const [showInputMenu, , setInputMenu] = useState(false);
     const pRef = useRef(null);
     //this is for setting the menu to true, if the p tag is focused and not empty 
-    const handleFocus =()=>{
+    const handleFocus = () => {
         setInputMenu(true);
+    }
+
+    const PhotoButton = () => {
+        return (
+
+            <div className='photo-input-container'>
+                <input type='file' className='photo-input'></input>
+            </div>
+
+        )
     }
     // I need a options menu that will only populate if type is text, and user has not typed anything into the innerTag
     //should i use a useRef that will track the innerText
     return (
         <>
-        <div className='input-container'>
-            <div className='textContainer'>
-                {type==='text' && <p  ref={pRef} key={index} data-type={index} onKeyDown={(event)=>handleKeyDown(event)} id={`paragraph-${index}`}  className='contentEdit text-paragraph' contentEditable='true'></p>}
-            </div>
-            <div className='inputMenuContainer'>
-                <div className='inputMenuBody'>
-                    <div className='inputMenuContent'>
-                        <button className='inputButtons'>
-                            <i className='fa-solid fa-image'></i>
-                        </button>
-                        <h1>HI</h1>
+            <div className='input-container'>
+                <div className='inputBody'>
+                    {type === 'text' && <p ref={pRef} key={index} data-type={index} onKeyDown={(event) => handleKeyDown(event)} id={`paragraph-${index}`} className='contentEdit text-paragraph' contentEditable='true'></p>}
+                    {type === 'photo' && <PhotoButton />}
+                </div>
+                <div className='inputmenucontainer'>
+                    <div className='inputmenubody'>
+                        <div className='inputmenucontent'>
+                            {type !== 'text' && <button className='inputbuttons' onClick={() => setType('text')}>
+                                <i className='fa-solid fa-a fa-lg inputicons' style={{ backgroundColor: 'transparent', color: 'RGB(var(--blue))' }}></i>
+                            </button>}
+                            <button className='inputbuttons' onClick={() => setType('photo')}>
+                                <i className='fa-solid fa-image fa-lg inputicons' style={{ backgroundColor: 'transparent', color: 'RGB(var(--red))' }}></i>
+                            </button>
+                            <button className='inputbuttons' onClick={() => setType('link')}>
+                                <i className='fa-solid fa-link fa-lg inputicons' style={{ backgroundColor: 'transparent', color: 'RGB(var(--green))' }}></i>
+                            </button>
+                            <button className='inputbuttons' onClick={() => setType('link')}>
+                                <i className='fa-solid fa-video fa-lg inputicons' style={{ backgroundColor: 'transparent', color: 'RGB(var(--purple))' }}></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         </>
-        )
+    )
 
 }
 

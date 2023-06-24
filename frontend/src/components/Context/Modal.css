@@ -1,5 +1,6 @@
 .modal-container{
   background-color: transparent;
+  /* height: 100vh; */
 }
 #modal {
     position: fixed;
@@ -22,8 +23,8 @@
     bottom: 0;
     background-color: rgba(0, 0,0,.1);
 
-    
 
+  
 
   }
   
