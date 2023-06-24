@@ -7,9 +7,10 @@ const TodayDashboard = () =>{
     const sessionUser = useSelector(state=>state.session.user);
     const dispatch = useDispatch();
     const randomPost = Math.floor(Math.random()*50)+1;
-    const post = useSelector(state=>state.posts[2])
+    console.log(randomPost);
+    const post = useSelector(state=>state.posts[randomPost])
     useEffect(()=>{
-        dispatch(postActions.fetchPost(2));
+        dispatch(postActions.fetchPosts());
     },[]);
     if (sessionUser) return <Redirect to="/" />;
     //all Today dashboard will be in here

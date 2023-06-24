@@ -7,7 +7,8 @@ import Dashboard from './components/Dashboard/dashboard';
 import TodayDashboard from './components/Dashboard/today';
 import LoginFormModel from './components/LoginFormModal';
 import NewPost from './components/posts/NewPost';
-import NewTextModal from './components/posts/NewTextPostModal';
+import NewTextModal from './components/posts/textposts/NewTextPostModal';
+import NewPhotoModal from './components/posts/NewPhotoPostModal';
 import './app.css'
 function App() {
   const sessionUser = useSelector(state=> state.session.user);
@@ -54,11 +55,11 @@ function App() {
       <Route path='/new'>
         <NewPost />
       </Route>
-       <Route path='/new/text'>
+       <Route exact path='/new/text'>
         <NewTextModal />
       </Route>
       <Route path='/new/photo'>
-        <NewPost />
+        <NewPhotoModal />
       </Route> 
     </>
   );

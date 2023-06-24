@@ -13,7 +13,7 @@ class Api::PostsController < ApplicationController
         @post = Post.new(post_params)
 
         if @post.save 
-            render :show 
+            render :show, locals: {post: @post}
         else
             render json: @post.errors.full_messages,status: 422
         end
@@ -40,6 +40,6 @@ class Api::PostsController < ApplicationController
         render json: ['post not found'], status: :not_found
     end
     def post_params
-        params.require(:post).permit(:title,:body,:author_id)
+        params.require(:post).permit(:title,:body,:author_id,:photo)
     end
 end

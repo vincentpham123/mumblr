@@ -53,6 +53,16 @@ time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;
 }
+body {
+    font-family: var(--font-family);
+    background: #001935;
+    background: RGB(var(--navy));
+    overscroll-behavior-x: none;
+    overscroll-behavior-y: contain;
+    --post-padding: 20px;
+    --post-header-vertical-padding: 15px;
+    --dashboard-tabs-header-height: 0px
+}
 
 a{
     text-decoration: none;

@@ -14,6 +14,7 @@ const ShowPost = ({post})=>{
                 <article className='postContent'>
                         <PostHeader username={post.author.username} dateCreated={post.dateCreated} timeCreated={post.timeCreated} />
                     <div className='post-meat'>
+                        <img src={post.photoUrl} alt='' />
                         <PostText post={post} />
                     </div>
                 </article>

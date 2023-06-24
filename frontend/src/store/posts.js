@@ -47,10 +47,10 @@ export const fetchPost = (postId) => async(dispatch)=>{
 } 
 
 export const createPost = (post) => async(dispatch) =>{
-    const{title,body,author_id} = post;
+    console.log(post);
     const newPost = await csrfFetch('/api/posts',{
         method:'POST',
-        body: JSON.stringify({title,body,author_id})
+        body: post
     });
     if (newPost.ok){
     const data = await newPost.json();

@@ -38,7 +38,7 @@ const PostCircle = ({type}) =>{
     return(
         <div className='selection-container'>
                     <div className='selection-body'>
-                    <Link className='selection-link' to={`new/${type}`}>
+                    <Link className='selection-link' to={`/new/${type}`}>
                         <div className='selection-button' style={{backgroundColor: decorators.color}}>
                             <i className={decorators.icon}></i>
                         </div>
