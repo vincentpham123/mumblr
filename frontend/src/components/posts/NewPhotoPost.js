@@ -42,10 +42,6 @@ const NewPhotoPost = () => {
                 setParagraphs({...paragraphs,[pindex]: event.target.innerText});
             },0);
         }
-            console.log(paragraphs);
-  
-     
-      
     
         if (event.key==='Enter'){
             console.log(event.key);
@@ -56,6 +52,19 @@ const NewPhotoPost = () => {
                 [newIndex]: ''
             })
             console.log(paragraphs);
+            setTimeout(()=>{
+                let currentElement=event.target;
+                while(currentElement.parentNode && !currentElement.parentNode.matches('.textbox-contents')){
+                    currentElement=currentElement.parentNode;
+                }
+                currentElement.nextElementSibling.querySelector('p').focus();
+            },10);
+            
+        }
+        if (event.key==='ArrowDown'){
+            event.preventDefault();
+
+            console.log('event arrow down');
             setTimeout(()=>{
                 let currentElement=event.target;
                 while(currentElement.parentNode && !currentElement.parentNode.matches('.textbox-contents')){

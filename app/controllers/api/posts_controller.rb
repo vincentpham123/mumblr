@@ -40,6 +40,6 @@ class Api::PostsController < ApplicationController
         render json: ['post not found'], status: :not_found
     end
     def post_params
-        params.require(:post).permit(:title,:body,:author_id,:photo)
+        params.require(:post).permit(:title,:body,:author_id,:photo1,:photo2,:photo3,:photo4)
     end
 end

@@ -1,6 +1,9 @@
 .inputBody{
     background-color: RGB(var(--white));
     height:100%;
+    display:flex;
+    
+
 }
 .input-container {
     display:flex;
@@ -30,6 +33,98 @@
     display:flex;
 }
 
-.inputicons{
+.inputicons:hover{
+    cursor: pointer;
+}
+
+#photo-input{
+    display:none;
 
 }
+.photo-input-container{
+    display:flex;
+    align-items: center;
+    padding-left:220px;
+    /* padding-right:195px; */
+    background-color: transparent;
+
+}
+.photofilebutton{
+    width:100px;
+    height:100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-style:none;
+    border-radius:3px;
+    background-color: transparent;
+    transition: transform 0.2s linear;
+
+
+}
+.photofilebutton:hover{
+    cursor: pointer;
+    animation: inputscale .1s forwards;
+
+}
+
+.fileicon{
+    font-size: 50px;
+    background-color: transparent;
+    color: RGBA(0,0,0,.65);
+
+}
+.filetext{
+    font-family:"Favorit Tumblr";
+    background-color: transparent;
+    color: RGBA(0,0,0,.65);
+    /* font-size:12px; */
+
+}
+.b2textbutton{
+    z-index: 1;
+    border-style:none;
+    width:25px;
+    height:25px;
+    border-radius:50%;
+    background-color:rgb(var(--red));
+    float: right;
+    transition: transform 0.2s linear;
+    cursor: pointer;
+    
+}
+
+.b2textbutton i{
+    background-color: transparent;
+    font-size: 15px;
+    
+
+}
+.b2textcontainer{
+    background-color: transparent;
+    width: 220px;
+    display:flex;
+    justify-content: flex-end;
+    padding-right:5px;
+
+}
+.photo-input-contents{
+    background-color: transparent;
+    display: flex;
+    justify-content: space-between;
+}
+
+@keyframes inputscale {
+    0%{
+        transform: scale(1);
+
+    }
+
+    100%{
+        transform: scale(1.2);
+    }
+    
+}
+
+

@@ -148,8 +148,12 @@
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
-
 }
+.text-paragraph:empty:before{
+    content:'...';
+    color: grey;
+}
+
 .text-title{
     resize: none;
     width: 100%;
