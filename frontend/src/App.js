@@ -17,12 +17,13 @@ function App() {
   
   return (
     <> 
-   
+      <div className='header-container'>
       <Navigation />
+      </div>
       <div className='body'>
         <div className='dashboard'> 
           <Dashboard />
-        </div>
+      </div>
         <Switch>
         <Route path='/explore/today'>
             <TodayDashboard />

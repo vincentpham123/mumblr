@@ -53,9 +53,7 @@ time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;
 }
-#root{
-    height: 100vh;
-}
+
 body {
     font-family: var(--font-family);
     background: #001935;
@@ -64,7 +62,9 @@ body {
     overscroll-behavior-y: contain;
     --post-padding: 20px;
     --post-header-vertical-padding: 15px;
-    --dashboard-tabs-header-height: 0px
+    --dashboard-tabs-header-height: 0px;
+    
+;
 }
 
 a{

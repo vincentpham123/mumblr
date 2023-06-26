@@ -1,11 +1,11 @@
 import PostCircle from "./PostCircle";
 import './styling/postselection.css';
-const PostSelection = () => {
+const PostSelection = ({showSelection}) => {
 
     return(
         <div className='post-selection'>
-            <PostCircle type={'text'} />
-            <PostCircle type={'photo'} />
+            <PostCircle onClick={()=>showSelection(false)} type={'text'} />
+            <PostCircle onClick={()=>showSelection(false)} type={'photo'} />
         </div>
     )
 

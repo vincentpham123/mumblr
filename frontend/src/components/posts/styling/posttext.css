@@ -18,4 +18,23 @@
 
 }
 
+.image-container{
+    width:100%;
+    margin: 0 auto;
+}
 
+.image-figure{
+    margin:0;
+
+}
+
+.image-box{
+    width: 100%;
+    overflow: hidden;
+    padding-bottom:10px;
+}
+
+.post-image{
+    width: 100%;
+    display:block;
+}

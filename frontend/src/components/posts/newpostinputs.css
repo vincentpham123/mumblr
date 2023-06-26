@@ -107,10 +107,11 @@
     display:flex;
     justify-content: flex-end;
     padding-right:5px;
+    padding-top: 5px;
 
 }
 .photo-input-contents{
-    background-color: transparent;
+    background-color: RGBA(0,0,0,.1);
     display: flex;
     justify-content: space-between;
     width:540px;
@@ -123,14 +124,14 @@
     }
 
     100%{
-        transform: scale(1.2);
+        transform: scale(1.1);
     }
     
 }
 
 .photoPreview{
     max-width:540px;
-    
+    min-height:100px;
     position: relative;
     vertical-align: bottom;
     opacity: 1;

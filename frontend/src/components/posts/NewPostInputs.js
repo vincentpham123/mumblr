@@ -6,8 +6,8 @@
 // this component will have those ready to render depending on the statevaraible
 // a menu will be displayed if it is focused on
 import './newpostinputs.css';
-import { useState, useRef } from "react";
-const NewPostInput = ({ handleKeyDown, index,handleFile, photoIndex}) => {
+import { useState, useRef,useEffect } from "react";
+const NewPostInput = ({ form,handleKeyDown, index,handleFile, photoIndex}) => {
     const [type, setType] = useState('text');
     const [showInputMenu, setInputMenu] = useState(true);
     const [textIcon,setTextIcon] = useState('');
@@ -21,7 +21,9 @@ const NewPostInput = ({ handleKeyDown, index,handleFile, photoIndex}) => {
     // need to pass in 4 onchange functions for each 
     const pRef = useRef(null);
     //this is for setting the menu to true, if the p tag is focused and not empty 
-   
+    useEffect(()=>{
+        if (form==='photo') setType('photo')
+    },[])
     const handleInput = (event) => {
         console.log(event.key);
         setTimeout(()=>{
@@ -65,7 +67,7 @@ const NewPostInput = ({ handleKeyDown, index,handleFile, photoIndex}) => {
                     <button className='photofilebutton' onClick={()=>document.getElementById('photo-input').click()}>
                     <i className="fa-solid fa-image fileicon" ></i>
                     <span className='filetext'>Upload Imag (Max: 4)</span>
-                    <input data-type={index+1} type='file' id='photo-input' onChange={event=>handleFileInput(event)}></input>
+                    <input data-type={index} type='file' id='photo-input' onChange={event=>handleFileInput(event)}></input>
                     </button>
                     <ReturnToText />
                 </div>
@@ -92,10 +94,10 @@ const NewPostInput = ({ handleKeyDown, index,handleFile, photoIndex}) => {
                                 <i className={`fa-solid fa-a fa-lg inputicons ${textIcon}`} style={{ backgroundColor: 'transparent', color: 'RGB(var(--blue))' }}
                                 onMouseEnter={()=>setTextIcon('fa-bounce')} onMouseLeave={()=>setTextIcon('')}></i>
                             </button>}
-                            <button className='inputbuttons' onClick={() => setType('photo')}>
+                            {photoIndex<5 && <button className='inputbuttons' onClick={() => setType('photo')}>
                                 <i className={`fa-solid fa-image fa-lg inputicons ${photoIcon}`} style={{ backgroundColor: 'transparent', color: 'RGB(var(--red))' }}
                                 onMouseEnter={()=>setPhotoIcon('fa-bounce')} onMouseLeave={()=>setPhotoIcon('')}></i>
-                            </button>
+                            </button>}
                             <button className='inputbuttons' onClick={() => setType('link')}>
                                 <i className= {`fa-solid fa-link fa-lg inputicons ${linkIcon}`} style={{ backgroundColor: 'transparent', color: 'RGB(var(--green))' }}
                                 onMouseEnter={()=>setLinkIcon('fa-bounce')} onMouseLeave={()=>setLinkIcon('')}></i>

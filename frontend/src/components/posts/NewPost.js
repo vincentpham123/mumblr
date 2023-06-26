@@ -5,7 +5,7 @@ import PostCircle from './PostCircle';
 import { Modal } from '../Context/Modal';
 import PostSelection from './PostSelection';
 const NewPost = () =>{
-    
+    const [showSelection,setShowSelection] = useState(true);
     // to go back if a user clicks on the background
     const history = useHistory();
     const handleOnClick =()=>{
@@ -17,9 +17,11 @@ const NewPost = () =>{
     // will set a variable equal to the type selected
     return (
         <>
+        {showSelection &&
             <Modal onClose={handleOnClick}>
-                <PostSelection />
+                <PostSelection showSelection={setShowSelection}/>
             </Modal>
+        }
         </>
     )
 }

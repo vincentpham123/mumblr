@@ -8,7 +8,7 @@ const TodayDashboard = () =>{
     const dispatch = useDispatch();
     const randomPost = Math.floor(Math.random()*50)+1;
     console.log(randomPost);
-    const post = useSelector(state=>state.posts[randomPost])
+    const post = useSelector(state=>state.posts[83])
     useEffect(()=>{
         dispatch(postActions.fetchPosts());
     },[]);

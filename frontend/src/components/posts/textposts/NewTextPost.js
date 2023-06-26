@@ -28,36 +28,42 @@ const NewTextPost = () => {
         }
     },[paragraphs]);
     
-    const handleFile = ({currentTarget}) => {
+    const handleFile = (event) => {
        
         //need data-type of the input to set paragraph to photo
-        const file = currentTarget.files[0];
-     
+        const file = event.currentTarget.files[0];
+        const pindex=event.target.dataset.type;
+        console.log(pindex)
+        console.log(file);
         // need to pass down the currentPhotoIndex to each input
         switch (currentPhotoIndex) {
             case 1:
                 setPhoto1(file);
-                setParagraphs({...paragraphs,[currentTarget.dataset.type]: 'photo1'});
                 setCurrentPhotoIndex(2);
                 break;
             case 2:
                 setPhoto2(file);
-                setParagraphs({...paragraphs,[Object.keys(paragraphs).length+1]: ''})
                 setCurrentPhotoIndex(3);
+
                 break;
             case 3: 
                 setPhoto3(file);
-                setParagraphs({...paragraphs,[Object.keys(paragraphs).length+1]: ''})
                 setCurrentPhotoIndex(4);
+
+                break;
             case 4:
                 setPhoto4(file);
-                setParagraphs({...paragraphs,[Object.keys(paragraphs).length+1]: ''})
+                setCurrentPhotoIndex(5);
+
                 break;
             default: 
                 break;
         }
-        setParagraphs({...paragraphs,[Object.keys(paragraphs).length+1]: ''});
+        
+        console.log(currentPhotoIndex);
+        setParagraphs({...paragraphs,[Object.keys(paragraphs).length+1]: '',[pindex]:'_@#$photo__@#$'});
 
+        console.log(paragraphs);
         
        
     }
@@ -153,11 +159,22 @@ const NewTextPost = () => {
     
     const handleSubmit = (event) =>{
         event.preventDefault();
-        console.log(bodyCheck);
-        console.log(Object.values(paragraphs).join('\n'));
-   
+        const formData = new FormData();
+        formData.append('post[title]',title);
         
-        dispatch(createPost({title,body:Object.values(paragraphs).join('\n') ,author_id: sessionUser.id}))
+        const textState=Object.values(paragraphs).filter((paragraph)=>paragraph!=='');
+        formData.append('post[body]',textState.join('\n'));
+        formData.append('post[author_id]',sessionUser.id);
+        //handle files
+        if (photo1) formData.append('post[photo1]',photo1);
+        if (photo2) formData.append('post[photo2]',photo2);
+        if (photo3) formData.append('post[photo3]',photo3);
+        if (photo4) formData.append('post[photo4]',photo4);
+
+
+        
+        
+        dispatch(createPost(formData));
         history.go(-2);
     }
 
@@ -190,7 +207,7 @@ return (
                             <div className='textbox-contents'>
                                 <h1 onKeyDown={event=>handleTitleKeyDown(event)} className="contentEdit text-title" contentEditable='true'></h1>
                                 {Object.keys(paragraphs).map((paragraph,index)=>{
-                                return <NewPostInput handleKeyDown={handleKeyDown} index={index} handleFile={handleFile} photoIndex={currentPhotoIndex}/>
+                                return <NewPostInput handleKeyDown={handleKeyDown} index={index+1} handleFile={handleFile} photoIndex={currentPhotoIndex}/>
                                 })}
                                
                             </div>
