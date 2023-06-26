@@ -44,9 +44,8 @@
 .photo-input-container{
     display:flex;
     align-items: center;
-    padding-left:220px;
-    /* padding-right:195px; */
     background-color: transparent;
+    justify-content: center;
 
 }
 .photofilebutton{
@@ -60,7 +59,7 @@
     border-radius:3px;
     background-color: transparent;
     transition: transform 0.2s linear;
-
+    margin-left:40%;
 
 }
 .photofilebutton:hover{
@@ -92,6 +91,7 @@
     float: right;
     transition: transform 0.2s linear;
     cursor: pointer;
+
     
 }
 
@@ -113,6 +113,7 @@
     background-color: transparent;
     display: flex;
     justify-content: space-between;
+    width:540px;
 }
 
 @keyframes inputscale {
@@ -124,6 +125,15 @@
     100%{
         transform: scale(1.2);
     }
+    
+}
+
+.photoPreview{
+    max-width:540px;
+    
+    position: relative;
+    vertical-align: bottom;
+    opacity: 1;
     
 }
 

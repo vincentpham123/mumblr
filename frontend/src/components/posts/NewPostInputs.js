@@ -7,15 +7,17 @@
 // a menu will be displayed if it is focused on
 import './newpostinputs.css';
 import { useState, useRef } from "react";
-const NewPostInput = ({ handleKeyDown, index}) => {
+const NewPostInput = ({ handleKeyDown, index,handleFile, photoIndex}) => {
     const [type, setType] = useState('text');
     const [showInputMenu, setInputMenu] = useState(true);
-    const [photoIndex,setPhotoIndex] = useState(0);
     const [textIcon,setTextIcon] = useState('');
     const [photoIcon,setPhotoIcon] = useState('');
     const [videoIcon,setVideoIcon] = useState('');
     const [linkIcon,setLinkIcon] = useState('');
     const [focus,setFocus] = useState('');
+    const [photoPreview,setPhotoPreview]=useState(null);
+
+
     // need to pass in 4 onchange functions for each 
     const pRef = useRef(null);
     //this is for setting the menu to true, if the p tag is focused and not empty 
@@ -31,6 +33,16 @@ const NewPostInput = ({ handleKeyDown, index}) => {
         handleKeyDown(event);
 
     }
+    const handleFileInput = (event)=>{
+        //need to set photo preview and call the handleFile prop from parent
+        handleFile(event);
+        const file=event.currentTarget.files[0];
+        if (file){
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file);
+            fileReader.onload = () => setPhotoPreview(fileReader.result);
+        } else setPhotoPreview(null);
+    }
     const ReturnToText =() =>{
         return(
             <div className='b2textcontainer'>
@@ -41,17 +53,23 @@ const NewPostInput = ({ handleKeyDown, index}) => {
         )
     }
     const PhotoButton = () => {
+        let preview = null;
+        if (photoPreview) preview = <img className='photoPreview' src={photoPreview} sizes='360' loading='lazy' draggable='false' alt='' />;
+        console.log(preview);
         return (
 
             <div className='photo-input-container'>
+                {preview}
+                {!photoPreview &&
                 <div className='photo-input-contents'>
-                <button className='photofilebutton' onClick={()=>document.getElementById('photo-input').click()}>
-                <i className="fa-solid fa-image fileicon" ></i>
-                <span className='filetext'>Upload Imag (Max: 4)</span>
-                <input data-type={index+1} type='file' id='photo-input' ></input>
-                </button>
-                <ReturnToText />
+                    <button className='photofilebutton' onClick={()=>document.getElementById('photo-input').click()}>
+                    <i className="fa-solid fa-image fileicon" ></i>
+                    <span className='filetext'>Upload Imag (Max: 4)</span>
+                    <input data-type={index+1} type='file' id='photo-input' onChange={event=>handleFileInput(event)}></input>
+                    </button>
+                    <ReturnToText />
                 </div>
+                }
 
             </div>
 

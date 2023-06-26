@@ -21,9 +21,6 @@ const NewTextPost = () => {
    
 
     useEffect(()=>{
-        console.log(paragraphs);
-        console.log(bodyCheck);
-        console.log(Object.values(paragraphs));
         if(Object.values(paragraphs).some(paragraph=>paragraph.trim().length>0) ) {
             setBodyCheck('');
         } else {
@@ -32,13 +29,15 @@ const NewTextPost = () => {
     },[paragraphs]);
     
     const handleFile = ({currentTarget}) => {
+       
         //need data-type of the input to set paragraph to photo
         const file = currentTarget.files[0];
+     
         // need to pass down the currentPhotoIndex to each input
         switch (currentPhotoIndex) {
             case 1:
                 setPhoto1(file);
-                setParagraphs({...paragraphs,[Object.keys(paragraphs).length+1]: ''})
+                setParagraphs({...paragraphs,[currentTarget.dataset.type]: 'photo1'});
                 setCurrentPhotoIndex(2);
                 break;
             case 2:
@@ -57,7 +56,9 @@ const NewTextPost = () => {
             default: 
                 break;
         }
-        setParagraphs({...paragraphs,[currentTarget.dataset.type]: 'photo1'});
+        setParagraphs({...paragraphs,[Object.keys(paragraphs).length+1]: ''});
+
+        
        
     }
     const handleTitleKeyDown = (event) => {
@@ -112,7 +113,7 @@ const NewTextPost = () => {
                 while(currentElement.parentNode && !currentElement.parentNode.matches('.textbox-contents')){
                     currentElement=currentElement.parentNode;
                 }
-                if(currentElement.nextElementSibling) {
+                if(currentElement.nextElementSibling && currentElement.nextElementSibling.querySelector('p') ) {
                     const nextP = currentElement.nextElementSibling.querySelector('p');
                     nextP.focus();
                     const range = document.createRange();
@@ -134,7 +135,7 @@ const NewTextPost = () => {
                 while(currentElement.parentNode && !currentElement.parentNode.matches('.textbox-contents')){
                     currentElement=currentElement.parentNode;
                 }
-                if (!currentElement.previousElementSibling.matches('h1')) {
+                if (!currentElement.previousElementSibling.matches('h1') && currentElement.previousElementSibling.querySelector('p')) {
                     const prevP = currentElement.previousElementSibling.querySelector('p');
                     prevP.focus();
                     const range = document.createRange();
@@ -163,6 +164,8 @@ const NewTextPost = () => {
     const disableButton = () => {
         return bodyCheck ? '' : 'disabled'
     }
+
+    
 return (
     <>
     <div className='text-post-container'>
@@ -187,7 +190,7 @@ return (
                             <div className='textbox-contents'>
                                 <h1 onKeyDown={event=>handleTitleKeyDown(event)} className="contentEdit text-title" contentEditable='true'></h1>
                                 {Object.keys(paragraphs).map((paragraph,index)=>{
-                                return <NewPostInput handleKeyDown={handleKeyDown} index={index} />
+                                return <NewPostInput handleKeyDown={handleKeyDown} index={index} handleFile={handleFile} photoIndex={currentPhotoIndex}/>
                                 })}
                                
                             </div>
