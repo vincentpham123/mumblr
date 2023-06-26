@@ -11,11 +11,14 @@ const NewPhotoPost = () => {
     const history = useHistory();
     const [title,setTitle] = useState('');
     const [body,setBody] = useState('');
-    const [paragraphs,setParagraphs] = useState({0:''});
+    const [paragraphs,setParagraphs] = useState({1:''});
     const [imageFile, setImageFile] = useState([]);
-    const [imageUrls,setImageUrls] = useState([]);
-
-   
+    const [photo1,setPhoto1] = useState(null);
+    const [photo2,setPhoto2] = useState(null);
+    const [photo3,setPhoto3] = useState(null);
+    const [photo4,setPhoto4] = useState(null);
+    const [currentPhotoIndex,setCurrentPhotoIndex] = useState(1);
+    const [photoError,setPhotoError] = useState([]);
 
     // useEffect(()=>{
     //     console.log(paragraphs.some(paragraph=>paragraph.split(' ').length>1))
@@ -26,8 +29,28 @@ const NewPhotoPost = () => {
 
   
     const handleFile = ({currentTarget}) => {
+        //need data-type of the input to set paragraph to photo
         const file = currentTarget.files[0];
-        setImageFile(file);
+        // need to pass down the currentPhotoIndex to each input
+        switch (currentPhotoIndex) {
+            case 1:
+                setPhoto1(file);
+                setCurrentPhotoIndex(2);
+                break;
+            case 2:
+                setPhoto2(file);
+                setCurrentPhotoIndex(3);
+                break;
+            case 3: 
+                setPhoto3(file);
+                setCurrentPhotoIndex(4);
+            case 4:
+                setPhoto4(file);
+                break;
+            default: 
+                break;
+        }
+        setParagraphs({...paragraphs,[currentTarget.dataset.type]: 'photo1'});
        
     }
 
@@ -35,7 +58,7 @@ const NewPhotoPost = () => {
         console.log(event.key);
         console.log(event.target.innerText);
     
-        if(event.key !== 'Enter'){
+        if(event.key !== 'Enter' || event.key !=='ArrowDown' || event.key !=='ArrowUp'){
             setTimeout(()=>{
                 const pindex = event.target.dataset.type
             
@@ -75,19 +98,29 @@ const NewPhotoPost = () => {
             
         }
         
-        console.log(paragraphs);
     }
     
     const handleSubmit = (event) =>{
         event.preventDefault();
         const formData = new FormData();
-        formData.append('post[body]',Object.values(paragraphs).join('\n'));
+        const body = Object.values(paragraphs).filter((p)=>p!=='');
+        formData.append('post[body]',body.join('\n'));
         formData.append('post[author_id]',sessionUser.id);
-        if (imageFile) {
-            formData.append('post[photo]',imageFile)
+        if (photo1) {
+            formData.append('post[photo1]',photo1)
+        }
+        if (photo2) {
+            formData.append('post[photo2]',photo2)
+        }
+        if (photo3) {
+            formData.append('post[photo3]',photo3)
+        }
+        if (photo4) {
+            formData.append('post[photo4]',photo4)
         }
         dispatch(createPost(formData))
         
+        //when post show page is done, redirect to show page
         history.go(-2);
     }
 
@@ -116,7 +149,7 @@ return (
                 <div className='photo-container'>
                     <div className="photo-body">
                         <div className='photo-contents'>
-                            <input type='file' className='photo-button' onChange={handleFile}>
+                            <input data-type='1' type='file' className='photo-button' onChange={handleFile}>
                                 {/* className= photo-button icon */}
                             </input>
                         </div>

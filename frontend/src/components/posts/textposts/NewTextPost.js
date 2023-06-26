@@ -11,8 +11,13 @@ const NewTextPost = () => {
     const dispatch = useDispatch();
     const history = useHistory();
     const [title,setTitle] = useState('');
-    const [paragraphs,setParagraphs] = useState({0:''});
-
+    const [paragraphs,setParagraphs] = useState({1:''});
+    const [photo1,setPhoto1] = useState(null);
+    const [photo2,setPhoto2] = useState(null);
+    const [photo3,setPhoto3] = useState(null);
+    const [photo4,setPhoto4] = useState(null);
+    const [currentPhotoIndex,setCurrentPhotoIndex] = useState(1);
+    const sessionUser = useSelector(state=>  state.session.user);
    
 
     useEffect(()=>{
@@ -25,8 +30,36 @@ const NewTextPost = () => {
             setBodyCheck(true);
         }
     },[paragraphs]);
-
-    const sessionUser = useSelector(state=>  state.session.user);
+    
+    const handleFile = ({currentTarget}) => {
+        //need data-type of the input to set paragraph to photo
+        const file = currentTarget.files[0];
+        // need to pass down the currentPhotoIndex to each input
+        switch (currentPhotoIndex) {
+            case 1:
+                setPhoto1(file);
+                setParagraphs({...paragraphs,[Object.keys(paragraphs).length+1]: ''})
+                setCurrentPhotoIndex(2);
+                break;
+            case 2:
+                setPhoto2(file);
+                setParagraphs({...paragraphs,[Object.keys(paragraphs).length+1]: ''})
+                setCurrentPhotoIndex(3);
+                break;
+            case 3: 
+                setPhoto3(file);
+                setParagraphs({...paragraphs,[Object.keys(paragraphs).length+1]: ''})
+                setCurrentPhotoIndex(4);
+            case 4:
+                setPhoto4(file);
+                setParagraphs({...paragraphs,[Object.keys(paragraphs).length+1]: ''})
+                break;
+            default: 
+                break;
+        }
+        setParagraphs({...paragraphs,[currentTarget.dataset.type]: 'photo1'});
+       
+    }
     const handleTitleKeyDown = (event) => {
         console.log(event.key);
         if (event.key==='Enter'){
@@ -42,7 +75,7 @@ const NewTextPost = () => {
         console.log(event.key);
         console.log(event.target.innerText);
     
-        if(event.key !== 'Enter'){
+        if(event.key !== 'Enter' && event.key!=='ArrowDown' && event.key!=='ArrowUp'){
             setTimeout(()=>{
                 const pindex = event.target.dataset.type
             
@@ -57,7 +90,7 @@ const NewTextPost = () => {
         if (event.key==='Enter'){
             console.log(event.key);
             event.preventDefault();
-            const newIndex = Object.keys(paragraphs).length;
+            const newIndex = Object.keys(paragraphs).length+1;
             setParagraphs({
                 ...paragraphs,
                 [newIndex]: ''
@@ -72,7 +105,48 @@ const NewTextPost = () => {
             },10);
             
         }
-        
+        if (event.key==='ArrowDown'){
+            event.preventDefault();
+            setTimeout(()=>{
+                let currentElement=event.target;
+                while(currentElement.parentNode && !currentElement.parentNode.matches('.textbox-contents')){
+                    currentElement=currentElement.parentNode;
+                }
+                if(currentElement.nextElementSibling) {
+                    const nextP = currentElement.nextElementSibling.querySelector('p');
+                    nextP.focus();
+                    const range = document.createRange();
+                    range.selectNodeContents(nextP);
+                    range.collapse(false);
+                    const selection = window.getSelection();
+                    selection.removeAllRanges();
+                    selection.addRange(range);
+                };
+            },10);
+            
+        }
+        if (event.key==='ArrowUp'){
+            event.preventDefault();
+
+            console.log('event arrow down');
+            setTimeout(()=>{
+                let currentElement=event.target;
+                while(currentElement.parentNode && !currentElement.parentNode.matches('.textbox-contents')){
+                    currentElement=currentElement.parentNode;
+                }
+                if (!currentElement.previousElementSibling.matches('h1')) {
+                    const prevP = currentElement.previousElementSibling.querySelector('p');
+                    prevP.focus();
+                    const range = document.createRange();
+                    range.selectNodeContents(prevP);
+                    range.collapse(false); 
+                    const selection = window.getSelection();
+                    selection.removeAllRanges();
+                    selection.addRange(range);
+                }
+            },10);
+            
+        }
         console.log(paragraphs);
     }
     
@@ -115,20 +189,7 @@ return (
                                 {Object.keys(paragraphs).map((paragraph,index)=>{
                                 return <NewPostInput handleKeyDown={handleKeyDown} index={index} />
                                 })}
-                                {/* <div className = 'newText-inputs'>
-                                    <textarea 
-                                    className='text-title'
-                                    value={title}
-                                    onChange={(event)=>setTitle(event.target.value)}
-                                    placeholder='title (optional)'
-                                    />
-                                    <textarea
-                                    className='text-body'
-                                    value={body}
-                                    onChange={(event)=>setBody(event.target.value)}
-                                    placeholder='Go ahead, put anything.'
-                                    />
-                                </div> */}
+                               
                             </div>
                         </div>
                     <div className='text-footer'>

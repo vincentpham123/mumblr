@@ -7,7 +7,7 @@
 // a menu will be displayed if it is focused on
 import './newpostinputs.css';
 import { useState, useRef } from "react";
-const NewPostInput = ({ handleKeyDown, index }) => {
+const NewPostInput = ({ handleKeyDown, index}) => {
     const [type, setType] = useState('text');
     const [showInputMenu, setInputMenu] = useState(true);
     const [photoIndex,setPhotoIndex] = useState(0);
@@ -46,9 +46,9 @@ const NewPostInput = ({ handleKeyDown, index }) => {
             <div className='photo-input-container'>
                 <div className='photo-input-contents'>
                 <button className='photofilebutton' onClick={()=>document.getElementById('photo-input').click()}>
-                <i className="fa-solid fa-image fileicon"></i>
-                <span className='filetext'>Upload Image</span>
-                <input type='file' id='photo-input' ></input>
+                <i className="fa-solid fa-image fileicon" ></i>
+                <span className='filetext'>Upload Imag (Max: 4)</span>
+                <input data-type={index+1} type='file' id='photo-input' ></input>
                 </button>
                 <ReturnToText />
                 </div>
