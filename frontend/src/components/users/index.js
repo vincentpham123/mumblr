@@ -3,7 +3,9 @@ import { useSelector, useDispatch } from "react-redux"
 import { useEffect } from "react"
 import * as postActions from '../../store/posts';
 import * as userActions from '../../store/user';
-import { Route , Switch,useParams } from "react-router-dom";
+import { Route , Switch,useParams, Link } from "react-router-dom";
+import PostsDashboard from "./posts";
+import './index.css';
 const UserShowPage =() =>{
     const dispatch = useDispatch();
     const params = useParams();
@@ -13,12 +15,20 @@ const UserShowPage =() =>{
     // each user will have a profile Pic, and backgroundImage
     // need to fetch user from backend
     useEffect(()=>{
-        dispatch(userActions.fetchUser(username))
+        // dispatch(userActions.fetchUser(username))
         dispatch(postActions.fetchPosts());
+        dispatch(userActions.fetchUsers());
     },[]);
+
     const sessionUser = useSelector(state=>state.session.user);
-    const user = useSelector(state=> state.user);
-    const posts = useSelector(postActions.userPosts(user.id));
+    const user = useSelector(userActions.getUser(username))[0];
+    
+    const userPosts = useSelector(postActions.userPosts(username));
+    if (!user) return (null);
+    console.log(user.bgpic);
+    // console.log(post);
+    // if (!post) return(null);
+  
 
     // if sessionUser matches userId passed in 
     // background image
@@ -40,7 +50,7 @@ const UserShowPage =() =>{
                 <div className='show-body'>
                     <div className='show-contents'>
                         <div className='profile-container'>
-                            <header className='profile-container'>
+                            <header className='profile-header'>
                                 <div className='bgimage-frame'>
                                     <img className='bgimage' />
                                 </div>
@@ -63,18 +73,22 @@ const UserShowPage =() =>{
                             will be all,posts, likes, reblogs
                             will be filtered in descending creation
                             will switch between them with new routes */}
-                            <div className='profilenavigation'></div>
+                            <div className='profilenavigation'>
+                                <div className='search'>P</div>
+                                <div className='profilelinks'>
+                                    <Link to={`/${username}/posts`}>Posts</Link>
+                                    <p className='userlinktabs'> Likes</p>
+                                    <p className='userlinktabs'>Reblogs</p>
+                                </div>
+                            </div>
                             <Switch>
-                                <Route path=':username/all' >
-                                    {/* render all page */}
+                                <Route path='/:username/posts' >
+                                    <PostsDashboard posts={userPosts} />
                                 </Route>
-                                <Route path=':username/posts' >
-                                    {/* render posts */}
-                                </Route>
-                                <Route path=':username/likes' >
+                                <Route path='/:username/likes' >
                                     {/* render likes */}
                                 </Route>
-                                <Route path=':username/reblogs' >
+                                <Route path='/:username/reblogs' >
                                     {/* render likes */}
                                 </Route>
                             </Switch>

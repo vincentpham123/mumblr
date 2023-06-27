@@ -6,8 +6,9 @@ Rails.application.routes.draw do
   post 'api/test', to: 'application#test'
   post 'api/check-email', to: 'application#check_email'
   namespace :api, defaults: {format: :json} do 
-    resources :users, only: [:create,:show,:update,:destroy]
-    get 'users/:username', to: 'users#show_with_username'
+    resources :users, only: [:index,:create,:show,:update,:destroy]
+    
+    # get 'api/users/:username', to: 'users#show_with_username'
     resource :session, only: [:show, :create, :destroy]
     resources :posts
     resources :likes, only: [:create,:destroy]

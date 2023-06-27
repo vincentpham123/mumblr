@@ -21,3 +21,27 @@
 .postMain{
     margin-bottom: 20px;
 }
+
+.post-blaze-container{
+    min-width: 540px;
+    display: flex;
+    justify-content: flex-end;
+    min-height:54px;
+
+
+}
+.profileEdits{
+    border: none;
+    display: flex;
+    align-items: center;
+    width: 48px;
+    height: 48px;
+    line-height:1;
+    position: relative;
+    margin:0;
+    font-size:1;
+}
+.profileEdits i{
+    color: rgba(var(--black),.65);
+    font-size: 1.05em;
+}

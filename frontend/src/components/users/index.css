@@ -1,0 +1,75 @@
+.show-container{
+    margin: 40px auto 0;
+    width: 960px;
+}
+
+.show-body{
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    width:100%;
+    height: 100%;
+    position: relative;
+    background-color:white;
+}
+
+.show-contents{
+    background-color: rgba(0,0,0,.1);
+    box-sizing: border-box;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    max-width:960px;
+    min-height:100%;
+    margin: 0 auto;
+    padding: 20px;
+    
+}
+.profile-container{
+    border-radius: 8px;
+    background-color: white;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 580px;
+
+}
+
+.profilenavigation{
+    display: flex;
+    height: 40px;
+    margin: 0 20px;
+    position: relative;
+    justify-content: space-between;
+    align-items: stretch;
+    border-bottom: 1px solid rgb(0,184,255);
+
+
+}
+
+.profilelinks{
+    font-family: 'Favorit Tumblr 85';
+    color: rgb(0,184,255);
+    width: 100%;
+    margin: auto auto 10px 8%;
+    font-size: 1.125rem;
+    font-weight: 700;
+    line-height: 1.333;
+    display:flex;
+    overflow: hidden;
+}
+
+.userlinktabs{
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-bottom:-1px;
+    padding: 6px 12px 10px;
+    text-decoration:none;
+    overflow: hidden;
+    color: inherit;
+
+}
+

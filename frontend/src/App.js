@@ -10,6 +10,7 @@ import NewPost from './components/posts/NewPost';
 import NewTextModal from './components/posts/textposts/NewTextPostModal';
 import NewPhotoModal from './components/posts/NewPhotoPostModal';
 import UserShowPage from './components/users';
+import UpdatePostModal from './components/posts/UpdatePostModal';
 import './app.css'
 function App() {
   const sessionUser = useSelector(state=> state.session.user);
@@ -29,7 +30,7 @@ function App() {
           </div>
           </Route>
           <Route path='/:username'>
-            {/* <UserShowPage /> */}
+            <UserShowPage />
           </Route>
           <Route >
           <div className='dashboard'> 
@@ -41,7 +42,7 @@ function App() {
     
       </div>
       {/* routes */}
-      
+   
       <Route path='/'>
       </Route>
       <Route path='/explore'>
@@ -56,9 +57,10 @@ function App() {
       <Route path='/new/photo'>
         <NewPhotoModal />
       </Route> 
-      <Route path='/:username'>
-        {/* will render the usershowpage */}
+      <Route path='/edit/:postid'>
+        <UpdatePostModal />
       </Route>
+      
     </>
   );
 }

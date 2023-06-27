@@ -22,7 +22,7 @@ const TodayDashboard = () =>{
     return (
         <>
         {postsToShow.map ((post)=>{
-        return <ShowPost post={post}/>})
+        return <ShowPost post={post} profile={false}/>})
         }
         </>
     );

@@ -1,7 +1,11 @@
 import "./styling/showPost.css";
 import PostHeader from "./PostHeader";
 import PostText from "./PostText";
-const ShowPost = ({post})=>{
+import * as postActions from '../../store/posts';
+import { useDispatch } from "react-redux";
+import UpdatePostModal from "./UpdatePostModal";
+import { Link } from "react-router-dom";
+const ShowPost = ({post,profile})=>{
     if (!post){
         return (
             <p>Loading</p>
@@ -16,9 +20,39 @@ const ShowPost = ({post})=>{
                     <div className='post-meat'>
                         <PostText post={post} />
                     </div>
+                    <PostBlaze profile={profile} post={post} />
                 </article>
             </div>
         </div>
+        </>
+    )
+}
+
+const PostBlaze = ({profile,post}) => {
+    const dispatch = useDispatch();
+    const handleDelete =()=>{
+        const postId = post.id;
+        dispatch(postActions.removePost(postId));
+    }
+
+    
+    return (
+        <>
+            <div className='post-blaze-container'>
+            {/* render if it is a profile show page */}
+                {profile &&
+                    <>
+                    <button className='profileEdits' onClick={handleDelete}>
+                        <i className="fa-solid fa-trash-can"></i>
+                    </button>
+                    <Link className='profileEdits' to={`/edit/${post.id}`}>
+                        <i className="fa-solid fa-pencil"></i>
+                    </Link>
+                    </>
+                
+                }
+
+            </div>
         </>
     )
 }

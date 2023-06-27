@@ -7,16 +7,17 @@
 // a menu will be displayed if it is focused on
 import './newpostinputs.css';
 import { useState, useRef,useEffect } from "react";
-const NewPostInput = ({ form,handleKeyDown, index,handleFile, photoIndex}) => {
+const NewPostInput = ({ form,handleKeyDown, index,handleFile, photoIndex,initialValue}) => {
     const [type, setType] = useState('text');
-    const [showInputMenu, setInputMenu] = useState(true);
+    const [showInputMenu, setInputMenu] = useState(false);
     const [textIcon,setTextIcon] = useState('');
     const [photoIcon,setPhotoIcon] = useState('');
     const [videoIcon,setVideoIcon] = useState('');
     const [linkIcon,setLinkIcon] = useState('');
     const [focus,setFocus] = useState('');
     const [photoPreview,setPhotoPreview]=useState(null);
-
+    const [initialText,setInitialText] = useState('');
+    
 
     // need to pass in 4 onchange functions for each 
     const pRef = useRef(null);
@@ -24,6 +25,9 @@ const NewPostInput = ({ form,handleKeyDown, index,handleFile, photoIndex}) => {
     useEffect(()=>{
         if (form==='photo') setType('photo')
     },[])
+    useEffect(()=>{
+        setInitialText(initialValue);
+    })
     const handleInput = (event) => {
         console.log(event.key);
         setTimeout(()=>{
@@ -83,7 +87,7 @@ const NewPostInput = ({ form,handleKeyDown, index,handleFile, photoIndex}) => {
         <>
             <div className='input-container'>
                 <div className='inputBody'>
-                    {type === 'text' && <p ref={pRef} key={index} data-type={index} onKeyDown={(event) => handleInput(event)} onFocus={()=>setFocus('block')} onBlur={()=>setFocus('none')} id={`paragraph-${index}`} className='contentEdit text-paragraph' contentEditable='true'></p>}
+                    {type === 'text' && <p ref={pRef} key={index} data-type={index} onKeyDown={(event) => handleInput(event)} onFocus={()=>setFocus('block')} onBlur={()=>setFocus('none')} id={`paragraph-${index}`} className='contentEdit text-paragraph' contentEditable='true' dangerouslySetInnerHTML={{__html:initialValue}}></p>}
                     {type === 'photo' && <PhotoButton />}
                 </div>
                 {type ==='text' && showInputMenu &&

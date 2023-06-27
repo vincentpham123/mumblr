@@ -27,8 +27,8 @@ const deletePost = (postId) =>({
 
 //getter
 
-export const userPosts = (userId) => (state) => {
-    return state.posts ? Object.values(state.posts).filter((post)=>post.author.id===userId) : null;
+export const userPosts = (username) => (state) => {
+    return state.posts ? Object.values(state.posts).filter((post)=>post.author.username===username) : null;
 }
 
 // thunk actions
