@@ -9,6 +9,7 @@ import LoginFormModel from './components/LoginFormModal';
 import NewPost from './components/posts/NewPost';
 import NewTextModal from './components/posts/textposts/NewTextPostModal';
 import NewPhotoModal from './components/posts/NewPhotoPostModal';
+import UserShowPage from './components/users';
 import './app.css'
 function App() {
   const sessionUser = useSelector(state=> state.session.user);
@@ -21,29 +22,22 @@ function App() {
       <Navigation />
       </div>
       <div className='body'>
-        <div className='dashboard'> 
-          <Dashboard />
-        </div>
         <Switch>
-        <Route path='/explore/today'>
-            <TodayDashboard />
-        </Route>
-        <Route path='/explore/trending'>
-            {/* render trending */}
-        </Route>
-        <Route path='/explore/spotlight'>
-            {/* render spotlight */}
-        </Route>
-        <Route path='/explore/your_stuff'>
-            {/* render spotlight */}
-        </Route>
-        <Route path='/explore/following'>
-            {/* render spotlight */}
-        </Route>
-        <Route path='/explore/following'>
-            {/* render spotlight */}
-        </Route>
+          <Route path='/explore'>
+          <div className='dashboard'> 
+            <Dashboard />
+          </div>
+          </Route>
+          <Route path='/:username'>
+            {/* <UserShowPage /> */}
+          </Route>
+          <Route >
+          <div className='dashboard'> 
+            <Dashboard />
+          </div>
+          </Route>
         </Switch>
+        
     
       </div>
       {/* routes */}

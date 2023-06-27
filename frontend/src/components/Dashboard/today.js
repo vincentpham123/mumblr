@@ -9,17 +9,16 @@ const TodayDashboard = () =>{
     const randomPost = Math.floor(Math.random()*50)+1;
     console.log(randomPost);
     const posts = useSelector(state=>state.posts);
-    const postsToShow=Object.values(posts);
-    console.log(postsToShow);
     useEffect(()=>{
         dispatch(postActions.fetchPosts());
     },[]);
+    const postsToShow=Object.values(posts);
+    console.log(postsToShow);
     if (sessionUser) return <Redirect to="/" />;
     //all Today dashboard will be in here
     //select posts that were reblogged by 
     //todayonmumblr
     // in seeding, need to have posts reblogged by todayonmumblr
-    
     return (
         <>
         {postsToShow.map ((post)=>{

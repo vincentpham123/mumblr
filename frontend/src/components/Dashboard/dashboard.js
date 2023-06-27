@@ -15,6 +15,26 @@ const Dashboard = ({})=>{
             {sessionUser && <LoggedIn />}
             {!sessionUser && <LoggedOut />}
         </div>
+        <Switch>
+        <Route path='/explore/today'>
+            <TodayDashboard />
+        </Route>
+        <Route path='/explore/trending'>
+            {/* render trending */}
+        </Route>
+        <Route path='/explore/spotlight'>
+            {/* render spotlight */}
+        </Route>
+        <Route path='/explore/your_stuff'>
+            {/* render spotlight */}
+        </Route>
+        <Route path='/explore/following'>
+            {/* render spotlight */}
+        </Route>
+        <Route path='/explore/following'>
+            {/* render spotlight */}
+        </Route>
+        </Switch>
         
         </>
     )
