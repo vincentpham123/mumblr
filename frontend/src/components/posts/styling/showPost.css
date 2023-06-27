@@ -9,11 +9,15 @@
     border-radius: 3px;
     width: 100%;
     max-width: 540px;
-    height: 100%;
     background-color: rgba(var(--white));
+    line-height:0;
+    min-width:540px;
 }
 .postContent *{
     background-color: inherit;
     color: black;
 }
 
+.postMain{
+    margin-bottom: 20px;
+}

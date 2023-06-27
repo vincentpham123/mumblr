@@ -5,6 +5,7 @@ import csrfFetch, { storeCSRFToken } from "./csrf";
 const RECEIVE_POST = "api/RECEIVE_POST";
 const RECEIVE_POSTS = "api/RECEIVE_POSTS";
 const REMOVE_POST = 'api/UPDATE_POST';
+const RECEIVE_USER_POST = "api/USERNAME/RECEIVE_POSTS";
 
 // action types
 
@@ -24,6 +25,11 @@ const deletePost = (postId) =>({
     postId
 })
 
+//getter
+
+export const userPosts = (userId) => (state) => {
+    return state.posts ? Object.values(state.posts).filter((post)=>post.author.id===userId) : null;
+}
 
 // thunk actions
 

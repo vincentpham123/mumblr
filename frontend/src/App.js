@@ -23,7 +23,7 @@ function App() {
       <div className='body'>
         <div className='dashboard'> 
           <Dashboard />
-      </div>
+        </div>
         <Switch>
         <Route path='/explore/today'>
             <TodayDashboard />
@@ -62,6 +62,9 @@ function App() {
       <Route path='/new/photo'>
         <NewPhotoModal />
       </Route> 
+      <Route path='/:username'>
+        {/* will render the usershowpage */}
+      </Route>
     </>
   );
 }

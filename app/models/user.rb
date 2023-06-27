@@ -26,7 +26,7 @@ class User < ApplicationRecord
   validates :password, length: {in: 6..255}, allow_nil: true 
   has_secure_password
 
-  before_validation :ensure_session_token 
+  before_validation :ensure_session_token, :generate_default_pic
 
 
   #associations
@@ -37,6 +37,15 @@ class User < ApplicationRecord
   
   has_many :likes,
     dependent: :destroy
+  has_many :liked_videos,
+    through: :likes,
+    source: :post 
+  
+  has_one_attached :profilepic 
+
+  has_one_attached :background
+  #in jbuilder, i can grab the followers for each user 
+  
   #controller methods
 
   def self.find_by_credentials(credential,password)
@@ -67,5 +76,22 @@ class User < ApplicationRecord
     self.session_token ||= generate_unique_session_token
   end
 
+  def generate_default_pic
+    default_images =['./assets/images/df1.png',
+      'app/assets/images/df2.png',
+      'app/assets/images/df3.png',
+      'app/assets/images/df4.png',
+      'app/assets/images/df5.png',
+      'app/assets/images/df6.png',
+      'app/assets/images/df7.png',
+      'app/assets/images/df8.png',
+      'app/assets/images/df9.png',
+      'app/assets/images/df10.png']
+    random_number=rand(10);
+    profile_pic =URI.open(default_images[random_number])
+    background_pic = URI.open('app/assets/images/defaultbackground.png')
+    self.profilepic.attach(io:profile_pic, filename:"default.png")
+    self.background.attach(io:background_pic,filename:'defaultbg.png')
 
+  end
 end

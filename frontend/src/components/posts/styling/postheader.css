@@ -8,6 +8,10 @@
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
     font-family: 'Favorit Tumblr';
+    width:100%;
+    /* min-width: 540px; */
+    max-width: 540px;
+
 }
 
 .headerHover{

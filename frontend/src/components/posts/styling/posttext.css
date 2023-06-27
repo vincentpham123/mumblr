@@ -12,7 +12,7 @@
     width:100%;
     min-height: 1.5em;
     font-size:1em;
-    font-weight: 400px;
+    font-weight: 400;
     line-height:1.5;
     font-family: 'Favorit Tumblr 85';
 
@@ -37,4 +37,8 @@
 .post-image{
     width: 100%;
     display:block;
+}
+
+.textStrings{
+    margin-bottom: .75em;
 }

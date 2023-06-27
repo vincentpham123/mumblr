@@ -22,7 +22,10 @@ class Post < ApplicationRecord
     
     has_many :likes,
         dependent: :destroy
-    
+    has_many :liked_users,
+        through: :likes,
+        source: :post
+  
     #photo association
     has_one_attached :photo1
     has_one_attached :photo2

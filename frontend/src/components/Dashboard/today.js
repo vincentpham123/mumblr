@@ -8,7 +8,9 @@ const TodayDashboard = () =>{
     const dispatch = useDispatch();
     const randomPost = Math.floor(Math.random()*50)+1;
     console.log(randomPost);
-    const post = useSelector(state=>state.posts[83])
+    const posts = useSelector(state=>state.posts);
+    const postsToShow=Object.values(posts);
+    console.log(postsToShow);
     useEffect(()=>{
         dispatch(postActions.fetchPosts());
     },[]);
@@ -17,8 +19,13 @@ const TodayDashboard = () =>{
     //select posts that were reblogged by 
     //todayonmumblr
     // in seeding, need to have posts reblogged by todayonmumblr
+    
     return (
-        <ShowPost post={post} />
+        <>
+        {postsToShow.map ((post)=>{
+        return <ShowPost post={post}/>})
+        }
+        </>
     );
 
 

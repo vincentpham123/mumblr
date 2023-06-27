@@ -1,8 +1,18 @@
 class Api::PostsController < ApplicationController
 
     before_action :set_post, only: [:show, :update, :destroy]
+
     def index 
-        @posts=Post.all
+        if params[:query]
+            #find posts with tag 
+            # take string in query 
+            #find posts where 
+            tag = params[:query]
+            #hype#2023
+            @posts = Post.where('posts.tags LIKE ?', "#{tag}")
+        else
+            @posts = Post.all
+        end
     end
 
     def show
@@ -40,6 +50,6 @@ class Api::PostsController < ApplicationController
         render json: ['post not found'], status: :not_found
     end
     def post_params
-        params.require(:post).permit(:title,:body,:author_id,:photo1,:photo2,:photo3,:photo4)
+        params.require(:post).permit(:title,:body,:author_id,:photo1,:photo2,:photo3,:photo4,:user_id)
     end
 end
