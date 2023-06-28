@@ -24,8 +24,10 @@ const NewPhotoPost = () => {
         }
     },[paragraphs]);
 
-    const handlePhotoRemove = (key) => {
+    const handlePhotoRemove = (key,index) => {
         setPhotos({...photos,[key]:null})
+        setParagraphs({...paragraphs,[index]:''})
+
         //need to pass this down to the children
     }
     const handleFile = (event) => {

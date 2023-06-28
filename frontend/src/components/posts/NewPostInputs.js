@@ -39,6 +39,7 @@ const NewPostInput = ({ form,handleKeyDown, index,handleFile, photoState,initial
                 setType('photo');
                 setPhotoPreview(photoState[photoIndex]);
                 setPhotoKey(photoIndex);
+                console.log(photoKey);
             } else{
                 setInitialText(initialValue);
             }
@@ -88,7 +89,7 @@ const NewPostInput = ({ form,handleKeyDown, index,handleFile, photoState,initial
         )
     }
     const handlePreviewClose =()=>{
-        handlePhotoRemove(photoKey);
+        handlePhotoRemove(photoKey,index);
         setPhotoPreview(null);
 
     }

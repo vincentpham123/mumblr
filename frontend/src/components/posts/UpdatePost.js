@@ -25,7 +25,7 @@ const UpdatePost = () => {
     useEffect(()=>{
         dispatch(fetchUser(sessionUser.username));
     },[]);
-    
+    console.log(photos);
     const sessionUser = useSelector(state=>  state.session.user);
     const post = useSelector(state=>state.posts[postid]);
     console.log(post)
@@ -33,8 +33,13 @@ const UpdatePost = () => {
         console.log(post);
         populateFields(post);
     },[post])
-    const handlePhotoRemove = (key) => {
+    useEffect(()=>{
+        console.log(photos)
+    },[photos]);
+    const handlePhotoRemove = (key,index) => {
         setPhotos({...photos,[key]:null})
+        console.log(photos);
+        setParagraphs({...paragraphs,[index]:''})
         //need to pass this down to the children
     }
     const populateFields = (post) => {
@@ -47,6 +52,7 @@ const UpdatePost = () => {
             });
             setParagraphs(initialParagraphs);
             setPhotos(initialPhotos);
+    
             console.log(photos)
             setInitialTitle(post.title);
             setInitialTitleCheck(true);
@@ -83,13 +89,11 @@ const UpdatePost = () => {
     }
     const handleTitleKeyDown = (event) => {
         console.log(event.key);
-        if (event.key==='Enter'){
-            setTimeout(()=>{
-                event.target.nextElementSibling.focus()
-            },0);
-        }
+        
     
-         setTitle(event.target.innerText);
+         setTimeout(()=>{
+            setTitle(event.target.innerText)
+         },0);
          console.log(title);
     }
     const handleKeyDown = (event) => {
@@ -140,6 +144,8 @@ const UpdatePost = () => {
                     selection.addRange(range);
                 };
             },10);
+            console.log(paragraphs);
+            console.log(photos);
 
         }
         if (event.key==='ArrowUp'){
