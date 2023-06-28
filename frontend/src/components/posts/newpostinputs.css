@@ -2,6 +2,7 @@
     background-color: RGB(var(--white));
     height:100%;
     display:flex;
+    width:100%;
     
 
 }
@@ -46,6 +47,7 @@
     align-items: center;
     background-color: transparent;
     justify-content: center;
+    margin:auto;
 
 }
 .photofilebutton{
@@ -128,7 +130,9 @@
     }
     
 }
-
+.preview-container{
+    display: flex;
+}
 .photoPreview{
     max-width:540px;
     min-height:100px;
@@ -136,6 +140,39 @@
     vertical-align: bottom;
     opacity: 1;
     
+}
+
+.removepreview{
+    position:absolute;
+    right: 10px;
+    margin-top:10px;
+    z-index: 1;
+    border-style:none;
+    width:30px;
+    height:30px;
+    border-radius:50%;
+    background-color:transparent;
+    float: right;
+    transition: transform 0.2s linear;
+    cursor: pointer;
+    color: transparent;
+}
+
+.removepreview i{
+    background-color: transparent;
+    font-size: 20px;
+    color: transparent;
+}
+
+.removepreview:hover{
+    background-color:rgb(var(--red));
+    box-shadow: 0 0 15px rgba(0,0,0,.5);
+
+}
+
+.removepreview:hover i{
+   color: white;
+
 }
 
 

@@ -2,16 +2,16 @@
 // consts
 
 import csrfFetch from "./csrf";
-
+import { receivePosts } from "./posts";
 const RECEIVE_USER = 'api/RECEIVEUSER'
 const DELETE_USER = 'api/DELETEUSER'
 const RECEIVE_USERS = 'api/RECEIVEUSERS'
 
 //action types
 
-const receiveUser = (user) => ({
+const receiveUser = (payload) => ({
     type: RECEIVE_USER,
-    user
+    user: payload
 })
 
 const receiveUsers = (users) =>({
@@ -37,12 +37,13 @@ export const fetchUsers =() => async(dispatch) => {
     }
 }
 export const fetchUser = (username) => async(dispatch) =>{
-    debugger
-    let response = await csrfFetch(`/api/users/${username}`)
+    // debugger
+    let response = await fetch(`/api/users/${username}`)
     if (response.ok){
-        const user = await response.json();
-        dispatch(receiveUser(user));
-        return user;
+        const data = await response.json();
+        dispatch(receiveUser(data.user));
+        dispatch(receivePosts(data.posts));
+        return data;
     }
 
 }
@@ -66,8 +67,7 @@ const userReducer = (state={},action) => {
             return {...action.users}; 
 
         case RECEIVE_USER:
-            newState = action.user;
-            return newState;
+            return action.user;
             
         case DELETE_USER:
             delete newState[action.user.username];

@@ -15,7 +15,7 @@ const receivePost = (post) => ({
     post 
 })
 
-const receivePosts = (posts) => ({
+export const receivePosts = (posts) => ({
     type: RECEIVE_POSTS,
     posts
 })
@@ -65,16 +65,19 @@ export const createPost = (post) => async(dispatch) =>{
     }
 }
 
-export const updatePost = post=> async(dispatch) => {
-    const{title,body,author_id} = post;
-    const post = await csrfFetch('/api/posts',{
+export const updatePost = (formData,postid)=> async(dispatch) => {
+   
+    const post = await csrfFetch(`/api/posts/${postid}`,{
         method:'PATCH',
-        body: JSON.stringify({title,body,author_id})
+        body: formData
     });
     if (post.ok){
-    const data = await post.json();
-    dispatch(receivePost(data));
-    return data;
+        const data = await post.json();
+        dispatch(receivePost(data));
+        return data;
+    } else{
+        const error = await post.json();
+        throw new Error(error.message)
     }
 }
 
@@ -84,6 +87,7 @@ export const removePost = postId => async dispatch =>{
     });
     if (post.ok){
         dispatch(deletePost(postId))
+        // dispatch(receivePosts())
     }
 };
 

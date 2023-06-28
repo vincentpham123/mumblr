@@ -5,7 +5,8 @@ import * as postActions from '../../store/posts';
 import { useDispatch } from "react-redux";
 import UpdatePostModal from "./UpdatePostModal";
 import { Link } from "react-router-dom";
-const ShowPost = ({post,profile})=>{
+import { useSelector } from "react-redux";
+const ShowPost = ({post})=>{
     if (!post){
         return (
             <p>Loading</p>
@@ -20,7 +21,7 @@ const ShowPost = ({post,profile})=>{
                     <div className='post-meat'>
                         <PostText post={post} />
                     </div>
-                    <PostBlaze profile={profile} post={post} />
+                    <PostBlaze  post={post} />
                 </article>
             </div>
         </div>
@@ -28,7 +29,8 @@ const ShowPost = ({post,profile})=>{
     )
 }
 
-const PostBlaze = ({profile,post}) => {
+const PostBlaze = ({post}) => {
+    const sessionUser = useSelector((state)=>state.session.user);
     const dispatch = useDispatch();
     const handleDelete =()=>{
         const postId = post.id;
@@ -40,7 +42,7 @@ const PostBlaze = ({profile,post}) => {
         <>
             <div className='post-blaze-container'>
             {/* render if it is a profile show page */}
-                {profile &&
+                {sessionUser && post.author.username === sessionUser.username &&
                     <>
                     <button className='profileEdits' onClick={handleDelete}>
                         <i className="fa-solid fa-trash-can"></i>

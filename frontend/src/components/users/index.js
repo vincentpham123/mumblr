@@ -1,33 +1,37 @@
 
 import { useSelector, useDispatch } from "react-redux"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import * as postActions from '../../store/posts';
 import * as userActions from '../../store/user';
-import { Route , Switch,useParams, Link } from "react-router-dom";
+import { Route , Switch,useParams, NavLink,Link } from "react-router-dom";
 import PostsDashboard from "./posts";
 import './index.css';
 const UserShowPage =() =>{
     const dispatch = useDispatch();
     const params = useParams();
-    const username = params.username;
+    const [pageType,setPageType] =useState('false');
+
+
+
+
     // need sessionUser to determine if it will be a 
     //user or otheruser render
     // each user will have a profile Pic, and backgroundImage
     // need to fetch user from backend
-    useEffect(()=>{
-        // dispatch(userActions.fetchUser(username))
-        dispatch(postActions.fetchPosts());
-        dispatch(userActions.fetchUsers());
-    },[]);
-
+    const user = useSelector(state=> state.users);
     const sessionUser = useSelector(state=>state.session.user);
-    const user = useSelector(userActions.getUser(username))[0];
+    useEffect(()=>{
+        dispatch(userActions.fetchUser(params.username))
+
+    },[params]);
+
     
-    const userPosts = useSelector(postActions.userPosts(username));
-    if (!user) return (null);
-    console.log(user.bgpic);
-    // console.log(post);
-    // if (!post) return(null);
+    
+    // console.log(user);
+    const userPosts = useSelector(state=>state.posts);
+    // console.log(userPosts);
+    // if (!user) return (null);
+    if (!userPosts) return(null);
   
 
     // if sessionUser matches userId passed in 
@@ -52,19 +56,47 @@ const UserShowPage =() =>{
                         <div className='profile-container'>
                             <header className='profile-header'>
                                 <div className='bgimage-frame'>
-                                    <img className='bgimage' />
+                                    <img className='bgimage' src={user.background}/>
                                 </div>
                                 <div className='profile-bio-container'>
-                                    <div className='profilepic-frame'>
-                                        <img />
+                                    <div className='profilepic-container'>
+                                        <div className='profilepic-body'>
+                                            <div className='profilepic-contents'>
+                                                <div className='profilepic-frame'>
+                                                    <img className='userPic' src={user.profilepic}/>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div className='bio-container'>
-                                        <h1 className='blogName'></h1>
+                                        <h1 className='blogname'>{user.username}</h1>
                                         <div className='bio-container'>
-                                            <p  className='bio'></p>
+                                            
                                         </div>
                                         <div className='header-buttons-contents'>
-                                            {/* button for follow  */}
+                                        {/* make this button follow if sessionuser != user */}
+                                        { sessionUser && user.username === sessionUser.username &&
+                                            <button className='profileSettings'>
+                                                <span>
+                                                    <i className='fa-solid fa-gear'></i>
+                                                    Account Settings
+                                                </span>
+                                            </button>
+                                        }
+                                            { sessionUser && user.username !== sessionUser.username &&
+                                            <button className='profileSettings'>
+                                                <span>
+                                                    Follow
+                                                </span>
+                                            </button>
+                                            }
+                                            { !sessionUser &&
+                                            <button className='profileSettings'>
+                                                <span>
+                                                    Follow
+                                                </span>
+                                            </button>
+                                            }
                                         </div>
                                     </div>
                                 </div>
@@ -74,16 +106,17 @@ const UserShowPage =() =>{
                             will be filtered in descending creation
                             will switch between them with new routes */}
                             <div className='profilenavigation'>
-                                <div className='search'>P</div>
+                                
                                 <div className='profilelinks'>
-                                    <Link to={`/${username}/posts`}>Posts</Link>
-                                    <p className='userlinktabs'> Likes</p>
-                                    <p className='userlinktabs'>Reblogs</p>
+                                    <NavLink className='profilelink' to={`/${params.username}/posts`}>Posts</NavLink>
+                                    <NavLink className='profilelink' to={`/${params.username}/likes`}>Likes</NavLink>
+                                    <NavLink className='profilelink' to={`/${params.username}/reblogs`}> Reblogs</NavLink>
                                 </div>
                             </div>
+                            <div className='profile-meat'>
                             <Switch>
                                 <Route path='/:username/posts' >
-                                    <PostsDashboard posts={userPosts} />
+                                    <PostsDashboard posts={Object.values(userPosts)} />
                                 </Route>
                                 <Route path='/:username/likes' >
                                     {/* render likes */}
@@ -92,6 +125,7 @@ const UserShowPage =() =>{
                                     {/* render likes */}
                                 </Route>
                             </Switch>
+                            </div>
                         </div>
                         <div className='show-contents-right'>
 

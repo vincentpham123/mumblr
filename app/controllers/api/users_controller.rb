@@ -2,7 +2,7 @@ class Api::UsersController < ApplicationController
   wrap_parameters include: User.attribute_names + ['password']
 
   # def show_with_username
-  #   @user =User.first
+  #   @user = User.first
   #   render 'get_by_username'
   # end
 
@@ -19,10 +19,15 @@ class Api::UsersController < ApplicationController
     end
   end
 
-  def 
+  
   def show 
-    @user = User.find_by(id: params[:id]);
-
+    # can use by username
+    # debugger
+    @user = User.find_by(username: params[:id]);
+    # username=params[:id]
+    # @user =User.where('users.username = ?', username)
+    # debugg er
+    render :show
   end
 
   def destroy 

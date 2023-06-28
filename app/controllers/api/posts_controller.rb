@@ -31,7 +31,7 @@ class Api::PostsController < ApplicationController
 
     def update 
         if @post.update(post_params)
-            render :show 
+            render :show, locals: {post: @post}
         else
             render json: @post.errors.full_messages,status: 422
         end

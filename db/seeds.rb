@@ -5,7 +5,8 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
-ApplicationRecord.transaction do 
+require "open-uri"
+
   puts "Destroying tables..."
   # Unnecessary if using `rails db:seed:replant`
   User.destroy_all
@@ -46,6 +47,24 @@ ApplicationRecord.transaction do
       )
     end
   end
+  default_images =['https://mumblr-seeds.s3.us-west-1.amazonaws.com/defaultavatar1.png',
+    'https://mumblr-seeds.s3.us-west-1.amazonaws.com/defualtavatar2.png',
+    'https://mumblr-seeds.s3.us-west-1.amazonaws.com/defualtimage3.png',
+    'https://mumblr-seeds.s3.us-west-1.amazonaws.com/defaultprofilepic4.png',
+    'https://mumblr-seeds.s3.us-west-1.amazonaws.com/defaultimage5.png',
+    'https://mumblr-seeds.s3.us-west-1.amazonaws.com/defualtimage6.png',
+    'https://mumblr-seeds.s3.us-west-1.amazonaws.com/di7.png',
+    'https://mumblr-seeds.s3.us-west-1.amazonaws.com/di8.png',
+    'https://mumblr-seeds.s3.us-west-1.amazonaws.com/di9.png',
+    'https://mumblr-seeds.s3.us-west-1.amazonaws.com/di10.png'
+  ]
+  User.all.each_with_index do |user,index|
+    random_number=rand(10)
+    profile_pic = URI.open(default_images[random_number])
+    bg = URI.open('https://mumblr-seeds.s3.us-west-1.amazonaws.com/defaultbackground.png')
+    user.profilepic.attach(io:profile_pic, filename:"default.png")
+    user.background.attach(io:bg, filename:'bg.png')
+  end
   
   puts "Done!"
-end
+

@@ -19,27 +19,22 @@ const PostText = ({post}) => {
     const breakdown = (post) => {
         const array = post.body.split('\r\n');
         console.log(array);
-        const url1=post.photo1;
-        const url2=post.photo2;
-        const url3=post.photo3;
-        const url4=post.photo4;
-        let photoCount=1;
+
         return array.map((sentence,index)=>{
-            if(sentence==='_@#$photo__@#$'){
-                switch (photoCount) {
-                    case (1):
-                        photoCount+=1;
+        
+                switch (sentence) {
+                    case ('!@%^#^photo1'):
+                        // photoCount+=1;
                         return(
                             <div className='image-container'>
                                 <figure className='image-figure'>
                                     <div className='image-box'>
-                                        <img id='1' src={url1} alt='' className='post-image' ></img>
+                                        <img id='1' src={post.photo1} alt='' className='post-image' ></img>
                                     </div>
                                 </figure>
                             </div>
                         );
-                    case 2:
-                        photoCount+=1;
+                        case ('!@%^#^photo2'):
                         return(
                             <>
                             <div className='image-container'>
@@ -51,10 +46,7 @@ const PostText = ({post}) => {
                             </div>
                             </>
                         );
-                    case 3:
-                        // handlePhotoCount();
-                        photoCount+=1;
-
+                    case ('!@%^#^photo3'):
                         return(
                             <div className='image-container'>
                                 <figure className='image-figure'>
@@ -64,10 +56,7 @@ const PostText = ({post}) => {
                                 </figure>
                             </div>
                         );
-                    case 4:
-                        photoCount+=1;
-
-                        // handlePhotoCount();
+                    case ('!@%^#^photo4'):
                         return(
                             <div className='image-container'>
                                 <figure className='image-figure'>
@@ -78,17 +67,15 @@ const PostText = ({post}) => {
                             </div>
                         );
                     default:
-                        break;
+                        return(
+                            <div key={index} className='post-paragraph'>
+                                <p className='textStrings'>{sentence}</p>
+                                <p></p>
+                            </div>
+                        )
                 }
-            } else {
-                return(
-                <div key={index} className='post-paragraph'>
-                    <p className='textStrings'>{sentence}</p>
-                    <p></p>
-                </div>
-                )
-            }
-        })
+            })
+          
     }
 
     return (

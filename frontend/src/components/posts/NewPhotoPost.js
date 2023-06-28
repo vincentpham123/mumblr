@@ -11,54 +11,40 @@ const NewPhotoPost = () => {
     const history = useHistory();
     const [title,setTitle] = useState('');
     const [paragraphs,setParagraphs] = useState({1:''});
-    const [photo1,setPhoto1] = useState(null);
-    const [photo2,setPhoto2] = useState(null);
-    const [photo3,setPhoto3] = useState(null);
-    const [photo4,setPhoto4] = useState(null);
-    const [currentPhotoIndex,setCurrentPhotoIndex] = useState(1);
+    const [photos,setPhotos]=useState({1:null,2:null,3:null,4:null});
     const sessionUser = useSelector(state=>  state.session.user);
-   
+    
 
     useEffect(()=>{
-        if(Object.values(paragraphs).some(paragraph=>paragraph.trim().length>0) ) {
+        const textofpost = Object.values(paragraphs).filter((value)=> typeof value ==='string' && !value.includes('!@%^#^photo'));
+        if(textofpost.some(paragraph=>paragraph.trim().length>0) ) {
             setBodyCheck('');
         } else {
             setBodyCheck(true);
         }
     },[paragraphs]);
-    
+
+    const handlePhotoRemove = (key) => {
+        setPhotos({...photos,[key]:null})
+        //need to pass this down to the children
+    }
     const handleFile = (event) => {
-       
+        // need to change logic to check for null keys-value pairs
+
         //need data-type of the input to set paragraph to photo
         const file = event.currentTarget.files[0];
-     
-        // need to pass down the currentPhotoIndex to each input
-        switch (currentPhotoIndex) {
-            case 1:
-                setPhoto1(file);
-                setParagraphs({...paragraphs,[event.target.dataset.type]: 'photo1'});
-                setCurrentPhotoIndex(2);
-                break;
-            case 2:
-                setPhoto2(file);
-                setParagraphs({...paragraphs,[Object.keys(paragraphs).length+1]: ''})
-                setCurrentPhotoIndex(3);
-                break;
-            case 3: 
-                setPhoto3(file);
-                setParagraphs({...paragraphs,[Object.keys(paragraphs).length+1]: ''})
-                setCurrentPhotoIndex(4);
-                break;
-            case 4:
-                setPhoto4(file);
-                setParagraphs({...paragraphs,[Object.keys(paragraphs).length+1]: ''})
-                setCurrentPhotoIndex(5);
-                break;
-            default: 
-                break;
-        }
-        setParagraphs({...paragraphs,[Object.keys(paragraphs).length+1]: ''});
+        const pindex=event.target.dataset.type;
+        // need pindex to target the current paragraph 
 
+        //need to find the keys with values null
+
+        const nullPhotos = Object.keys(photos).filter((photonumber)=>photos[photonumber]===null);
+        const photoToFill = nullPhotos[0];
+        setPhotos({...photos,[photoToFill]:file});
+
+        setParagraphs({...paragraphs,[Object.keys(paragraphs).length+1]: '',[pindex]:`!@%^#^photo${photoToFill}`});
+
+        
        
     }
     const handleTitleKeyDown = (event) => {
@@ -73,8 +59,7 @@ const NewPhotoPost = () => {
          console.log(title);
     }
     const handleKeyDown = (event) => {
-        console.log(event.key);
-        console.log(event.target.innerText);
+        
     
         if(event.key !== 'Enter' && event.key!=='ArrowDown' && event.key!=='ArrowUp'){
             setTimeout(()=>{
@@ -153,21 +138,21 @@ const NewPhotoPost = () => {
     
     const handleSubmit = (event) =>{
         event.preventDefault();
-        const formData = new FormData();        
+        const formData = new FormData();
+        formData.append('post[title]',title);
+        
         const textState=Object.values(paragraphs).filter((paragraph)=>paragraph!=='');
         formData.append('post[body]',textState.join('\n'));
         formData.append('post[author_id]',sessionUser.id);
         //handle files
-        if(photo1) formData.append('post[photo1]',photo1);
-        if (photo2) formData.append('post[photo2]',photo2);
-        if (photo3) formData.append('post[photo3]',photo3);
-        if (photo4) formData.append('post[photo4]',photo4);
+        Object.keys(photos).forEach((key)=>{
+            let param = `post[photo${key}]`;
+            
+            if (photos[key]) formData.append(param,photos[key]);
+        })
+
         dispatch(createPost(formData));
         history.go(-2);
-    }
-
-    const disableButton = () => {
-        return bodyCheck ? '' : 'disabled'
     }
 
     
@@ -193,10 +178,10 @@ return (
                 <div className = 'newtext-body'>
                         <div className='text-box'>
                             <div className='textbox-contents'>
-                                {/* <h1 onKeyDown={event=>handleTitleKeyDown(event)} className="contentEdit text-title" contentEditable='true'></h1> */}
+                                <h1 onKeyDown={event=>handleTitleKeyDown(event)} className="contentEdit text-title" contentEditable='true'></h1>
                                 {Object.keys(paragraphs).map((paragraph,index)=>{
-                                if(index===0) return <NewPostInput form={'photo'} handleKeyDown={handleKeyDown} index={index} handleFile={handleFile} photoIndex={currentPhotoIndex}/>
-                                return <NewPostInput handleKeyDown={handleKeyDown} index={index} handleFile={handleFile} photoIndex={currentPhotoIndex}/>
+                                if(index===0) return <NewPostInput form={'photo'} handleKeyDown={handleKeyDown} index={index} handleFile={handleFile} photoState={photos} create={true} handlePhotoRemove={handlePhotoRemove}/>
+                                return <NewPostInput handleKeyDown={handleKeyDown} index={index} handleFile={handleFile} photoState={photos} create={true}/>
                                 })}
                                
                             </div>

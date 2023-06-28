@@ -10,6 +10,7 @@
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #
+require 'open-uri'
 class User < ApplicationRecord
   
   validates :username,
@@ -26,7 +27,7 @@ class User < ApplicationRecord
   validates :password, length: {in: 6..255}, allow_nil: true 
   has_secure_password
 
-  before_validation :ensure_session_token, :generate_profile_pic, :generate_bg_pic
+  before_validation :ensure_session_token, :generate_bg_pic, :generate_profile_pic
 
 
   #associations
@@ -48,19 +49,20 @@ class User < ApplicationRecord
     #in jbuilder, i can grab the followers for each user 
     
     def generate_profile_pic
-      default_images =['app/assets/images/df1.png',
-        'app/assets/images/df2.png',
-        'app/assets/images/df3.png',
-        'app/assets/images/df4.png',
-        'app/assets/images/df5.png',
-        'app/assets/images/df6.png',
-        'app/assets/images/df7.png',
-        'app/assets/images/df8.png',
-        'app/assets/images/df9.png',
-        'app/assets/images/df10.png']
-      random_number=rand(10);
+      default_images =['https://mumblr-seeds.s3.us-west-1.amazonaws.com/defaultavatar1.png',
+        'https://mumblr-seeds.s3.us-west-1.amazonaws.com/defualtavatar2.png',
+        'https://mumblr-seeds.s3.us-west-1.amazonaws.com/defualtimage3.png',
+        'https://mumblr-seeds.s3.us-west-1.amazonaws.com/defaultprofilepic4.png',
+        'https://mumblr-seeds.s3.us-west-1.amazonaws.com/defaultimage5.png',
+        'https://mumblr-seeds.s3.us-west-1.amazonaws.com/defualtimage6.png',
+        'https://mumblr-seeds.s3.us-west-1.amazonaws.com/di7.png',
+        'https://mumblr-seeds.s3.us-west-1.amazonaws.com/di8.png',
+        'https://mumblr-seeds.s3.us-west-1.amazonaws.com/di9.png',
+        'https://mumblr-seeds.s3.us-west-1.amazonaws.com/di10.png'
+      ]
+      random_number=rand(10)
       unless self.profilepic.attached? 
-        profile_pic = File.open(default_images[random_number])
+        profile_pic = URI.open(default_images[random_number])
         self.profilepic.attach(io:profile_pic, filename:"default.png")
       end
   
@@ -68,7 +70,7 @@ class User < ApplicationRecord
 
     def generate_bg_pic
       unless self.background.attached?
-        bg = File.open('app/assets/images/defaultbackground.png')
+        bg = URI.open('https://mumblr-seeds.s3.us-west-1.amazonaws.com/defaultbackground.png')
         self.background.attach(io:bg,filename:'defaultbg.png')
       end
     end

@@ -1,10 +1,12 @@
 import { useSelector } from "react-redux"
-import { useState, useRef,useEffect } from "react"
+import { useState, useRef,useEffect, useCallback } from "react"
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Redirect,useParams } from "react-router-dom";
 import { updatePost } from "../../store/posts";
 import NewPostInput from "./NewPostInputs";
+import { fetchUser } from "../../store/user";
+
 const UpdatePost = () => {
     const {postid} = useParams();
     const [initialPost,setInitialPost]= useState({});
@@ -13,35 +15,45 @@ const UpdatePost = () => {
     const history = useHistory();
     const [title,setTitle] = useState('');
     const [paragraphs,setParagraphs] = useState({});
-    const [photo1,setPhoto1] = useState(null);
-    const [photo2,setPhoto2] = useState(null);
-    const [photo3,setPhoto3] = useState(null);
-    const [photo4,setPhoto4] = useState(null);
+    // each photo will hold a file that will be rendered 
+    const [photos,setPhotos]=useState({1:null,2:null,3:null,4:null});
+    const [initialTitle,setInitialTitle] = useState((''));
+    const [initialTitleCheck, setInitialTitleCheck] = useState(false);
     const [currentPhotoIndex,setCurrentPhotoIndex] = useState(1);
-    const sessionUser = useSelector(state=>  state.session.user);
     
     // need to fetch the post using the params id in an useeffect
     useEffect(()=>{
-        const fetchPost = async()=>{
-            const response = await fetch(`/api/posts/${postid}`)
-            if (response.ok){
-                const data = await response.json();
-                populateFields(data);
-            }
-        }
-        fetchPost()
-    },[postid]);
+        dispatch(fetchUser(sessionUser.username));
+    },[]);
+    
+    const sessionUser = useSelector(state=>  state.session.user);
+    const post = useSelector(state=>state.posts[postid]);
+    console.log(post)
+    useEffect(()=>{
+        console.log(post);
+        populateFields(post);
+    },[post])
+    const handlePhotoRemove = (key) => {
+        setPhotos({...photos,[key]:null})
+        //need to pass this down to the children
+    }
     const populateFields = (post) => {
         if (post){
             const bodyParagraphs = post.body.split('\r\n');
             const initialParagraphs = {};
+            const initialPhotos={1:post.photo1,2:post.photo2,3:post.photo3,4:post.photo4};
             bodyParagraphs.forEach((paragraph,index)=>{
                 initialParagraphs[index+1]=paragraph;
             });
             setParagraphs(initialParagraphs);
+            setPhotos(initialPhotos);
+            console.log(photos)
+            setInitialTitle(post.title);
+            setInitialTitleCheck(true);
         }
         
     }
+    
     useEffect(()=>{
         if(Object.values(paragraphs).some(paragraph=>paragraph.trim().length>0) ) {
             setBodyCheck('');
@@ -52,38 +64,21 @@ const UpdatePost = () => {
     
     if (!sessionUser) return <Redirect to="/" />;
     const handleFile = (event) => {
-       
+        // need to change logic to check for null keys-value pairs
+
         //need data-type of the input to set paragraph to photo
         const file = event.currentTarget.files[0];
         const pindex=event.target.dataset.type;
-        // need to pass down the currentPhotoIndex to each input
-        switch (currentPhotoIndex) {
-            case 1:
-                setPhoto1(file);
-                setCurrentPhotoIndex(2);
-                break;
-            case 2:
-                setPhoto2(file);
-                setCurrentPhotoIndex(3);
+        // need pindex to target the current paragraph 
 
-                break;
-            case 3: 
-                setPhoto3(file);
-                setCurrentPhotoIndex(4);
+        //need to find the keys with values null
 
-                break;
-            case 4:
-                setPhoto4(file);
-                setCurrentPhotoIndex(5);
+        const nullPhotos = Object.keys(photos).filter((photonumber)=>photos[photonumber]===null);
+        const photoToFill = nullPhotos[0];
+        setPhotos({...photos,[photoToFill]:file});
 
-                break;
-            default: 
-                break;
-        }
-        
-        setParagraphs({...paragraphs,[Object.keys(paragraphs).length+1]: '',[pindex]:'_@#$photo__@#$'});
+        setParagraphs({...paragraphs,[Object.keys(paragraphs).length+1]: '',[pindex]:`!@%^#^photo${photoToFill}`});
 
-        
        
     }
     const handleTitleKeyDown = (event) => {
@@ -99,13 +94,13 @@ const UpdatePost = () => {
     }
     const handleKeyDown = (event) => {
 
-    
+        
         if(event.key !== 'Enter' && event.key!=='ArrowDown' && event.key!=='ArrowUp'){
             setTimeout(()=>{
                 const pindex = event.target.dataset.type
             
                 setParagraphs({...paragraphs,[pindex]: event.target.innerText});
-            },5000);
+            },0);
         }
   
      
@@ -145,7 +140,7 @@ const UpdatePost = () => {
                     selection.addRange(range);
                 };
             },10);
-            
+
         }
         if (event.key==='ArrowUp'){
             event.preventDefault();
@@ -168,6 +163,8 @@ const UpdatePost = () => {
             },10);
             
         }
+        console.log(paragraphs);
+
     }
     
     const handleSubmit = (event) =>{
@@ -179,16 +176,18 @@ const UpdatePost = () => {
         formData.append('post[body]',textState.join('\n'));
         formData.append('post[author_id]',sessionUser.id);
         //handle files
-        if (photo1) formData.append('post[photo1]',photo1);
-        if (photo2) formData.append('post[photo2]',photo2);
-        if (photo3) formData.append('post[photo3]',photo3);
-        if (photo4) formData.append('post[photo4]',photo4);
+        Object.keys(photos).forEach((key)=>{
+            let param = `post[photo${key}]`;
+            
+            if (photos[key]) formData.append(param,photos[key]);
+        })
+    
 
 
         
         
-        dispatch(updatePost(formData));
-        history.go(-1);
+        dispatch(updatePost(formData,postid));
+        history.go(-2);
     }
 
     const disableButton = () => {
@@ -218,17 +217,17 @@ return (
                 <div className = 'newtext-body'>
                         <div className='text-box'>
                             <div className='textbox-contents'>
-                                <h1 onKeyDown={event=>handleTitleKeyDown(event)} className="contentEdit text-title" contentEditable='true'></h1>
+                                <h1 onKeyDown={event=>handleTitleKeyDown(event)} className="contentEdit text-title" contentEditable='true'>{initialTitle}</h1>
                                 {Object.keys(paragraphs).map((paragraph,index)=>{
-                                return <NewPostInput handleKeyDown={handleKeyDown} index={index+1} handleFile={handleFile} photoIndex={currentPhotoIndex} initialValue={paragraphs[paragraph]}/>
+                                return <NewPostInput handleKeyDown={handleKeyDown} index={index+1} handleFile={handleFile} photoState={photos} initialValue={paragraphs[paragraph]} create={false} handlePhotoRemove={handlePhotoRemove}/>
                                 })}
                                
                             </div>
                         </div>
                     <div className='text-footer'>
                         {/* make this button a div to avoid clashing with the submit button */}
-                        <button className='close-text' onClick={()=>history.go(-2)}>Close</button>
-                        <button disabled={bodyCheck} className='text-submit' onClick={handleSubmit}>Post Now</button>
+                        <button className='close-text' onClick={()=>history.go(-1)}>Close</button>
+                        <button disabled={bodyCheck} className='text-submit' onClick={handleSubmit}>Update</button>
                     </div>
                 </div>
 

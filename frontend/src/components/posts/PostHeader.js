@@ -19,6 +19,7 @@ const PostHeader =({username,dateCreated,timeCreated}) =>{
         if (showOptions) setShowOptions(false);
     }
 
+    
     useEffect(()=>{
         if (!showOptions) return;
         document.addEventListener('click',closeOptions);

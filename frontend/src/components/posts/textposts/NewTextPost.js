@@ -12,16 +12,34 @@ const NewTextPost = () => {
     const history = useHistory();
     const [title,setTitle] = useState('');
     const [paragraphs,setParagraphs] = useState({1:''});
-    const [photo1,setPhoto1] = useState(null);
-    const [photo2,setPhoto2] = useState(null);
-    const [photo3,setPhoto3] = useState(null);
-    const [photo4,setPhoto4] = useState(null);
-    const [currentPhotoIndex,setCurrentPhotoIndex] = useState(1);
-    const sessionUser = useSelector(state=>  state.session.user);
-   
+    const [photos,setPhotos]=useState({1:null,2:null,3:null,4:null});
 
+      // each photo will hold a file that will be rendered 
+      //when a user uploads a photo, 1 will be populate, then 2, then 3, then 4
+
+      //during update, i will populate these based on the the photos in the state
+      //when a user removes the photo currenly populated in the hash
+      //example, if photo1 is currently being rendered in paragraph 3
+      //and they remove it, i will set photo1 to null
+      //if they add a photo else where, i will check for keys in the photo hash
+      //with null values and then update that key to have that file
+      //i will update the paragraph key to be an identifier for that photo
+      // example:
+      // photo1 was originally in pargraph2, users chooses to remove it and type in
+      // key downs update the paragraph automatically
+      // when a user removes, the photos[1] will be set to null
+      //so paragraph[2] will now be strings
+      // user updates a photo to paragraph[1], pragraph[1] will now contain identifier
+      // handlefile will check for empty nulls, first one it identifies, it was place the file there
+      // paragraph one will have something like photo1 identifer
+      //when i show the text, i will check for the photo being checked in the body text and then 
+
+    const sessionUser = useSelector(state=>  state.session.user);
     useEffect(()=>{
-        if(Object.values(paragraphs).some(paragraph=>paragraph.trim().length>0) ) {
+        console.log(Object.values(paragraphs));
+        const textofpost = Object.values(paragraphs).filter((value)=> typeof value ==='string');
+        console.log(textofpost);
+        if(textofpost.some(paragraph=>paragraph.trim().length>0) ) {
             setBodyCheck('');
         } else {
             setBodyCheck(true);
@@ -29,43 +47,30 @@ const NewTextPost = () => {
     },[paragraphs]);
     
     const handleFile = (event) => {
-       
+        // need to change logic to check for null keys-value pairs
+
         //need data-type of the input to set paragraph to photo
         const file = event.currentTarget.files[0];
         const pindex=event.target.dataset.type;
-        console.log(pindex)
-        console.log(file);
-        // need to pass down the currentPhotoIndex to each input
-        switch (currentPhotoIndex) {
-            case 1:
-                setPhoto1(file);
-                setCurrentPhotoIndex(2);
-                break;
-            case 2:
-                setPhoto2(file);
-                setCurrentPhotoIndex(3);
+        // need pindex to target the current paragraph 
 
-                break;
-            case 3: 
-                setPhoto3(file);
-                setCurrentPhotoIndex(4);
+        //need to find the keys with values null
 
-                break;
-            case 4:
-                setPhoto4(file);
-                setCurrentPhotoIndex(5);
+        const nullPhotos = Object.keys(photos).filter((photonumber)=>photos[photonumber]===null);
+        const photoToFill = nullPhotos[0];
+        setPhotos({...photos,[photoToFill]:file});
 
-                break;
-            default: 
-                break;
-        }
-        
-        console.log(currentPhotoIndex);
-        setParagraphs({...paragraphs,[Object.keys(paragraphs).length+1]: '',[pindex]:'_@#$photo__@#$'});
+        setParagraphs({...paragraphs,[Object.keys(paragraphs).length+1]: '',[pindex]:`!@%^#^photo${photoToFill}`});
 
-        console.log(paragraphs);
-        
-       
+        // this wil let my child component which key to pass to the handleFileRemove in my child component
+        // if its an update, i can get initial index when i check the inital value;
+
+        return photoToFill;
+    }
+
+    const handlePhotoRemove = (key) => {
+        setPhotos({...photos,[key]:null})
+        //need to pass this down to the children
     }
     const handleTitleKeyDown = (event) => {
         console.log(event.key);
@@ -166,10 +171,12 @@ const NewTextPost = () => {
         formData.append('post[body]',textState.join('\n'));
         formData.append('post[author_id]',sessionUser.id);
         //handle files
-        if (photo1) formData.append('post[photo1]',photo1);
-        if (photo2) formData.append('post[photo2]',photo2);
-        if (photo3) formData.append('post[photo3]',photo3);
-        if (photo4) formData.append('post[photo4]',photo4);
+        Object.keys(photos).forEach((key)=>{
+            let param = `post[photo${key}]`;
+            
+            if (photos[key]) formData.append(param,photos[key]);
+        })
+    
 
 
         
@@ -207,7 +214,7 @@ return (
                             <div className='textbox-contents'>
                                 <h1 onKeyDown={event=>handleTitleKeyDown(event)} className="contentEdit text-title" contentEditable='true'></h1>
                                 {Object.keys(paragraphs).map((paragraph,index)=>{
-                                return <NewPostInput handleKeyDown={handleKeyDown} index={index+1} handleFile={handleFile} photoIndex={currentPhotoIndex}/>
+                                return <NewPostInput handleKeyDown={handleKeyDown} index={index+1} handleFile={handleFile} photoState={photos} create={true} handlePhotoRemove={handlePhotoRemove}/>
                                 })}
                                
                             </div>
