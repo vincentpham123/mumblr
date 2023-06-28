@@ -24,24 +24,19 @@ const UpdatePost = () => {
     // need to fetch the post using the params id in an useeffect
     useEffect(()=>{
         dispatch(fetchUser(sessionUser.username));
-    },[]);
+    },[dispatch]);
     console.log(photos);
     const sessionUser = useSelector(state=>  state.session.user);
     const post = useSelector(state=>state.posts[postid]);
-    console.log(post)
+    
     useEffect(()=>{
-        console.log(post);
         populateFields(post);
     },[post])
+
     useEffect(()=>{
         console.log(photos)
     },[photos]);
-    const handlePhotoRemove = (key,index) => {
-        setPhotos({...photos,[key]:null})
-        console.log(photos);
-        setParagraphs({...paragraphs,[index]:''})
-        //need to pass this down to the children
-    }
+
     const populateFields = (post) => {
         if (post){
             const bodyParagraphs = post.body.split('\r\n');
@@ -52,7 +47,7 @@ const UpdatePost = () => {
             });
             setParagraphs(initialParagraphs);
             setPhotos(initialPhotos);
-    
+            
             console.log(photos)
             setInitialTitle(post.title);
             setInitialTitleCheck(true);
@@ -62,30 +57,35 @@ const UpdatePost = () => {
     
     useEffect(()=>{
         if(Object.values(paragraphs).some(paragraph=>paragraph.trim().length>0) ) {
-            setBodyCheck('');
+        setBodyCheck('');
         } else {
             setBodyCheck(true);
         }
-    },[paragraphs]);
-    
-    if (!sessionUser) return <Redirect to="/" />;
-    const handleFile = (event) => {
-        // need to change logic to check for null keys-value pairs
+    },[paragraphs]);    
+if (!sessionUser) return <Redirect to="/" />;
+const handlePhotoRemove = (key,index) => {
+    setPhotos({...photos,[key]:'remove'})
+    setParagraphs({...paragraphs,[index]:''})
+    //need to pass this down to the children
+}
 
+const handleFile = (event) => {
+        // need to change logic to check for null keys-value pairs
+        
         //need data-type of the input to set paragraph to photo
         const file = event.currentTarget.files[0];
         const pindex=event.target.dataset.type;
         // need pindex to target the current paragraph 
-
+        
         //need to find the keys with values null
-
-        const nullPhotos = Object.keys(photos).filter((photonumber)=>photos[photonumber]===null);
+        
+        const nullPhotos = Object.keys(photos).filter((photonumber)=>photos[photonumber]===null || photos[photonumber]==='remove');
         const photoToFill = nullPhotos[0];
         setPhotos({...photos,[photoToFill]:file});
 
         setParagraphs({...paragraphs,[Object.keys(paragraphs).length+1]: '',[pindex]:`!@%^#^photo${photoToFill}`});
 
-       
+        return photoToFill;
     }
     const handleTitleKeyDown = (event) => {
         console.log(event.key);
@@ -184,9 +184,18 @@ const UpdatePost = () => {
         //handle files
         Object.keys(photos).forEach((key)=>{
             let param = `post[photo${key}]`;
-            
-            if (photos[key]) formData.append(param,photos[key]);
-        })
+            let photoIdentifier = `!@%^#^photo${key}`
+            if (Object.values(paragraphs).includes(photoIdentifier)&& photos[key]) {
+                formData.append(param,photos[key])
+            } 
+            // else if (!Object.values(paragraphs).includes(photoIdentifier) && photos[key]){
+                // formData.append(param,'remove');
+            }
+            // formData.append(param,photos[key]);
+            // so if the new body does not paragrapg does not contain any values with
+            // the identifier for the photo, i need to pass in null to the backend
+            // to clear the photo attachment
+        )
     
 
 

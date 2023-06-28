@@ -174,8 +174,14 @@ const NewTextPost = () => {
         //handle files
         Object.keys(photos).forEach((key)=>{
             let param = `post[photo${key}]`;
-            
-            if (photos[key]) formData.append(param,photos[key]);
+            let photoIdentifier = `!@%^#^photo${key}`
+
+            if (Object.values(paragraphs).includes(photoIdentifier)&& photos[key]) {
+                formData.append(param,photos[key])
+            } else if (!Object.values(paragraphs).includes(photoIdentifier)&& photos[key]){
+                formData.append(param,null);
+            }
+            // if (photos[key]) formData.append(param,photos[key]);
         })
     
 

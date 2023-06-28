@@ -30,6 +30,7 @@ const NewPostInput = ({ form,handleKeyDown, index,handleFile, photoState,initial
 
     
     useEffect(()=>{
+        console.log(initialTextset);
         if (!initialTextset){
             if (initialValue && initialValue.includes('!@%^#^photo')){
                 let photoIndex=parseInt(initialValue[initialValue.length-1]); //this will grab the photo number
@@ -89,6 +90,7 @@ const NewPostInput = ({ form,handleKeyDown, index,handleFile, photoState,initial
         )
     }
     const handlePreviewClose =()=>{
+        console.log(photoKey);
         handlePhotoRemove(photoKey,index);
         setPhotoPreview(null);
 

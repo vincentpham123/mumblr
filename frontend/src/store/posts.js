@@ -75,11 +75,10 @@ export const updatePost = (formData,postid)=> async(dispatch) => {
         const data = await post.json();
         dispatch(receivePost(data));
         return data;
-    } 
-    // else{
-    //     const error = await post.json();
-    //     throw new Error(error.message)
-    // }
+    } else{
+        const error = await post.json();
+        throw new Error(error.message)
+    }
 }
 
 export const removePost = postId => async dispatch =>{
