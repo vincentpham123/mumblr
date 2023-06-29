@@ -13,6 +13,9 @@ const TodayDashboard = () =>{
         dispatch(postActions.fetchPosts());
     },[]);
     const postsToShow=Object.values(posts);
+    // const trendingPosts=postsToShow.sort(()=>.5-Math.random());
+    // let selected = trendingPosts.slice(0,10);
+    
     console.log(postsToShow);
     if (sessionUser) return <Redirect to="/" />;
     //all Today dashboard will be in here
@@ -22,6 +25,7 @@ const TodayDashboard = () =>{
     return (
         <>
         {postsToShow.map ((post)=>{
+            console.log(post);
         return <ShowPost post={post} profile={false}/>})
         }
         </>

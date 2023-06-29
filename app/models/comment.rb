@@ -15,7 +15,7 @@ class Comment < ApplicationRecord
     validates :body, length: {maximum: 399}
 
     
-    belongs_to :user 
+    belongs_to :user
 
     belongs_to :post 
 

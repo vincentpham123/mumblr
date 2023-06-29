@@ -18,7 +18,6 @@ const LoggedIn = () => {
                         Following
                     </NavLink>
                 </li>
-                {/* will be a carosel??? */}
             </ul>
         </div>
 

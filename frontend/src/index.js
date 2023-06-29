@@ -24,11 +24,11 @@ if (process.env.NODE_ENV !== 'production') {
 const Root = () => {
   return (
     <Provider store ={store}>
+        <ModalProvider>
         <BrowserRouter>
-            <ModalProvider>
               <App />
-          </ModalProvider>
         </BrowserRouter>
+          </ModalProvider>
     </Provider>
   )
 }

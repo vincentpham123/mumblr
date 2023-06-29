@@ -9,7 +9,7 @@ const LoggedOut = () => {
         <div className='tabs'>
             <ul className='tab-selection'>
                 <li className='tabs'>
-                    <NavLink to='/explore/today'>
+                    <NavLink to='/explore/today'  >
                         Today
                     </NavLink>
                 </li>

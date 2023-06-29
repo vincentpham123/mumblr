@@ -18,6 +18,8 @@ json.posts do
             json.author do 
                 json.extract! post.author, :id, :username
             end
+            json.commentcount post.comments.length 
+            json.likescount post.likes.length
         end
     end
 end

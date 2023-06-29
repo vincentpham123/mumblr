@@ -1,0 +1,291 @@
+.postfootbuttons-container{
+    border-top: 1px solid rgba(var(--black),.13);
+    margin-right: 20px;
+    margin-left: 20px;
+    min-height: 45px;
+    padding: 3px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.notebutton-container{
+    padding: 0;
+    display: flex;
+    position: relative;
+    height: 36px;
+    min-width: 0;
+    justify-content: space-between;
+}
+.shownotesbutton-container{
+    display:flex;
+    align-items: center;
+    height: 36px;
+}
+
+.show-notes-content{
+    border: 1px solid rgba(var(--black),.15);
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    padding: 6px 16px;
+    width: 100%;
+}
+
+.notesbutton{
+    font-family: "Favorit Tumblr";
+    cursor: pointer;
+    text-align: left;
+    max-width: 100%;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.5;
+    display: inline-block;
+    border-style: none;
+
+}
+
+.notes-count{
+    margin-right: 5px;
+}
+
+.notesbutton-content{
+    font-family: 'Favorit Tumblr';
+    color: rgba(var(--black),.65);
+    background-color: rgba(var(--black),.15);
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    height: 36px;
+    padding: 0 10px;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+.notesbutton-content *{
+    color: rgba(var(--black),.65);
+    background-color: transparent;
+}
+
+.notesbutton-content i{
+    margin-right: 8px;
+    
+}
+
+.footerbuttons-container{
+    display:flex;
+    justify-content: flex-end;
+    margin: 0;
+    padding: 0;
+}
+
+.footbutton-container{
+    display: flex;
+    height: 48px;
+    width: 48px;
+    justify-content: center;
+    align-items: center;;
+}
+.footerbuttons-container button{
+    border: none;
+
+}
+.footerbuttons-container i{
+    color: rgba(var(--black),.65);
+    font-size: 20px;
+}
+
+.posttabmenu-container{
+    opacity: 1;
+    border-top-color: rgba(var(--black),.13);
+    max-height: none;
+    width: 100%;
+    margin-top:0;
+    overflow: hidden;
+
+
+}
+.posttabmenu-body{
+    font-family: 'Favorit Tumblr';
+    display: flex;
+    flex-direction: column;
+    height:500px;
+    font-size: .875rem;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+.tabsmenu-container{
+    margin: 0 20px;
+
+}
+.tabsmenu-body{
+    display: flex;
+    justify-content: flex-start;
+    border-bottom: 1px solid rgba(var(--black),.13);
+    width: 100%;
+
+}
+.tabsmenu-navigation{
+    display: flex;
+}
+.tabnavbutton{
+    cursor: pointer;
+    font-family: 'Favorit Tumblr';
+    border-bottom: 2px solid transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 60px;
+    padding: 10px;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.5;
+    border: none;
+    
+}
+
+
+
+.tabnavbutton i{
+    font-size: 18px;
+    margin-right: 5px;
+}
+
+.commenttext-container{
+    margin: 15px 10px 0 10px;
+}
+.commenttext-body{
+    display: flex;
+    align-items: center;
+
+}
+.comment-profile-pic{
+    position: relative;
+}
+
+.profilepic-frame{
+    border-radius:50%;
+    width: 100%;
+    height: 100%;
+
+}
+.profilepic-frame1 img{
+    width:32px;
+    height:32px;
+}
+
+.reply-container{
+    border-radius: 20px;
+    flex: 1;
+    margin-left: 10px;
+    padding: 0 10px;
+    display: flex;
+    width: calc(100%-20px - 32px -10px);
+    border: 1px solid rgba(var(--black),.25);
+}
+
+.commentsshow-container{
+    padding-left: 20px;
+    padding-right: 20px;
+    height: 100%;
+    min-height: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position:relative;
+    padding-bottom: 15px;
+
+}
+.comment-content{
+    margin-bottom: 15px;
+    display: flex;
+    position:relative;
+}
+
+.commenter-profilepic{
+    margin-right: 10px;
+
+}
+
+.commenter-profilepic-frame{
+    width: 32px;
+    height: 32px;
+    padding-top: 20px;
+    
+}
+
+.commenterimage{
+    width: 32px;
+    height: 32px;
+}
+
+.commenttext-container{
+    background-color: white;
+    border: 1px solid rgba(var(--black),.225);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    margin-right: 15px;
+    padding: 8px 12px;
+    overflow: hidden;
+    
+
+}
+
+.commenter-username{
+    margin-top: 5px;
+    margin-bottom: 2px;
+    z-index:1;
+}
+
+.commenter-username-text{
+    width: inherit;
+    vertical-align: top;
+    display: inline-block;
+    font-weight: 700;
+}
+.commenterlink{
+    word-wrap: break-word;
+    hyphens:autp;
+    color: black;
+    font-weight: 700;
+    cursor: pointer;
+    
+}
+.commentbutton{
+    cursor: pointer;
+}
+.replies-container{
+margin: -8px calc(20px*-1)-15px;
+
+}
+.likesbutton{
+    cursor: pointer;
+}
+
+.reply-body{
+    margin-top: 8px;
+    font-family: 'Favorit tumblr';
+    white-space: pre-wrap;
+    color: black;
+    word-break: break-word;
+    padding-left: 20px;
+    padding-right: 20px;
+    width: 100%;
+    min-height: 1.5em;
+    margin-bottom: 15px;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+
+.reply{
+    margin-bottom: .75em;
+    ;
+}
+
+
+
+

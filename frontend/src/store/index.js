@@ -4,11 +4,13 @@ import sessionReducer from './session';
 import postsReducer from './posts';
 import userReducer from './user';
 import likesReducer from './likes';
+import commentsReducer from './comments';
 const rootReducer =combineReducers({
     session: sessionReducer,
     posts: postsReducer,
     users: userReducer,
-    likes: likesReducer
+    likes: likesReducer,
+    comments: commentsReducer
 });
 
 let enhancer;

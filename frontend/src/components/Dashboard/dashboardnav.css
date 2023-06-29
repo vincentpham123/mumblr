@@ -1,7 +1,10 @@
 
 .dashboard-main{
-    height: 52px;
+    
     box-sizing: border-box;
+    width:100%;
+    margin-bottom: 20px;
+
 }
 .tabs{
     height: inherit;

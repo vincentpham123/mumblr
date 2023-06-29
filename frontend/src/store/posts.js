@@ -1,5 +1,6 @@
 import csrfFetch, { storeCSRFToken } from "./csrf";
-
+import { receiveLikes } from "./likes";
+import {receiveComments} from './comments'
 // consts 
 
 const RECEIVE_POST = "api/RECEIVE_POST";
@@ -36,9 +37,11 @@ export const userPosts = (username) => (state) => {
 export const fetchPosts = () => async(dispatch) =>{
     let response = await fetch('/api/posts');
     if (response.ok){
-    const posts = await response.json();
-    dispatch(receivePosts(posts));
-    return posts
+    const data = await response.json();
+    dispatch(receivePosts(data.posts));
+    dispatch(receiveComments(data.comments));
+    dispatch(receiveLikes(data.likes));
+    return data
     }
 }
 
@@ -46,9 +49,11 @@ export const fetchPost = (postId) => async(dispatch)=>{
     let response = await fetch(`/api/posts/${postId}`);
 
     if (response.ok){
-    const post = await response.json();
-    dispatch(receivePost(post));
-    return post;
+    const data = await response.json();
+    dispatch(receivePost(data.posts));
+    dispatch(receiveComments(data.comments));
+    dispatch(receiveLikes(data.likes));
+    return data;
     }
 } 
 

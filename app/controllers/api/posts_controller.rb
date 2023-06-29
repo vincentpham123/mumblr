@@ -9,9 +9,10 @@ class Api::PostsController < ApplicationController
             #find posts where 
             tag = params[:query]
             #hype#2023
-            @posts = Post.where('posts.tags LIKE ?', "#{tag}")
+            @posts = Post.includes(:comments,like: :user).where('posts.tags LIKE ?', "#{tag}")
+            
         else
-            @posts = Post.all
+            @posts = Post.includes(:comments,:likes).all
         end
     end
 

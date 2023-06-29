@@ -1,13 +1,13 @@
 import { useSelector,useEffect } from "react-redux";
 
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import LoggedIn from "./loggedin";
 import LoggedOut from "./loggedout";
 import './dashboardnav.css';
 import TodayDashboard from "./today";
 const Dashboard = ({})=>{
     const sessionUser = useSelector(state=> state.session.user)
-
+    
 
     return (
         <>
@@ -16,6 +16,9 @@ const Dashboard = ({})=>{
             {!sessionUser && <LoggedOut />}
         </div>
         <Switch>
+        
+        <Redirect exact from='explore' to= '/explore/today' />
+        
         <Route exact path='/explore/today'>
             <TodayDashboard />
         </Route>
@@ -33,6 +36,9 @@ const Dashboard = ({})=>{
         </Route>
         <Route exact path='/explore/following'>
             {/* render spotlight */}
+        </Route>
+        <Route path='/'>
+            <TodayDashboard />
         </Route>
         </Switch>
         

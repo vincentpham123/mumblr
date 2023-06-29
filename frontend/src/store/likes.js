@@ -25,7 +25,11 @@ export const deleteLike = (likeid) => ({
     type: DELETE_LIKE,
     likeid
 })
-
+//getter
+export const postLikes = (postid) => (state) => {
+    return state?.posts ? Object.values(state.likes).filter((like)=>like.postId ===postid) : null;
+    
+}
 //thunk actions 
 //will need a createlike and deletelike thunk action
 // no need for thunk action to receive likes
@@ -76,7 +80,7 @@ const likesReducer = (state={},action) =>{
     switch (action.type) {
         case RECEIVE_LIKES:
             //will receive likes for posts currently in state
-            return {...action.posts}
+            return {...action.payload}
             
         case DELETE_LIKE:
             delete newState[action.likeid]

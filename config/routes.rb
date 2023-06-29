@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     resources :posts
     resources :likes, only: [:index,:create,:destroy]
     resources :comments, only: [:index, :create, :destroy]
+    resources :follows, only: [:create, :destroy]
     resources :tags, only: [:create]
   end
   get '*path', to: "static_pages#frontend_index"

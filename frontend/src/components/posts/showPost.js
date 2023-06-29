@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import UpdatePostModal from "./UpdatePostModal";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import PostFooter from "./PostFooter";
 const ShowPost = ({post})=>{
     if (!post){
         return (
@@ -22,6 +23,8 @@ const ShowPost = ({post})=>{
                         <PostText post={post} />
                     </div>
                     <PostBlaze  post={post} />
+                    {/* need to add post footer */}
+                    <PostFooter post={post}/>
                 </article>
             </div>
         </div>

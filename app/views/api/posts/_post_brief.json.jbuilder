@@ -4,6 +4,8 @@ json.author do
     json.extract! post.author, :id, :username
     json.profilepic post.author.profilepic.attached? ? post.author.profilepic.url : nil
 end
+json.commentcount post.comments.length 
+json.likescount post.likes.length
 json.photo1 post.photo1.attached? ? post.photo1.url : nil 
 json.photo2 post.photo2.attached? ? post.photo2.url : nil
 json.photo3 post.photo3.attached? ? post.photo3.url : nil 

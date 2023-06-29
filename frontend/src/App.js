@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Route, Switch } from "react-router-dom"
+import { Route, Switch, Redirect,useLocation } from "react-router-dom"
 import SignupFormPage from './components/SignupFormPage';
 import Navigation from './components/Navigation';
 import { useSelector } from "react-redux";
@@ -15,38 +15,65 @@ import './app.css'
 function App() {
   const sessionUser = useSelector(state => state.session.user);
   const [loggedIn, setLoggedIn] = useState(false);
-
-
+  let location = useLocation();
+  let background = location.state && location.state.background
   return (
     <>
       <div className='header-container'>
         <Navigation />
       </div>
       <div className='body'>
+          
         <Switch>
           <Route path='/explore'>
             <div className='dashboard'>
               <Dashboard />
             </div>
           </Route>
-          <Route >
-            <div className='dashboard'>
+          <Route exact path='/'>
+          <div className='dashboard'>
               <Dashboard />
             </div>
           </Route>
-          <Route exact path='/:username'>
-            <UserShowPage />
+    
+          <Route exact path='/new/text'>
+            <NewTextModal />
           </Route>
+          <Route path='/new/photo'>
+            <NewPhotoModal />
+          </Route>
+          <Route path='/edit/:postid'>
+            <UpdatePostModal />
+          </Route>
+          <Route path='/new'>
+            <NewPost />
+          </Route>
+          <Route path='/:username'>
+            <UserShowPage />
+          </Route>  
         </Switch>
-
-
+        
       </div>
-      {/* routes */}
-
-      <Route exact path='/new'>
-        <NewPost />
+      {/* <Switch location={background || location}>
+      <Route path='/new/'>
+            <NewPost />
       </Route>
-      <Route exact path='/new/text'>
+          <Route path='/new'>
+            <NewPost />
+          </Route>
+          <Route path='/new/text'>
+            <NewTextModal />
+          </Route>
+          <Route path='/new/photo'>
+            <NewPhotoModal />
+          </Route>
+          <Route path='/edit/:postid'>
+            <UpdatePostModal />
+          </Route>
+      </Switch> */}
+      {/* routes */}
+      
+      {/* <Route exact path='/new/text'>
         <NewTextModal />
       </Route>
       <Route exact path='/new/photo'>
@@ -56,6 +83,9 @@ function App() {
         <UpdatePostModal />
       </Route>
 
+      <Route exact path='/new'>
+        <NewPost />
+      </Route> */}
     </>
   );
 }
