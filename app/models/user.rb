@@ -39,10 +39,26 @@ class User < ApplicationRecord
   has_many :likes,
     dependent: :destroy
 
-  has_many :liked_videos,
+  has_many :comments,
+    dependent: :destroy
+  
+  has_many :commented_posts,
+    through: :comments,
+    source: :post
+  
+  has_many :liked_posts,
     through: :likes,
     source: :post 
-    
+  
+  has_many :follows,
+    dependent: :destroy
+
+  has_many :followers,
+    foreign_key: :follower_id,
+    class_name: :Follow,
+    dependent: :destroy
+  
+  
     has_one_attached :profilepic 
     
     has_one_attached :background

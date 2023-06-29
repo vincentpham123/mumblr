@@ -4,3 +4,6 @@
         json.partial! '/api/posts/post_brief',post: post 
     end
 end
+
+
+

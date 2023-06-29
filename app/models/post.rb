@@ -8,11 +8,12 @@
 #  body       :text             not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  tags       :string
 #
 class Post < ApplicationRecord
     #validations
     validates :body,presence: true
-    validates :title, length: {maximum: 64};
+    validates :title, length: {maximum: 64}
     
     # before_save :purge_photos
     #associations
@@ -26,6 +27,12 @@ class Post < ApplicationRecord
     has_many :liked_users,
         through: :likes,
         source: :post
+    has_many :comments,
+        dependent: :destroy 
+    
+    has_many :commented_users,
+        through: :comments,
+        source: :user 
   
     #photo association
     has_one_attached :photo1

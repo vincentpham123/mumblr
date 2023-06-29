@@ -3,10 +3,12 @@ import thunk from 'redux-thunk';
 import sessionReducer from './session';
 import postsReducer from './posts';
 import userReducer from './user';
+import likesReducer from './likes';
 const rootReducer =combineReducers({
     session: sessionReducer,
     posts: postsReducer,
-    users: userReducer
+    users: userReducer,
+    likes: likesReducer
 });
 
 let enhancer;

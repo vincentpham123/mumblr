@@ -5,6 +5,8 @@ json.user do
 
 end
 
+# i can nest and then during my payload, i can extract and dispatch 
+# the likes to my state
 json.posts do 
     @user.posts.each do |post|
         json.set! post.id do
@@ -19,6 +21,11 @@ json.posts do
         end
     end
 end
+# for a user, i need to pull all their likes and the posts associated 
+#with those likes
+
+
+
 
 
 

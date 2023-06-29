@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react'
+import { useState, useEffect } from 'react'
 import { Route, Switch } from "react-router-dom"
 import SignupFormPage from './components/SignupFormPage';
 import Navigation from './components/Navigation';
@@ -13,54 +13,49 @@ import UserShowPage from './components/users';
 import UpdatePostModal from './components/posts/UpdatePostModal';
 import './app.css'
 function App() {
-  const sessionUser = useSelector(state=> state.session.user);
-  const [loggedIn,setLoggedIn] = useState(false);
-  
-  
+  const sessionUser = useSelector(state => state.session.user);
+  const [loggedIn, setLoggedIn] = useState(false);
+
+
   return (
-    <> 
+    <>
       <div className='header-container'>
-      <Navigation />
+        <Navigation />
       </div>
       <div className='body'>
         <Switch>
           <Route path='/explore'>
-          <div className='dashboard'> 
-            <Dashboard />
-          </div>
-          </Route>
-          <Route path='/:username'>
-            <UserShowPage />
+            <div className='dashboard'>
+              <Dashboard />
+            </div>
           </Route>
           <Route >
-          <div className='dashboard'> 
-            <Dashboard />
-          </div>
+            <div className='dashboard'>
+              <Dashboard />
+            </div>
+          </Route>
+          <Route exact path='/:username'>
+            <UserShowPage />
           </Route>
         </Switch>
-        
-    
+
+
       </div>
       {/* routes */}
-   
-      <Route path='/'>
-      </Route>
-      <Route path='/explore'>
-        {/* dashboard component will be here with its own navigation tabs */}
-      </Route>
-      <Route path='/new'>
+
+      <Route exact path='/new'>
         <NewPost />
       </Route>
-       <Route exact path='/new/text'>
+      <Route exact path='/new/text'>
         <NewTextModal />
       </Route>
-      <Route path='/new/photo'>
+      <Route exact path='/new/photo'>
         <NewPhotoModal />
-      </Route> 
+      </Route>
       <Route path='/edit/:postid'>
         <UpdatePostModal />
       </Route>
-      
+
     </>
   );
 }

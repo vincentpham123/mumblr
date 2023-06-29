@@ -11,7 +11,8 @@ Rails.application.routes.draw do
     # get 'api/users/:username', to: 'users#show_with_username'
     resource :session, only: [:show, :create, :destroy]
     resources :posts
-    resources :likes, only: [:create,:destroy]
+    resources :likes, only: [:index,:create,:destroy]
+    resources :comments, only: [:index, :create, :destroy]
     resources :tags, only: [:create]
   end
   get '*path', to: "static_pages#frontend_index"
