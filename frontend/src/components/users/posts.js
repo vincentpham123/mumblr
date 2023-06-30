@@ -6,8 +6,7 @@ import * as postActions from "../../store/posts";
 const PostsDashboard = ({posts}) =>{
     const sessionUser = useSelector(state=>state.session.user);
     const dispatch = useDispatch();
-    if (!posts) return null;
-    
+  
     // if (sessionUser) return <Redirect to="/" />;
     //all Today dashboard will be in here
     //select posts that were reblogged by 

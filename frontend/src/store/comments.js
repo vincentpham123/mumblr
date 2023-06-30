@@ -26,14 +26,14 @@ export const postComments = (postid) => (state) => {
 }
 //thunk actions
 
-export const createComment = (comment) =>async dispatch=> {
+export const createComment = (formData) =>async dispatch=> {
     let response = await csrfFetch('/api/comments',{
-        body: JSON.stringify(comment),
+        body: formData,
         method: 'POST'
     })
 
     if (response.ok){
-        let data = response.json();
+        let data = await response.json();
         dispatch(receiveComment(data));
     }
 }

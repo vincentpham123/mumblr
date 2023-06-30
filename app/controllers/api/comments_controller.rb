@@ -1,7 +1,7 @@
 class Api::CommentsController < ApplicationController
 
     def create
-        @comment = Post.new(comment_params)
+        @comment = Comment.new(comment_params)
         if @comment.save 
             render :show
             #show will provide comment data to update the state 
@@ -9,7 +9,7 @@ class Api::CommentsController < ApplicationController
             render json: @post.errors.full_messages,status: 422 
         end
     end
-    
+
     def destroy 
         @comment = comment.find(params[:id])
         @comment.destroy 
@@ -17,6 +17,6 @@ class Api::CommentsController < ApplicationController
 
     private 
     def comment_params 
-        params.require(:comment).require(:user_id,:post_id,:body)
+        params.require(:comment).permit(:user_id,:post_id,:body)
     end
 end

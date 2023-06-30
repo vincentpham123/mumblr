@@ -12,7 +12,7 @@
 // comment tab will show comments, 
 // reblogs will show reblogs 
 // likes will show all the user likes
-import { useSelector, useDispatch} from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import { Link, Redirect } from "react-router-dom/cjs/react-router-dom.min";
 import * as commentsActions from '../../store/comments';
@@ -20,101 +20,119 @@ import * as likesActions from '../../store/likes';
 import './postsfooter.css'
 import { fetchPost } from "../../store/posts";
 
-const PostFooter = ({post}) => {
+const PostFooter = ({ post }) => {
     // this is to pass down logged in status to child components
-    const [loggedin,setLoggedIn] = useState(false);
-    const [showTabMenu,setShowTabMenu] = useState(false);
-    const sessionUser = useSelector(state=> state.session.user);
-    const [liked,setLiked] = useState();
-    const [tabMenuSelection,setTabMenuSelection] = useState('comments');
+    const [loggedin, setLoggedIn] = useState(false);
+    const [showTabMenu, setShowTabMenu] = useState(false);
+    const [liked, setLiked] = useState();
+    const [tabMenuSelection, setTabMenuSelection] = useState('comments');
+    const [body,setBody] = useState('');
     // cons [isActive, setIsActive] = useState();
     const dispatch = useDispatch();
     // will have a postid passed in from parent
     //can access the post from the state and grab data
-    useEffect(()=>{
+    const sessionUser = useSelector(state => state.session.user);
+    console.log(sessionUser);
+    useEffect(() => {
         if (sessionUser) setLoggedIn(true);
-    },[sessionUser]);
+    }, [sessionUser]);
     // 
-const handleLikeButton = (event) => {
-    if (sessionUser && Object.values(likes).filter((like)=>like.liker.id===sessionUser.id)===0){
-        const like ={post_id: post.id, user_id: sessionUser.id}
-        dispatch(likesActions.createLike(like));
+    console.log(sessionUser)
+    const handleLikeButton = (event) => {
+        if (sessionUser && Object.values(likes).filter((like) => like.liker.id === sessionUser.id) === 0) {
+            const like = { post_id: post.id, user_id: sessionUser.id }
+            dispatch(likesActions.createLike(like));
 
-    } else if (sessionUser && Object.values(likes).filter((like)=>like.liker.id===sessionUser.id)===1){ 
-        const like = Object.values(likes).filter((like)=>like.liker.id===sessionUser.id);
-        dispatch(likesActions.removeLike(like.id));
+        } else if (sessionUser && Object.values(likes).filter((like) => like.liker.id === sessionUser.id) === 1) {
+            const like = Object.values(likes).filter((like) => like.liker.id === sessionUser.id);
+            dispatch(likesActions.removeLike(like.id));
+        }
     }
-}
-    const handleNotesButtonClick = (event)=>{
-        if (!showTabMenu){
+    const handleNotesButtonClick = (event) => {
+        if (!showTabMenu) {
             setShowTabMenu(true);
             dispatch(fetchPost(post.id));
-        }else {
+        } else {
             setShowTabMenu(false);
         }
 
+        
     }
+    const handleCommentSubmit=(event)=>{
+        event.preventDefault();
+        const formData=new FormData();
+        formData.append('comment[body]', body)
+        formData.append('comment[user_id]',sessionUser.id)
+        formData.append('comment[post_id]',post.id);
+
+        let response = dispatch(commentsActions.createComment(formData));
+        
+
+    }
+
     const comments = useSelector(commentsActions.postComments(post.id));
+    console.log(post.id);
     const likes = useSelector(likesActions.postLikes(post.id));
-    const NotesButtons =()=>{
+
+    const NotesButtons = () => {
         // depending on if this was clicked or not will change what is in the button contents
         // this button is strictly for close and opening the tabs menu
         return (
             <div className='notebutton-container'>
-                        <span className='notebutton-body'>
-                            <span className='notebutton-contents'>
-                                <button className='notesbutton' onClick={()=>handleNotesButtonClick()}> 
-                                    <span className='notesbutton-body'>
-                                        {!showTabMenu &&
-                                            <>
-                                                <span className='shownotesbutton-container'>
-                                                    <span clasName='show-notes-body'>
-                                                        <div className='show-notes-content'>
-                                                            <span className='show-notes-text'>
-                                                                <span className='notes-count'>
-                                                                    {post.commentcount + post.likescount}
-                                                                </span>
-                                                                  notes
-                                                            </span>
-
-                                                        </div>
-
+                <span className='notebutton-body'>
+                    <span className='notebutton-contents'>
+                        <button className='notesbutton' onClick={() => handleNotesButtonClick()}>
+                            <span className='notesbutton-body'>
+                                {!showTabMenu &&
+                                    <>
+                                        <span className='shownotesbutton-container'>
+                                            <span clasName='show-notes-body'>
+                                                <div className='show-notes-content'>
+                                                    <span className='show-notes-text'>
+                                                        <span className='notes-count'>
+                                                            {post.commentcount + post.likescount}
+                                                        </span>
+                                                        notes
                                                     </span>
 
-                                                </span>
-                                            </>
+                                                </div>
+
+                                            </span>
+
+                                        </span>
+                                    </>
 
 
-                                        }
-                                        {showTabMenu && <div className='notesbutton-content'>
-                                            
-                                            <i className="fa-solid fa-x"></i>
-                                            <span className='notesbutton-text'>Close Notes</span>
-                                        </div>}
+                                }
+                                {showTabMenu && <div className='notesbutton-content'>
 
-                                    </span>
-                                </button>
+                                    <i className="fa-solid fa-x"></i>
+                                    <span className='notesbutton-text'>Close Notes</span>
+                                </div>}
 
                             </span>
+                        </button>
 
-                        </span>
+                    </span>
+
+                </span>
             </div>
-                    
+
         )
     }
 
-    const FooterButtons =() =>{
+    const FooterButtons = () => {
         // will contain 2 buttons(3 if time)
-        return(
+        return (
             <div className='footerbuttons-container'>
                 <div className='footbutton-container'>
-                    <button className='commentbutton' onClick={()=>setShowTabMenu(true)}>
+                    <button className='commentbutton' onClick={() => setShowTabMenu(true)}>
                         <i className="fa-regular fa-comment"></i>
                     </button>
                 </div>
                 <div className='footbutton-container'>
-                    <button className='likesbutton' onClick={event=>handleLikeButton(event)}>
-                    <i className="fa-solid fa-heart"></i>
+                    <button className='likesbutton' onClick={event => handleLikeButton(event)}>
+                        <i className="fa-solid fa-heart"></i>
                     </button>
                 </div>
 
@@ -122,29 +140,29 @@ const handleLikeButton = (event) => {
         )
     }
 
-    const FooterTabsMenu = () =>{
+    const FooterTabsMenu = () => {
         // this will contain the tabs for the menu
         // it will have 2 separate tabs depending on which one is clicked
         // one will render the comments from the post using the postId and gathering the comments
         // the other will render users who likes, which will be gathered from the likes in the state
         // where the post_id matches the post_id in likes state 
-        return(
+        return (
             <div className='tabsmenu-container'>
                 <div className='tabsmenu-body'>
                     <div className='tabsmenu-navigation'>
-                                <button className={'tabnavbutton'} onClick={()=>setTabMenuSelection('comments')}>
-                                    <i className="fa-regular fa-comment"></i>
-                                    <span className='tabnavbutton-contents'>
-                                    {post.commentcount}
-                                    </span>
-                                </button>
-                                <button className='tabnavbutton' onClick={()=>setTabMenuSelection('likes')}>
-                                    <span className='tabnavbutton-contents'>
-                                    <i className="fa-solid fa-heart"></i>
-                                    {post.commentcount}
-                                    </span>
-                                </button>
-                                
+                        <button className={'tabnavbutton'} onClick={() => setTabMenuSelection('comments')}>
+                            <i className="fa-regular fa-comment"></i>
+                            <span className='tabnavbutton-contents'>
+                                {post.commentcount}
+                            </span>
+                        </button>
+                        <button className='tabnavbutton' onClick={() => setTabMenuSelection('likes')}>
+                            <span className='tabnavbutton-contents'>
+                                <i className="fa-solid fa-heart"></i>
+                                {post.likescount}
+                            </span>
+                        </button>
+
 
                     </div>
 
@@ -154,29 +172,12 @@ const handleLikeButton = (event) => {
         )
     }
 
-    const Comments = ({username, profilepic, body}) =>{
+
+    const Comments = ({ username, profilepic, body }) => {
         // need to take in commenterusername, commenter profilepic, and comment body
-        return(
+        return (
             <>
-                {sessionUser && <div className='commenttext-container'>
-                    <div className='commenttext-body'>
-                        <div className='comment-profile-pic'>
-                            <div className='profilepic-frame1'>
-                                <img src={sessionUser.profilepic}></img>
-                            </div>
-                        </div>  
-                        <div className='reply-container'>
-                            <div className='textarea-container'>
-                                <textarea className='reply-textarea'></textarea>
-                            </div>
-                            <button className='reply'>
-                                <span>Reply</span>
-                            </button>
 
-                        </div>
-
-                    </div>
-                </div> }
                 <div className='commentsshow-container'>
                     {/* will need to map over every comment related to the post and return it */}
                     {/* comment show */}
@@ -220,16 +221,16 @@ const handleLikeButton = (event) => {
 
                     </div>
                 </div>
-                
+
             </>
         )
     }
 
-    const Likes =() =>{
+    const Likes = ({ likerpic, likerusername }) => {
         // will have a useSelector to pull likes from the state
         //will map over the likers for the post and render
 
-        return(
+        return (
             <div className='likeslist-container'>
                 <div className='likeslist-body'>
                     <div className='likeslist-content'>
@@ -237,18 +238,18 @@ const handleLikeButton = (event) => {
                         <div className='liker-container'>
                             <div className='liker-profilepic-container'>
                                 <div className="liker-profilepic-body">
-                                    <Link>
-                                        <img></img>
+                                    <Link className='liker-link' to={`/${likerusername}`}>
+                                        <img className='liker-pic' src={likerpic}></img>
                                     </Link>
                                 </div>
 
                             </div>
                             <div className="liker-information">
                                 <div className='liker-username'>
-                                    <span>username</span>
+                                    <span>{likerusername}</span>
                                 </div>
                                 <button className='userFollow'>
-                                {/* onClick will trigger a follow for the sessionUser */}
+                                    {/* onClick will trigger a follow for the sessionUser */}
                                     <span>Follow</span>
                                 </button>
 
@@ -264,31 +265,82 @@ const handleLikeButton = (event) => {
     }
     return (
         <>
-        <div className='postfoot-container'>
-            <footer className='postfoot-body'>
-                <div className='postfootbuttons-container'>
-                {/* will contain a the buttons */}
-                    <NotesButtons />
-                    <FooterButtons />
-                </div>
-                <div className='posttabmenu-container'>
-                    <div className='postnavmenu-body'>
-                        {showTabMenu && <FooterTabsMenu />}
-                        {/* depending on what is clicked, will set the tab */}
-                        {showTabMenu && tabMenuSelection==='comments' &&
-                            comments.map((comment)=>{
-                            return <Comments username={comment.commenter.username} profilepic={comment.commenter.profilepic} body={comment.body}/>}
-                                )
-                        }
+            <div className='postfoot-container'>
+                <footer className='postfoot-body'>
+                    <div className='postfootbuttons-container'>
+                        {/* will contain a the buttons */}
+                        <NotesButtons />
+                        <FooterButtons />
+                    </div>
+                    <div className='posttabmenu-container'>
+                        <div className='postnavmenu-body'>
+                            {showTabMenu && <FooterTabsMenu />}
+                            
+                            {showTabMenu && tabMenuSelection === 'comments' && <CommentTextArea post={post}/>}
+                            {/* depending on what is clicked, will set the tab */}
+                            {/* <CommentTextArea sessionUser={sessionUser}/> */}
+                            {showTabMenu && tabMenuSelection === 'comments' && comments.length > 0 && (
+                                <div className='comments-area'>
+                                    {comments.map((comment) => (
+                                        <Comments
+                                            key={comment.id}
+                                            username={comment.commenter.username}
+                                            profilepic={comment.commenter.profilepic}
+                                            body={comment.body}
+                                        />
+                                    ))}
+                                </div>
+                            )}
+                            {showTabMenu && tabMenuSelection === 'likes' &&
+                                likes.map((like) => {
+                                    return <Likes likerpic={like.liker.profilepic} likerusername={like.liker.username} />
+                                })}
+                        </div>
+
+                    </div>
+                </footer>
+
+            </div>
+        </>
+    )
+}
+const CommentTextArea = ({post}) => {
+    const dispatch = useDispatch();
+    const sessionUser=useSelector(state=>state.session.user);
+    const [body,setBody] = useState('');
+    const handleCommentSubmit=(event)=>{
+        event.preventDefault();
+        const formData=new FormData();
+        formData.append('comment[body]', body)
+        formData.append('comment[user_id]',sessionUser.id)
+        formData.append('comment[post_id]',post.id);
+
+        let response = dispatch(commentsActions.createComment(formData));
+        setBody('');
+
+    }
+    return (
+        <>
+            {sessionUser && <div className='commenttext-container'>
+                <div className='commenttext-body'>
+                    <div className='comment-profile-pic'>
+                        <div className='profilepic-frame1'>
+                            <img className='reply-profilepic' src={sessionUser.profilepic}></img>
+                        </div>
+                    </div>
+                    <div className='reply-container'>
+                        <div className='textarea-container'>
+                            <textarea value={body} onChange={(event)=>setBody(event.target.value)} placeholder='type here' maxLength='475' rows='1' className='reply-textarea'></textarea>
+                        </div>
+                        <button onClick={(event)=>handleCommentSubmit(event)}className='reply'>
+                            <span>Reply</span>
+                        </button>
 
                     </div>
 
                 </div>
-            </footer>
-
-        </div>
+            </div>}
         </>
     )
 }
-
-export default PostFooter;;
+export default PostFooter;
