@@ -40,7 +40,7 @@ export const createComment = (formData) =>async dispatch=> {
 
 
 export const removeComment = (commentId) => async dispatch =>{
-    let response = await csrfFetch('/api/comments',{
+    let response = await csrfFetch(`/api/comments/${commentId}`,{
     method:'DELETE'});
 
     if (response.ok){

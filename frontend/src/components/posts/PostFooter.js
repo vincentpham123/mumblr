@@ -58,15 +58,8 @@ const PostFooter = ({ post }) => {
 
         
     }
-    const handleCommentSubmit=(event)=>{
-        event.preventDefault();
-        const formData=new FormData();
-        formData.append('comment[body]', body)
-        formData.append('comment[user_id]',sessionUser.id)
-        formData.append('comment[post_id]',post.id);
-
-        let response = dispatch(commentsActions.createComment(formData));
-        
+   
+    const handleCommentDelete=()=>{
 
     }
 
@@ -173,58 +166,7 @@ const PostFooter = ({ post }) => {
     }
 
 
-    const Comments = ({ username, profilepic, body }) => {
-        // need to take in commenterusername, commenter profilepic, and comment body
-        return (
-            <>
-
-                <div className='commentsshow-container'>
-                    {/* will need to map over every comment related to the post and return it */}
-                    {/* comment show */}
-                    <div className='comment-container'>
-                        <div className='comment-body'>
-                            <div className='comment-content'>
-                                <div className='commenter-profilepic'>
-                                    <div className='commenter-profilepic-frame'>
-                                        {/* will need to link to a user's profile, can grab grom the the comment map */}
-                                        <Link to={`/${username}`} className='commenterlink'>
-                                            <img className='commenterimage' src={profilepic}></img>
-                                        </Link>
-                                    </div>
-
-                                </div>
-                                <div className='commenttext-container'>
-                                    <div className='commenter-username'>
-                                        <span className='commenter-username-text'>
-                                            {username}
-                                            {/* fill in with commenter username from state */}
-                                        </span>
-
-                                    </div>
-                                    <div className='replies-container'>
-                                        <div className='reply-body'>
-                                            <div className='reply-content'>
-                                                <p className='reply'> {body}</p>
-                                            </div>
-
-                                        </div>
-
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-
-                        </div>
-
-                    </div>
-                </div>
-
-            </>
-        )
-    }
+   
 
     const Likes = ({ likerpic, likerusername }) => {
         // will have a useSelector to pull likes from the state
@@ -287,6 +229,8 @@ const PostFooter = ({ post }) => {
                                             username={comment.commenter.username}
                                             profilepic={comment.commenter.profilepic}
                                             body={comment.body}
+                                            id={comment.commenter.id}
+                                            comment_id={comment.id}
                                         />
                                     ))}
                                 </div>
@@ -344,3 +288,69 @@ const CommentTextArea = ({post}) => {
     )
 }
 export default PostFooter;
+
+const Comments = ({ comment_id, id,username, profilepic, body }) => {
+    const dispatch = useDispatch();
+    const sessionUser=useSelector(state=> state.session.user);
+    const handleCommentDelete = (event)=>{
+        event.preventDefault();
+        dispatch(commentsActions.removeComment(comment_id));
+    }
+    // need to take in commenterusername, commenter profilepic, and comment body
+    return (
+        <>
+            
+            <div className='commentsshow-container'>
+                {/* will need to map over every comment related to the post and return it */}
+                {/* comment show */}
+                <div className='comment-container'>
+                    <div className='comment-body'>
+                        <div className='comment-content'>
+                            <div className='commenter-profilepic'>
+                                <div className='commenter-profilepic-frame'>
+                                    {/* will need to link to a user's profile, can grab grom the the comment map */}
+                                    <Link to={`/${username}`} className='commenterlink'>
+                                        <img className='commenterimage' src={profilepic}></img>
+                                    </Link>
+                                </div>
+
+                            </div>
+                            <div className='commenttext-container'>
+                                <div className='commenter-username'>
+                                    <span className='commenter-username-text'>
+                                        {username}
+                                        {/* fill in with commenter username from state */}
+                                    </span>
+
+                                </div>
+                                <div className='replies-container'>
+                                    <div className='reply-body'>
+                                        <div className='reply-content'>
+                                            <p className='reply'> {body}</p>
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+                { sessionUser.id === id && 
+                <span>
+                    <button className='comment-delete' onClick={event=> handleCommentDelete(event)}>
+                        <i class="fa-solid fa-dumpster"></i>
+                    </button>
+                </span>
+                }
+            </div>
+
+        </>
+    )
+}

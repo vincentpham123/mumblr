@@ -198,6 +198,21 @@
     overflow-y: auto;
     position:relative;
     padding-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+
+}
+.comment-delete{
+    border:none;
+    cursor: pointer;
+}
+.comment-delete i{
+    color:transparent;
+}
+.comment-delete:hover i{
+    color: rgb(var(--red));
 
 }
 .comment-content{
