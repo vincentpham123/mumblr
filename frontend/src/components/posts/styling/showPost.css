@@ -49,10 +49,14 @@
 .author-pfp{
     left: -86px;
     padding-top:10px;
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
 
 }
 .author-pfp img{
     width: 60px;
     height:60px;
     border-radius: 50%;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
 }

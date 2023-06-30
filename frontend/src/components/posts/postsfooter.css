@@ -8,7 +8,10 @@
     align-items: center;
     justify-content: space-between;
 }
-
+.postfoot-container{
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
 .notebutton-container{
     padding: 0;
     display: flex;
@@ -22,7 +25,10 @@
     align-items: center;
     height: 36px;
 }
-
+.postfoot-body{
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
 .show-notes-content{
     border: 1px solid rgba(var(--black),.15);
     border-radius: 18px;
