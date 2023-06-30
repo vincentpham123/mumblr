@@ -17,7 +17,7 @@ const TodayDashboard = () =>{
     // let selected = trendingPosts.slice(0,10);
     
     console.log(postsToShow);
-    if (sessionUser) return <Redirect to="/" />;
+    // if (sessionUser) return <Redirect to="/" />;
     //all Today dashboard will be in here
     //select posts that were reblogged by 
     //todayonmumblr

@@ -1,6 +1,6 @@
 import './profilebutton.css';
 import { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom'
+import { NavLink,Link } from 'react-router-dom'
 import {useDispatch,useSelector} from 'react-redux'
 import * as sessionActions from '../../store/session';
 import LoginFormModel from '../LoginFormModal';
@@ -41,7 +41,7 @@ if(user){
                     </div>
                     <div className='menu-text'>
                         <span>Likes</span>
-                        <span>0</span>
+                        <span>{user.postlikes}</span>
                     </div>
                 </NavLink>
                 <NavLink to='./followers' className='menu-link'>
@@ -50,7 +50,7 @@ if(user){
                     </div>
                     <div className='menu-text'>
                         <span>Followers</span>
-                        <span>0</span>
+                        <span>{user.followers}</span>
                     </div>
                 </NavLink>
             </li>
@@ -76,7 +76,9 @@ if(user){
         {showMenu && (
             <div className='profile-menu'>
                 <div className='profile-title'>
+                <Link to={`/user/${user.id}`} className='account-link'>
                     <h3 id='account'>Account</h3>
+                </Link>
                     <button className='logout' onClick={e=>logout(e)}>Sign Out</button>
                 </div>
                 

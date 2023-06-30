@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Route, Switch, Redirect,useLocation } from "react-router-dom"
+import { Route, Switch, Redirect, useLocation } from "react-router-dom"
 import SignupFormPage from './components/SignupFormPage';
 import Navigation from './components/Navigation';
 import { useSelector } from "react-redux";
@@ -23,36 +23,35 @@ function App() {
         <Navigation />
       </div>
       <div className='body'>
-          
+
         <Switch>
-          <Route path='/explore'>
-            <div className='dashboard'>
+          <Route  path="/explore">
+            <div className="dashboard">
               <Dashboard />
             </div>
           </Route>
-          <Route exact path='/'>
-          <div className='dashboard'>
+          <Route exact path="/">
+            <div className="dashboard">
               <Dashboard />
             </div>
           </Route>
-    
-          <Route exact path='/new/text'>
+          <Route path="/user/:userid">
+            <UserShowPage />
+          </Route>
+          
+        </Switch>
+        <Route exact path="/new/text">
             <NewTextModal />
           </Route>
-          <Route path='/new/photo'>
+          <Route path="/new/photo">
             <NewPhotoModal />
           </Route>
-          <Route path='/edit/:postid'>
+          <Route path="/edit/:postid">
             <UpdatePostModal />
           </Route>
-          <Route path='/new'>
+          <Route path="/new">
             <NewPost />
           </Route>
-          <Route path='/:username'>
-            <UserShowPage />
-          </Route>  
-        </Switch>
-        
       </div>
       {/* <Switch location={background || location}>
       <Route path='/new/'>
@@ -72,7 +71,7 @@ function App() {
           </Route>
       </Switch> */}
       {/* routes */}
-      
+
       {/* <Route exact path='/new/text'>
         <NewTextModal />
       </Route>

@@ -6,6 +6,7 @@ import * as userActions from '../../store/user';
 import { Route , Switch,useParams, NavLink,Link } from "react-router-dom";
 import PostsDashboard from "./posts";
 import './index.css';
+import LikesDashboard from "./likes";
 const UserShowPage =() =>{
     const dispatch = useDispatch();
     const params = useParams();
@@ -21,7 +22,7 @@ const UserShowPage =() =>{
     const user = useSelector(state=> state.users);
     const sessionUser = useSelector(state=>state.session.user);
     useEffect(()=>{
-        dispatch(userActions.fetchUser(params.username))
+        dispatch(userActions.fetchUser(params.userid))
 
     },[params]);
 
@@ -108,21 +109,17 @@ const UserShowPage =() =>{
                             <div className='profilenavigation'>
                                 
                                 <div className='profilelinks'>
-                                    <NavLink className='profilelink' to={`/${params.username}/posts`}>Posts</NavLink>
-                                    <NavLink className='profilelink' to={`/${params.username}/likes`}>Likes</NavLink>
-                                    <NavLink className='profilelink' to={`/${params.username}/reblogs`}> Reblogs</NavLink>
+                                    <NavLink className='profilelink' to={`/user/${params.userid}/posts`}>Posts</NavLink>
+                                    <NavLink className='profilelink' to={`/user/${params.userid}/likes`}>Likes</NavLink>
                                 </div>
                             </div>
                             <div className='profile-meat'>
                             <Switch>
-                                <Route path='/:username/posts' >
+                                <Route path='/user/:userid/posts' >
                                     <PostsDashboard posts={Object.values(userPosts)} />
                                 </Route>
-                                <Route path='/:username/likes' >
-                                    {/* render likes */}
-                                </Route>
-                                <Route path='/:username/reblogs' >
-                                    {/* render likes */}
+                                <Route path='/user/:userid/likes' >
+                                    <LikesDashboard posts={Object.values(userPosts)} />
                                 </Route>
                             </Switch>
                             </div>

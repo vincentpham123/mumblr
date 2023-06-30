@@ -148,14 +148,14 @@ const NewPostInput = ({ form,handleKeyDown, index,handleFile, photoState,initial
                                 <i className={`fa-solid fa-image fa-lg inputicons ${photoIcon}`} style={{ backgroundColor: 'transparent', color: 'RGB(var(--red))' }}
                                 onMouseEnter={()=>setPhotoIcon('fa-bounce')} onMouseLeave={()=>setPhotoIcon('')}></i>
                             </button>}
-                            <button className='inputbuttons' onClick={() => setType('link')}>
+                            {/* <button className='inputbuttons' onClick={() => setType('link')}>
                                 <i className= {`fa-solid fa-link fa-lg inputicons ${linkIcon}`} style={{ backgroundColor: 'transparent', color: 'RGB(var(--green))' }}
                                 onMouseEnter={()=>setLinkIcon('fa-bounce')} onMouseLeave={()=>setLinkIcon('')}></i>
                             </button>
                             <button className='inputbuttons' onClick={() => setType('link')}>
                                 <i className={`fa-solid fa-video fa-lg inputicons ${videoIcon}`} style={{ backgroundColor: 'transparent', color: 'RGB(var(--purple))' }}
                                 onMouseEnter={()=>setVideoIcon('fa-bounce')} onMouseLeave={()=>setVideoIcon('')}></i>
-                            </button>
+                            </button> */}
                         </div>
                     </div>
                 </div>

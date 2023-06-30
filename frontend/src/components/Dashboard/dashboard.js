@@ -5,42 +5,50 @@ import LoggedIn from "./loggedin";
 import LoggedOut from "./loggedout";
 import './dashboardnav.css';
 import TodayDashboard from "./today";
+import ForYouDashboard from "./ForYou";
+import TrendingDashboard from "./trending";
+import SpotLightDashboard from "./Spotlight";
 const Dashboard = ({})=>{
     const sessionUser = useSelector(state=> state.session.user)
-    
+
 
     return (
         <>
         <div className='dashboard-main'>
-            {sessionUser && <LoggedIn />}
-            {!sessionUser && <LoggedOut />}
+            <LoggedOut />
+            {/* {sessionUser && <LoggedIn />}
+            {!sessionUser && <LoggedOut />} */}
         </div>
         <Switch>
-        
-        <Redirect exact from='explore' to= '/explore/today' />
-        
-        <Route exact path='/explore/today'>
-            <TodayDashboard />
-        </Route>
-        <Route exact path='/explore/trending'>
-            {/* render trending */}
-        </Route>
-        <Route exact path='/explore/spotlight'>
-            {/* render spotlight */}
-        </Route>
-        <Route exact path='/explore/your_stuff'>
-            {/* render spotlight */}
-        </Route>
-        <Route exact path='/explore/following'>
-            {/* render spotlight */}
-        </Route>
-        <Route exact path='/explore/following'>
-            {/* render spotlight */}
-        </Route>
-        <Route path='/'>
-            <TodayDashboard />
-        </Route>
+            <Redirect exact from="/explore" to="/explore/today" />
+
+            <Route path="/explore/today">
+                <TodayDashboard />
+            </Route>
+            <Route path="/explore/trending">
+                <TrendingDashboard />
+            </Route>
+            <Route exact path="/explore/spotlight">
+                <SpotLightDashboard />
+            </Route>
+            {/* <Route exact path="/explore/foryou">
+                <ForYouDashboard />
+            </Route>
+            <Route path="/explore/following">
+                {/* render spotlight */}
+            {/* </Route> */} 
+            <Route path="/">
+                <TodayDashboard />
+            </Route>
         </Switch>
+
+
+
+
+
+
+
+        
         
         </>
     )

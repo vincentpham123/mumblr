@@ -24,7 +24,8 @@ const PostFooter = ({ post }) => {
     // this is to pass down logged in status to child components
     const [loggedin, setLoggedIn] = useState(false);
     const [showTabMenu, setShowTabMenu] = useState(false);
-    const [liked, setLiked] = useState();
+    const [liked, setLiked] = useState(false);
+    
     const [tabMenuSelection, setTabMenuSelection] = useState('comments');
     const [body,setBody] = useState('');
     // cons [isActive, setIsActive] = useState();
@@ -33,19 +34,32 @@ const PostFooter = ({ post }) => {
     //can access the post from the state and grab data
     const sessionUser = useSelector(state => state.session.user);
     console.log(sessionUser);
+    useEffect(()=>{
+        const fetchData = async () => {
+            if (sessionUser) {
+              const result = await fetch(`/api/checkpostlike/${post.id}`);
+              if (result.ok) {
+                const data = await result.json();
+                setLiked(data.result);
+              }
+            }
+          };
+        
+          fetchData();
+        }, [dispatch,liked]);
     useEffect(() => {
         if (sessionUser) setLoggedIn(true);
-    }, [sessionUser]);
+    }, [sessionUser,liked]);
     // 
     console.log(sessionUser)
     const handleLikeButton = (event) => {
-        if (sessionUser && Object.values(likes).filter((like) => like.liker.id === sessionUser.id) === 0) {
+        if (liked===0) {
             const like = { post_id: post.id, user_id: sessionUser.id }
-            dispatch(likesActions.createLike(like));
-
-        } else if (sessionUser && Object.values(likes).filter((like) => like.liker.id === sessionUser.id) === 1) {
-            const like = Object.values(likes).filter((like) => like.liker.id === sessionUser.id);
-            dispatch(likesActions.removeLike(like.id));
+            const likeId=dispatch(likesActions.createLike(like));
+            setLiked(likeId);
+        } else {
+            dispatch(likesActions.removeLike(liked));
+            setLiked(0);
         }
     }
     const handleNotesButtonClick = (event) => {
@@ -124,7 +138,7 @@ const PostFooter = ({ post }) => {
                     </button>
                 </div>
                 <div className='footbutton-container'>
-                    <button className='likesbutton' onClick={event => handleLikeButton(event)}>
+                    <button className={`likesbutton ${liked>0 ? 'true': 'false'} `} onClick={event => handleLikeButton(event)}>
                         <i className="fa-solid fa-heart"></i>
                     </button>
                 </div>
@@ -168,7 +182,7 @@ const PostFooter = ({ post }) => {
 
    
 
-    const Likes = ({ likerpic, likerusername }) => {
+    const Likes = ({ likerpic, likerusername,liker_id }) => {
         // will have a useSelector to pull likes from the state
         //will map over the likers for the post and render
 
@@ -180,7 +194,7 @@ const PostFooter = ({ post }) => {
                         <div className='liker-container'>
                             <div className='liker-profilepic-container'>
                                 <div className="liker-profilepic-body">
-                                    <Link className='liker-link' to={`/${likerusername}`}>
+                                    <Link className='liker-link' to={`/user/${liker_id}`}>
                                         <img className='liker-pic' src={likerpic}></img>
                                     </Link>
                                 </div>
@@ -237,7 +251,7 @@ const PostFooter = ({ post }) => {
                             )}
                             {showTabMenu && tabMenuSelection === 'likes' &&
                                 likes.map((like) => {
-                                    return <Likes likerpic={like.liker.profilepic} likerusername={like.liker.username} />
+                                    return <Likes likerpic={like.liker.profilepic} likerusername={like.liker.username} liker_id={like.liker.id} />
                                 })}
                         </div>
 
@@ -309,7 +323,7 @@ const Comments = ({ comment_id, id,username, profilepic, body }) => {
                             <div className='commenter-profilepic'>
                                 <div className='commenter-profilepic-frame'>
                                     {/* will need to link to a user's profile, can grab grom the the comment map */}
-                                    <Link to={`/${username}`} className='commenterlink'>
+                                    <Link to={`/user/${id}`} className='commenterlink'>
                                         <img className='commenterimage' src={profilepic}></img>
                                     </Link>
                                 </div>
@@ -342,7 +356,7 @@ const Comments = ({ comment_id, id,username, profilepic, body }) => {
                     </div>
 
                 </div>
-                { sessionUser.id === id && 
+                { sessionUser && sessionUser.id === id && 
                 <span>
                     <button className='comment-delete' onClick={event=> handleCommentDelete(event)}>
                         <i class="fa-solid fa-dumpster"></i>

@@ -62,9 +62,9 @@ export const createLike = (like) => async dispatch => {
     method: "POST"
         });
     if (response.ok){
-        let data = response.json();
+        let data = await response.json();
         dispatch(receiveLike(data));
-        return data
+        return data.id
     }
 
     //fetch like creation

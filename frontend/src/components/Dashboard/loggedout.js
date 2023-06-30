@@ -23,7 +23,6 @@ const LoggedOut = () => {
                         Spotlight
                     </NavLink>
                 </li>
-                <li>More with arrow</li>
             </ul>
         </div>
 

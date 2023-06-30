@@ -14,7 +14,8 @@ Rails.application.routes.draw do
     resources :likes, only: [:index,:create,:destroy]
     resources :comments, only: [:index, :create, :destroy]
     resources :follows, only: [:create, :destroy]
-    
+    get '/checkpostlike/:postid', to: 'likes#check_for_like'
+    get '/checkfollowstatus/:userid', to: 'follows#check_for_follow'
     resources :tags, only: [:create]
   end
   get '*path', to: "static_pages#frontend_index"

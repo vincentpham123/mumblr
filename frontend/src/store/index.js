@@ -5,12 +5,14 @@ import postsReducer from './posts';
 import userReducer from './user';
 import likesReducer from './likes';
 import commentsReducer from './comments';
+import followsReducer from './follows';
 const rootReducer =combineReducers({
     session: sessionReducer,
     posts: postsReducer,
     users: userReducer,
     likes: likesReducer,
-    comments: commentsReducer
+    comments: commentsReducer,
+    follows: followsReducer
 });
 
 let enhancer;

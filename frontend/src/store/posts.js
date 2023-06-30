@@ -65,7 +65,9 @@ export const createPost = (post) => async(dispatch) =>{
     });
     if (newPost.ok){
     const data = await newPost.json();
-    dispatch(receivePost(data));
+    dispatch(receivePost(data.posts));
+    dispatch(receiveComments(data.comments));
+    dispatch(receiveLikes(data.likes));
     return data;
     }
 }

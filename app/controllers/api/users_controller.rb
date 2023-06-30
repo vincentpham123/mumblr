@@ -23,7 +23,7 @@ class Api::UsersController < ApplicationController
   def show 
     # can use by username
     # debugger
-    @user = User.find_by(username: params[:id]);
+    @user = User.find_by(id: params[:id]);
     # username=params[:id]
     # @user =User.where('users.username = ?', username)
     # debugg er

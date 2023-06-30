@@ -9,8 +9,8 @@ const LoggedIn = () => {
         <div className='tabs'>
             <ul className='tab-selection'>
                 <li className='tabs'>
-                    <NavLink to='/explore/your_stuff'>
-                        For you
+                    <NavLink to='/explore/foryou'>
+                        For You
                     </NavLink>
                 </li>
                 <li className='tabs'>

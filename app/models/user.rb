@@ -46,6 +46,10 @@ class User < ApplicationRecord
     through: :comments,
     source: :post
   
+  has_many :post_likes,
+    through: :posts,
+    source: :likes
+  
   has_many :liked_posts,
     through: :likes,
     source: :post 

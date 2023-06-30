@@ -7,19 +7,17 @@ const TrendingDashboard = () =>{
     const sessionUser = useSelector(state=>state.session.user);
     const dispatch = useDispatch();
     const randomPost = Math.floor(Math.random()*50)+1;
-    console.log(randomPost);
     const posts = useSelector(state=>state.posts);
     // can write a fetch that sorts by likes.count descending. limit 10
     // select random ones
-    useEffect()
+   
     useEffect(()=>{
         dispatch(postActions.fetchPosts());
     },[]);
     const postsToShow=Object.values(posts);
     const trendingPosts=[];
-    useEffe
     console.log(postsToShow);
-    if (sessionUser) return <Redirect to="/" />;
+    // if (sessionUser) return <Redirect to="/" />;
     //all Today dashboard will be in here
     //select posts that were reblogged by 
     //todayonmumblr

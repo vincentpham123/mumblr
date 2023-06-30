@@ -16,7 +16,10 @@
     justify-content: center;
 
 }
-
+.account-link{
+    background-color: transparent;
+    color: black;
+}
 .profile-menu{
     position: absolute;
     margin-top: 1.5%;

@@ -2,7 +2,8 @@ json.user do
     json.extract! @user, :id, :email, :username, :created_at, :updated_at
     json.profilepic @user.profilepic.attached? ? @user.profilepic.url : nil
     json.background @user.background.attached? ? @user.background.url : nil
-
+    json.postlikes @user.post_likes.length 
+    json.followers @user.followers.length
 end
 
 # i can nest and then during my payload, i can extract and dispatch 
@@ -17,6 +18,7 @@ json.posts do
             json.photo4 post.photo4.attached? ? post.photo4.url : nil
             json.author do 
                 json.extract! post.author, :id, :username
+                json.profilepic post.author.profilepic.url
             end
             json.commentcount post.comments.length 
             json.likescount post.likes.length

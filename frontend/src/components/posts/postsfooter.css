@@ -425,4 +425,8 @@ padding-bottom: 15px;
     height:400px;
 }
 
+.likesbutton.true i{
+
+    color: rgb(var(--red));
+}
 

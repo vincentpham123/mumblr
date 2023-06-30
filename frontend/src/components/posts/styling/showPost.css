@@ -45,3 +45,14 @@
     color: rgba(var(--black),.65);
     font-size: 1.05em;
 }
+
+.author-pfp{
+    left: -86px;
+    padding-top:10px;
+
+}
+.author-pfp img{
+    width: 60px;
+    height:60px;
+    border-radius: 50%;
+}

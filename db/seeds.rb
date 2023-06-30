@@ -24,21 +24,21 @@ ApplicationRecord.connection.reset_pk_sequence!('likes')
 puts "Creating users..."
 # Create one user with an easy to remember username, email, and password:
 demo_user = User.create!(
-  username: 'Demo-lition', 
-  email: 'demo@user.io', 
+  username: 'Demo-lition',
+  email: 'demo@user.io',
   password: 'password'
 )
 
 # More users
 users = []
-10.times do 
+10.times do
   username = Faker::Internet.unique.username(specifier: 3)
   email = Faker::Internet.unique.safe_email(name: username)
   users << User.create!(
     username: username,
     email: email,
     password: 'password'
-  ) 
+  )
 end
 
 puts "Creating posts..."
@@ -46,13 +46,13 @@ users.each do |user|
   5.times do
     paragraphs = Faker::Lorem.paragraphs(number: 3)
     body = paragraphs.join("\r\n")
-    
+
     post = Post.create!(
       author_id: user.id,
       title: Faker::Lorem.sentence,
       body: body
     )
-    
+
     # Create comments for each post
     3.times do
       Comment.create!(
@@ -61,9 +61,9 @@ users.each do |user|
         body: Faker::Lorem.sentence
       )
     end
-    
+
     # Create likes for each post
-    liked_users = users.sample(2).uniq # Randomly select 2 unique users
+    liked_users = users.sample(5).uniq # Randomly select 5 unique users
     liked_users.each do |liked_user|
       Like.create!(
         user_id: liked_user.id,
@@ -94,3 +94,5 @@ User.all.each_with_index do |user, index|
 end
 
 puts "Done!"
+
+

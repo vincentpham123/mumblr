@@ -3,13 +3,26 @@ import { Link } from "react-router-dom";
 import { useSelector} from "react-redux";
 import { useState, useEffect } from "react";
 import './styling/postheader.css';
-
-const PostHeader =({username,dateCreated,timeCreated}) =>{
+import { useDispatch } from "react-redux";
+import * as followActions from '../../store/follows';
+const PostHeader =({author_id, username,dateCreated,timeCreated}) =>{
     const sessionUser = useSelector(state=> state.session.user);
-    const [followed,setFollowed] = useState(false);
-
+    const [followed,setFollowed] = useState(0);
+    const dispatch = useDispatch();
     const [showOptions, setShowOptions] = useState(false);
-
+    useEffect(()=>{
+        const fetchData = async () => {
+            if (sessionUser) {
+              const result = await fetch(`/api/checkfollowstatus/${author_id}`);
+              if (result.ok) {
+                const data = await result.json();
+                setFollowed(data.result);
+              }
+            }
+          };
+          fetchData();
+        }, [dispatch,followed]);
+ 
     const openOptions = ()=> {
         if(showOptions) return;
         setShowOptions(true);
@@ -18,7 +31,17 @@ const PostHeader =({username,dateCreated,timeCreated}) =>{
     const closeOptions= () =>{
         if (showOptions) setShowOptions(false);
     }
-
+    const handleFollowButton = (event)=>{
+        event.preventDefault();
+        if (followed===0){
+            const follow={user_id: author_id, follower_id: sessionUser.id}
+            const follow_id = dispatch(followActions.createFollow(follow));
+            setFollowed(follow_id);
+        } else {
+            dispatch(followActions.removeFollow(followed));
+            setFollowed(0);
+        }
+    }
     
     useEffect(()=>{
         if (!showOptions) return;
@@ -41,13 +64,13 @@ const PostHeader =({username,dateCreated,timeCreated}) =>{
                         <div className='username-box'>
                             <div className='username-content'>
                                 <span className='username-link-box'>
-                                    <Link className='username-post' to={`/${username}`}>
+                                    <Link className='username-post' to={`/user/${author_id}`}>
                                         {username}
                                     </Link>
                                 </span>
                             </div>
                         </div>
-                        {!followed && <button className='follow-button' style={{ backgroundColor: 'transparent', border: 'none', boxShadow: 'none' }}><span>Follow</span></button>}
+                        {!followed && <button onClick={(event)=>handleFollowButton(event)}className='follow-button' style={{ backgroundColor: 'transparent', border: 'none', boxShadow: 'none' }}><span>Follow</span></button>}
                     </div>
                     {/* make div for extra things like post creation date */}
                     <div className='options-box'>
@@ -69,12 +92,7 @@ const PostHeader =({username,dateCreated,timeCreated}) =>{
                                 {timeCreated}
                             </div>
                             <ul className='optionscontent'>
-                                <li className='option-links'>
-                                    Copy Link
-                                    {/* button that will copy 
-                                    link of post page to user
-                                    will need to pass url as prop */}
-                                </li>
+                                
                                 <li className='option-links' onClick={closeOptions}>
                                     Close 
                                     {/* set showMenu to false */}

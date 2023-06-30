@@ -9,7 +9,19 @@ class Api::LikesController < ApplicationController
             render json: @like.errors.full_messages,status: 422 
         end
     end
+    def check_for_like
+        ## will call this on every post
 
+        post_id = params[:postid];
+        currentuser=current_user;
+        like = current_user.likes.find_by(post_id: post_id.to_i);
+        if like 
+            render json:{result: like.id}
+        else 
+            render json: {result: 0}
+        end
+
+    end
     def index 
         # will pass in userid or username
         if params[:query]
