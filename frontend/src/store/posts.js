@@ -58,7 +58,6 @@ export const fetchPost = (postId) => async(dispatch)=>{
 } 
 
 export const createPost = (post) => async(dispatch) =>{
-    console.log(post);
     const newPost = await csrfFetch('/api/posts',{
         method:'POST',
         body: post

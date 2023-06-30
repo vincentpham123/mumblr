@@ -28,9 +28,7 @@ const UserShowPage =() =>{
 
     
     
-    // console.log(user);
     const userPosts = useSelector(state=>state.posts);
-    // console.log(userPosts);
     // if (!user) return (null);
     if (!userPosts) return(null);
   

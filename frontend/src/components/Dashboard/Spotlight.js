@@ -25,7 +25,6 @@ const SpotLightDashboard = () =>{
     return (
         <>
         {postsToShow.map ((post)=>{
-            console.log(post);
         return <ShowPost post={post} profile={false}/>})
         }
         </>

@@ -36,9 +36,7 @@ const NewTextPost = () => {
 
     const sessionUser = useSelector(state=>  state.session.user);
     useEffect(()=>{
-        console.log(Object.values(paragraphs));
         const textofpost = Object.values(paragraphs).filter((value)=> typeof value ==='string');
-        console.log(textofpost);
         if(textofpost.some(paragraph=>paragraph.trim().length>0) ) {
             setBodyCheck('');
         } else {
@@ -74,7 +72,6 @@ const NewTextPost = () => {
         //need to pass this down to the children
     }
     const handleTitleKeyDown = (event) => {
-        console.log(event.key);
         if (event.key==='Enter'){
             setTimeout(()=>{
                 event.target.nextElementSibling.focus()
@@ -82,11 +79,8 @@ const NewTextPost = () => {
         }
     
          setTitle(event.target.innerText);
-         console.log(title);
     }
     const handleKeyDown = (event) => {
-        console.log(event.key);
-        console.log(event.target.innerText);
     
         if(event.key !== 'Enter' && event.key!=='ArrowDown' && event.key!=='ArrowUp'){
             setTimeout(()=>{
@@ -95,20 +89,17 @@ const NewTextPost = () => {
                 setParagraphs({...paragraphs,[pindex]: event.target.innerText});
             },0);
         }
-            console.log(paragraphs);
   
      
       
     
         if (event.key==='Enter'){
-            console.log(event.key);
             event.preventDefault();
             const newIndex = Object.keys(paragraphs).length+1;
             setParagraphs({
                 ...paragraphs,
                 [newIndex]: ''
             })
-            console.log(paragraphs);
             setTimeout(()=>{
                 let currentElement=event.target;
                 while(currentElement.parentNode && !currentElement.parentNode.matches('.textbox-contents')){
@@ -141,7 +132,6 @@ const NewTextPost = () => {
         if (event.key==='ArrowUp'){
             event.preventDefault();
 
-            console.log('event arrow down');
             setTimeout(()=>{
                 let currentElement=event.target;
                 while(currentElement.parentNode && !currentElement.parentNode.matches('.textbox-contents')){
@@ -160,7 +150,6 @@ const NewTextPost = () => {
             },10);
             
         }
-        console.log(paragraphs);
     }
     
     const handleSubmit = (event) =>{

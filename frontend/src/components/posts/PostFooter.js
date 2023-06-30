@@ -33,7 +33,6 @@ const PostFooter = ({ post }) => {
     // will have a postid passed in from parent
     //can access the post from the state and grab data
     const sessionUser = useSelector(state => state.session.user);
-    console.log(sessionUser);
     useEffect(()=>{
         const fetchData = async () => {
             if (sessionUser) {
@@ -51,7 +50,6 @@ const PostFooter = ({ post }) => {
         if (sessionUser) setLoggedIn(true);
     }, [sessionUser,liked]);
     // 
-    console.log(sessionUser)
     const handleLikeButton = (event) => {
         if (liked===0) {
             const like = { post_id: post.id, user_id: sessionUser.id }
@@ -78,7 +76,6 @@ const PostFooter = ({ post }) => {
     }
 
     const comments = useSelector(commentsActions.postComments(post.id));
-    console.log(post.id);
     const likes = useSelector(likesActions.postLikes(post.id));
 
     const NotesButtons = () => {

@@ -30,17 +30,13 @@ const NewPostInput = ({ form,handleKeyDown, index,handleFile, photoState,initial
 
     
     useEffect(()=>{
-        console.log(initialTextset);
         if (!initialTextset){
             if (initialValue && initialValue.includes('!@%^#^photo')){
                 let photoIndex=parseInt(initialValue[initialValue.length-1]); //this will grab the photo number
-                console.log(photoIndex);
-                console.log(photoState[1]);
                 
                 setType('photo');
                 setPhotoPreview(photoState[photoIndex]);
                 setPhotoKey(photoIndex);
-                console.log(photoKey);
             } else{
                 setInitialText(initialValue);
             }
@@ -49,7 +45,6 @@ const NewPostInput = ({ form,handleKeyDown, index,handleFile, photoState,initial
 
     },[])
     const handleInput = (event) => {
-        console.log(event.key);
         setTimeout(()=>{
             if(event.target.innerText.length>0) {       
                 setInputMenu(false)
@@ -90,7 +85,6 @@ const NewPostInput = ({ form,handleKeyDown, index,handleFile, photoState,initial
         )
     }
     const handlePreviewClose =()=>{
-        console.log(photoKey);
         handlePhotoRemove(photoKey,index);
         setPhotoPreview(null);
 
@@ -107,7 +101,6 @@ const NewPostInput = ({ form,handleKeyDown, index,handleFile, photoState,initial
             </button>
         </div>
         </>
-        console.log(preview);
         return (
 
             <div className='photo-input-container'>

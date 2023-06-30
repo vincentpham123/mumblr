@@ -7,7 +7,6 @@ const TodayDashboard = () =>{
     const sessionUser = useSelector(state=>state.session.user);
     const dispatch = useDispatch();
     const randomPost = Math.floor(Math.random()*50)+1;
-    console.log(randomPost);
     const posts = useSelector(state=>state.posts);
     useEffect(()=>{
         dispatch(postActions.fetchPosts());
@@ -16,7 +15,6 @@ const TodayDashboard = () =>{
     // const trendingPosts=postsToShow.sort(()=>.5-Math.random());
     // let selected = trendingPosts.slice(0,10);
     
-    console.log(postsToShow);
     // if (sessionUser) return <Redirect to="/" />;
     //all Today dashboard will be in here
     //select posts that were reblogged by 
@@ -25,7 +23,6 @@ const TodayDashboard = () =>{
     return (
         <>
         {postsToShow.map ((post)=>{
-            console.log(post);
         return <ShowPost post={post} profile={false}/>})
         }
         </>

@@ -12,13 +12,11 @@ const PostText = ({post}) => {
         minHeight: '1.5em',
         marginBottom: '15px',
       };
-    console.log(post);
     // const handlePhotoCount = () => {
     //    if(photoCount<5)setPhotoCount((prevCount)=> prevCount+1);
     // }
     const breakdown = (post) => {
         const array = post.body.split('\r\n');
-        console.log(array);
 
         return array.map((sentence,index)=>{
         

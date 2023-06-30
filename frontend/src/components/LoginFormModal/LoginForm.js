@@ -24,7 +24,6 @@ const LoginForm = ({setshowModal})=>{
             body: JSON.stringify(email)
         });
         const exists = await response.json();
-        console.log(exists);
         return exists;
     }
     // need to move fetch into on email click

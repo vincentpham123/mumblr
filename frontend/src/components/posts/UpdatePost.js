@@ -25,7 +25,6 @@ const UpdatePost = () => {
     useEffect(()=>{
         dispatch(fetchUser(sessionUser.username));
     },[dispatch]);
-    console.log(photos);
     const sessionUser = useSelector(state=>  state.session.user);
     const post = useSelector(state=>state.posts[postid]);
     
@@ -33,9 +32,7 @@ const UpdatePost = () => {
         populateFields(post);
     },[post])
 
-    useEffect(()=>{
-        console.log(photos)
-    },[photos]);
+  
 
     const populateFields = (post) => {
         if (post){
@@ -48,7 +45,6 @@ const UpdatePost = () => {
             setParagraphs(initialParagraphs);
             setPhotos(initialPhotos);
             
-            console.log(photos)
             setInitialTitle(post.title);
             setInitialTitleCheck(true);
         }
@@ -88,13 +84,11 @@ const handleFile = (event) => {
         return photoToFill;
     }
     const handleTitleKeyDown = (event) => {
-        console.log(event.key);
         
     
          setTimeout(()=>{
             setTitle(event.target.innerText)
          },0);
-         console.log(title);
     }
     const handleKeyDown = (event) => {
 
@@ -144,8 +138,6 @@ const handleFile = (event) => {
                     selection.addRange(range);
                 };
             },10);
-            console.log(paragraphs);
-            console.log(photos);
 
         }
         if (event.key==='ArrowUp'){
@@ -169,7 +161,6 @@ const handleFile = (event) => {
             },10);
             
         }
-        console.log(paragraphs);
 
     }
     

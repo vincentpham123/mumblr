@@ -50,7 +50,6 @@ const NewPhotoPost = () => {
        
     }
     const handleTitleKeyDown = (event) => {
-        console.log(event.key);
         if (event.key==='Enter'){
             setTimeout(()=>{
                 event.target.nextElementSibling.focus()
@@ -58,7 +57,6 @@ const NewPhotoPost = () => {
         }
     
          setTitle(event.target.innerText);
-         console.log(title);
     }
     const handleKeyDown = (event) => {
         
@@ -70,20 +68,17 @@ const NewPhotoPost = () => {
                 setParagraphs({...paragraphs,[pindex]: event.target.innerText});
             },0);
         }
-            console.log(paragraphs);
   
      
       
     
         if (event.key==='Enter'){
-            console.log(event.key);
             event.preventDefault();
             const newIndex = Object.keys(paragraphs).length+1;
             setParagraphs({
                 ...paragraphs,
                 [newIndex]: ''
             })
-            console.log(paragraphs);
             setTimeout(()=>{
                 let currentElement=event.target;
                 while(currentElement.parentNode && !currentElement.parentNode.matches('.textbox-contents')){
@@ -116,7 +111,6 @@ const NewPhotoPost = () => {
         if (event.key==='ArrowUp'){
             event.preventDefault();
 
-            console.log('event arrow down');
             setTimeout(()=>{
                 let currentElement=event.target;
                 while(currentElement.parentNode && !currentElement.parentNode.matches('.textbox-contents')){
@@ -135,7 +129,6 @@ const NewPhotoPost = () => {
             },10);
             
         }
-        console.log(paragraphs);
     }
     
     const handleSubmit = (event) =>{
