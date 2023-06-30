@@ -75,3 +75,11 @@ need to add class when profile is clicked */
     font-weight: 700;
     line-height: 1.5;
 }
+.linkedin i{
+    font-size: 30px;
+    margin-right: 10px;
+}
+.github i{
+    font-size: 30px;
+}
+

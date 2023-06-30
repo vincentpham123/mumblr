@@ -53,6 +53,19 @@ const Navigation = ()=>{
         </div>
         <div className = 'navBody'>
             <ul className='navButtons'>
+            <li>
+
+
+            <Link className='linkedin' to='https://www.linkedin.com/in/vincent-pham-163347133/' target='_blank'>   
+                <i className ="fa-brands fa-linkedin"></i>
+            </Link>
+            </li>
+            <li>
+                <Link className='github' to='https://github.com/vincentpham123/mumblr/wiki' target='_blank'>
+                    <i className="fa-brands fa-github"></i>
+                </Link>
+                    
+             </li>
                     {sessionLinks}
             </ul>
         </div>
