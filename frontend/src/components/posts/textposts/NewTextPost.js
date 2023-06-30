@@ -171,12 +171,7 @@ const NewTextPost = () => {
                 formData.append(param,null);
             }
             // if (photos[key]) formData.append(param,photos[key]);
-        })
-    
-
-
-        
-        
+        }) 
         dispatch(createPost(formData));
         history.go(-2);
     }

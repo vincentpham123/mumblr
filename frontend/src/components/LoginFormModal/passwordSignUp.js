@@ -67,7 +67,7 @@ const PasswordSignUp = ({email},{setshowModal}) =>{
                     Sign Up<i className="fa-solid fa-arrow-right icon" style={{border: 'none', color: `${fontColor}` }}></i> 
                     </button>
                 </form>
-                <ul>
+                <ul className="errors">
                     {errors.map(error => <li key={error}>{error}</li>)}
                 </ul>
             </div>

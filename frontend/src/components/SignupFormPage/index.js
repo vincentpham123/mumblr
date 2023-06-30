@@ -38,7 +38,7 @@ const SignupFormPage = () => {
 
     return (
         <form id='login-form' onSubmit={handleSubmit}>
-            <ul>
+            <ul className='errors'>
                 {errors.map(error => <li key={error}>{error}</li>)}
             </ul>
             <input type='text' placeholder='Email' 
