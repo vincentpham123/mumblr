@@ -458,3 +458,16 @@ padding-bottom: 15px;
     color: rgb(var(--red));
 }
 
+.like-errors{
+    position: absolute;
+    right: -5vw;
+    background-color: rgb(var(--red));
+    padding: 20px;
+    border-radius: 3px;
+
+}
+.like-errors span{
+    color: white;
+    font-family: 'Favorit Tumblr';
+
+}
