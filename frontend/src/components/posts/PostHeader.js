@@ -34,8 +34,15 @@ const PostHeader =({post}) =>{
     // }
     const handleFollowButton = (event)=>{
         event.preventDefault();
-        const follow={user_id: post.author.id, follower_id: sessionUser.id}
-        dispatch(followActions.createFollow(follow));
+        if(!sessionUser){
+            setErrors(['Login to Follow!'])
+            setTimeout(()=>{
+                setErrors([])
+            },5000)
+        } else{
+            const follow={user_id: post.author.id, follower_id: sessionUser.id}
+            dispatch(followActions.createFollow(follow));
+        }
     }
     const handleUnfollowButton = (event) =>{
         event.preventDefault();
@@ -44,11 +51,11 @@ const PostHeader =({post}) =>{
     }
 
     //clear follow error
-    useEffect(()=>{
-        setTimeout(()=>{
-            setErrors([])
-        },5000)
-    },[errors])
+    // useEffect(()=>{
+    //     setTimeout(()=>{
+    //         setErrors([])
+    //     },5000)
+    // },[errors])
     
     useEffect(()=>{
         if (!showOptions) return;
