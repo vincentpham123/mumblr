@@ -34,13 +34,17 @@ const PostHeader =({author_id, username,dateCreated,timeCreated}) =>{
     }
     const handleFollowButton = (event)=>{
         event.preventDefault();
-        if (followed===0){
-            const follow={user_id: author_id, follower_id: sessionUser.id}
-            const follow_id = dispatch(followActions.createFollow(follow));
-            setFollowed(follow_id);
-        } else {
-            dispatch(followActions.removeFollow(followed));
-            setFollowed(0);
+        if (!sessionUser){
+            setErrors(['Login to Follow!'])
+        } else{
+            if (followed===0){
+                const follow={user_id: author_id, follower_id: sessionUser.id}
+                const follow_id = dispatch(followActions.createFollow(follow));
+                setFollowed(follow_id);
+            } else {
+                dispatch(followActions.removeFollow(followed));
+                setFollowed(0);
+            }
         }
     }
     
@@ -85,25 +89,32 @@ const PostHeader =({author_id, username,dateCreated,timeCreated}) =>{
                             </span>
                         </span>
                     
-                    {showOptions && (
-                        
-                        <div className='optionsMenu'>
-                            <div className='time-date'>
-                                {dateCreated}
-                                {timeCreated}
+                        {showOptions && (
+                            
+                            <div className='optionsMenu'>
+                                <div className='time-date'>
+                                    {dateCreated}
+                                    {timeCreated}
+                                </div>
+                                <ul className='optionscontent'>
+                                    
+                                    <li className='option-links' onClick={closeOptions}>
+                                        Close 
+                                        {/* set showMenu to false */}
+                                    </li>
+
+
+                                </ul>
                             </div>
-                            <ul className='optionscontent'>
-                                
-                                <li className='option-links' onClick={closeOptions}>
-                                    Close 
-                                    {/* set showMenu to false */}
-                                </li>
-
-
-                            </ul>
-                        </div>
-                    )}
+                        )}
                     </div>
+                    { errors.length>0 &&
+                    <div className='follow-errors'>
+                            <span>
+                                {errors[0]}
+                            </span>
+                    </div>
+                    }
                 </div>
             </header>
         </div>

@@ -48,7 +48,7 @@ const PostFooter = ({ post }) => {
                     like:'',
                     follow:''
                 }
-            )},2000)
+            )},4000)
         }
     ,[errors])
     useEffect(()=>{
