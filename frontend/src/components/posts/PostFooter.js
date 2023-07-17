@@ -25,7 +25,6 @@ const PostFooter = ({ post }) => {
     const [loggedin, setLoggedIn] = useState(false);
     const [showTabMenu, setShowTabMenu] = useState(false);
     const [liked, setLiked] = useState(false);
-    
     const [tabMenuSelection, setTabMenuSelection] = useState('comments');
     const [body,setBody] = useState('');
     // cons [isActive, setIsActive] = useState();
@@ -45,19 +44,23 @@ const PostFooter = ({ post }) => {
           };
         
           fetchData();
-        }, [dispatch,liked]);
+        }, [liked]);
     useEffect(() => {
         if (sessionUser) setLoggedIn(true);
     }, [sessionUser,liked]);
     // 
     const handleLikeButton = (event) => {
-        if (liked===0) {
-            const like = { post_id: post.id, user_id: sessionUser.id }
-            const likeId=dispatch(likesActions.createLike(like));
-            setLiked(likeId);
-        } else {
-            dispatch(likesActions.removeLike(liked));
-            setLiked(0);
+        if(!sessionUser){
+            return;
+        } else{
+            if (liked===0) {
+                const like = { post_id: post.id, user_id: sessionUser.id }
+                const likeId=dispatch(likesActions.createLike(like));
+                setLiked(likeId);
+            } else {
+                dispatch(likesActions.removeLike(liked));
+                setLiked(0);
+            }
         }
     }
     const handleNotesButtonClick = (event) => {

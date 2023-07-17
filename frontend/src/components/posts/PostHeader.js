@@ -10,6 +10,7 @@ const PostHeader =({author_id, username,dateCreated,timeCreated}) =>{
     const [followed,setFollowed] = useState(0);
     const dispatch = useDispatch();
     const [showOptions, setShowOptions] = useState(false);
+    const [errors, setErrors] = useState([]);
     useEffect(()=>{
         const fetchData = async () => {
             if (sessionUser) {
