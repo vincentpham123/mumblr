@@ -9,16 +9,16 @@ const RECEIVE_USERS = 'api/RECEIVEUSERS'
 
 //action types
 
-const receiveUser = (payload) => ({
+export const receiveUser = (payload) => ({
     type: RECEIVE_USER,
     user: payload
 })
 
-const receiveUsers = (users) =>({
+export const receiveUsers = (users) =>({
     type: RECEIVE_USERS,
     users
 })
-const deleteUser = (userId) => ({
+export const deleteUser = (userId) => ({
     type:DELETE_USER,
     userId
 });
@@ -64,7 +64,7 @@ const userReducer = (state={},action) => {
     const newState={...state};
     switch (action.type) {
         case RECEIVE_USERS:
-            return {...action.users}; 
+            return {...state, ...action.users}; 
 
         case RECEIVE_USER:
             return action.user;

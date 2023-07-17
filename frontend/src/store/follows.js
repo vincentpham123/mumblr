@@ -6,24 +6,23 @@ const RECEIVE_FOLLOW = '/api/RECEIVEFOLLOW'
 
 //actions
 
-const receiveFollows = (follows) =>({
+export const receiveFollows = (follows) =>({
 type: RECEIVE_FOLLOWS,
 follows
 })
 
-const deleteFollow = (followid) => ({
+export const deleteFollow = (followid) => ({
     type: DELETE_FOLLOW,
     followid
 });
 
-const receiveFollow = (follow) =>({
+export const receiveFollow = (follow) =>({
     type: RECEIVE_FOLLOW,
     follow
 })
 
 
 // thunk actions
-
 export const createFollow = (follow) => async dispatch => {
     let response = await csrfFetch('/api/follows',{
         method: 'POST',
@@ -40,7 +39,7 @@ export const removeFollow = (followId) => async dispatch => {
       method: 'DELETE'
     });
     if (response.ok) {
-      dispatch(deleteFollow(followId));
+      return 0;
     }
   };
 

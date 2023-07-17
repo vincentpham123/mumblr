@@ -5,25 +5,11 @@ import { useState, useEffect } from "react";
 import './styling/postheader.css';
 import { useDispatch } from "react-redux";
 import * as followActions from '../../store/follows';
-const PostHeader =({post}) =>{
+const PostHeader =({post,followed,setFollowed}) =>{
     const sessionUser = useSelector(state=> state.session.user);
-    const [followed,setFollowed] = useState(0);
     const dispatch = useDispatch();
     const [showOptions, setShowOptions] = useState(false);
     const [errors, setErrors] = useState([]);
-    useEffect(()=>{
-        const fetchData = async () => {
-            if (sessionUser) {
-              const result = await fetch(`/api/checkfollowstatus/${post.author.id}`);
-              if (result.ok) {
-                const data = await result.json();
-                setFollowed(data.result);
-              }
-            }
-          };
-          fetchData();
-        }, []);
- 
     const openOptions = ()=> {
         if(showOptions) return;
         setShowOptions(true);
@@ -42,7 +28,7 @@ const PostHeader =({post}) =>{
                 const follow_id = dispatch(followActions.createFollow(follow));
                 setFollowed(follow_id);
             } else {
-                dispatch(followActions.removeFollow(followed));
+                dispatch(followActions.removeFollow(post.author.id));
                 setFollowed(0);
             }
         }

@@ -2,12 +2,27 @@ import "./styling/showPost.css";
 import PostHeader from "./PostHeader";
 import PostText from "./PostText";
 import * as postActions from '../../store/posts';
+import { useState, useEffect} from "react";
 import { useDispatch } from "react-redux";
 import UpdatePostModal from "./UpdatePostModal";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import PostFooter from "./PostFooter";
 const ShowPost = ({post})=>{
+const [followed,setFollowed] = useState(null);
+const sessionUser = useSelector(state=>state.session.user);
+useEffect(()=>{
+    const fetchData = async () => {
+        if (sessionUser) {
+          const result = await fetch(`/api/checkfollowstatus/${post.author.id}`);
+          if (result.ok) {
+            const data = await result.json();
+            setFollowed(data.result);
+          }
+        }
+      };
+      fetchData();
+    }, []);
     if (!post){
         return (
             <p>Loading</p>
@@ -23,7 +38,7 @@ const ShowPost = ({post})=>{
                             <img src={post.author.profilepic}></img>
                         </div>
                     </div>
-                        <PostHeader post={post} />
+                        <PostHeader post={post} followed={followed} setFollowed={setFollowed} />
                     <div className='post-meat'>
                         <PostText post={post} />
                     </div>
