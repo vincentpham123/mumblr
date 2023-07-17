@@ -23,7 +23,7 @@ const ShowPost = ({post})=>{
                             <img src={post.author.profilepic}></img>
                         </div>
                     </div>
-                        <PostHeader author_id= {post.author.id} username={post.author.username} dateCreated={post.dateCreated} timeCreated={post.timeCreated} />
+                        <PostHeader post={post} />
                     <div className='post-meat'>
                         <PostText post={post} />
                     </div>

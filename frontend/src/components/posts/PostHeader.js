@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import './styling/postheader.css';
 import { useDispatch } from "react-redux";
 import * as followActions from '../../store/follows';
-const PostHeader =({author_id, username,dateCreated,timeCreated}) =>{
+const PostHeader =({post}) =>{
     const sessionUser = useSelector(state=> state.session.user);
     const [followed,setFollowed] = useState(0);
     const dispatch = useDispatch();
@@ -14,7 +14,7 @@ const PostHeader =({author_id, username,dateCreated,timeCreated}) =>{
     useEffect(()=>{
         const fetchData = async () => {
             if (sessionUser) {
-              const result = await fetch(`/api/checkfollowstatus/${author_id}`);
+              const result = await fetch(`/api/checkfollowstatus/${post.author.id}`);
               if (result.ok) {
                 const data = await result.json();
                 setFollowed(data.result);
@@ -22,7 +22,7 @@ const PostHeader =({author_id, username,dateCreated,timeCreated}) =>{
             }
           };
           fetchData();
-        }, [dispatch,followed]);
+        }, []);
  
     const openOptions = ()=> {
         if(showOptions) return;
@@ -38,7 +38,7 @@ const PostHeader =({author_id, username,dateCreated,timeCreated}) =>{
             setErrors(['Login to Follow!'])
         } else{
             if (followed===0){
-                const follow={user_id: author_id, follower_id: sessionUser.id}
+                const follow={user_id: post.author.id, follower_id: sessionUser.id}
                 const follow_id = dispatch(followActions.createFollow(follow));
                 setFollowed(follow_id);
             } else {
@@ -47,6 +47,13 @@ const PostHeader =({author_id, username,dateCreated,timeCreated}) =>{
             }
         }
     }
+
+    //clear follow error
+    useEffect(()=>{
+        setTimeout(()=>{
+            setErrors([])
+        },5000)
+    },[errors])
     
     useEffect(()=>{
         if (!showOptions) return;
@@ -69,13 +76,14 @@ const PostHeader =({author_id, username,dateCreated,timeCreated}) =>{
                         <div className='username-box'>
                             <div className='username-content'>
                                 <span className='username-link-box'>
-                                    <Link className='username-post' to={`/user/${author_id}`}>
-                                        {username}
+                                    <Link className='username-post' to={`/user/${post.author.id}`}>
+                                        {post.author.username}
                                     </Link>
                                 </span>
                             </div>
                         </div>
-                        {!followed && <button onClick={(event)=>handleFollowButton(event)}className='follow-button' style={{ backgroundColor: 'transparent', border: 'none', boxShadow: 'none' }}><span>Follow</span></button>}
+                        {followed===0 && <button onClick={(event)=>handleFollowButton(event)}className='follow-button' style={{ backgroundColor: 'transparent', border: 'none', boxShadow: 'none' }}><span>Follow</span></button>}
+                        {followed!==0 && <button onClick={(event)=>handleFollowButton(event)}className='follow-button' style={{ backgroundColor: 'transparent', border: 'none', boxShadow: 'none' }}><span>Unfollow</span></button>}
                     </div>
                     {/* make div for extra things like post creation date */}
                     <div className='options-box'>
@@ -93,8 +101,8 @@ const PostHeader =({author_id, username,dateCreated,timeCreated}) =>{
                             
                             <div className='optionsMenu'>
                                 <div className='time-date'>
-                                    {dateCreated}
-                                    {timeCreated}
+                                    {post.dateCreated}
+                                    {post.timeCreated}
                                 </div>
                                 <ul className='optionscontent'>
                                     

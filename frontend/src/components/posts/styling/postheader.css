@@ -124,7 +124,7 @@
 
 .follow-errors{
     position: absolute;
-    right: -10vw;
+    right: -5vw;
     background-color: rgb(var(--red));
     padding: 20px;
     border-radius: 3px;
