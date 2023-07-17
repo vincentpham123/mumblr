@@ -5,7 +5,8 @@ import { useState, useEffect } from "react";
 import './styling/postheader.css';
 import { useDispatch } from "react-redux";
 import * as followActions from '../../store/follows';
-const PostHeader =({post,followed,setFollowed}) =>{
+import { userFollowed } from "../../store/follows";
+const PostHeader =({post}) =>{
     const sessionUser = useSelector(state=> state.session.user);
     const dispatch = useDispatch();
     const [showOptions, setShowOptions] = useState(false);
@@ -14,24 +15,32 @@ const PostHeader =({post,followed,setFollowed}) =>{
         if(showOptions) return;
         setShowOptions(true);
     }
-
+    const followed = useSelector(userFollowed(post.author.id));
     const closeOptions= () =>{
         if (showOptions) setShowOptions(false);
     }
+    // const handleFollowButton = (event)=>{
+    //     event.preventDefault();
+    //     if (!sessionUser){
+    //         setErrors(['Login to Follow!'])
+    //     } else{
+    //         if (followed===0){
+    //             const follow={user_id: post.author.id, follower_id: sessionUser.id}
+    //             const follow_id = dispatch(followActions.createFollow(follow));
+    //         } else {
+    //             dispatch(followActions.removeFollow(post.author.id));
+    //         }
+    //     }
+    // }
     const handleFollowButton = (event)=>{
         event.preventDefault();
-        if (!sessionUser){
-            setErrors(['Login to Follow!'])
-        } else{
-            if (followed===0){
-                const follow={user_id: post.author.id, follower_id: sessionUser.id}
-                const follow_id = dispatch(followActions.createFollow(follow));
-                setFollowed(follow_id);
-            } else {
-                dispatch(followActions.removeFollow(post.author.id));
-                setFollowed(0);
-            }
-        }
+        const follow={user_id: post.author.id, follower_id: sessionUser.id}
+        dispatch(followActions.createFollow(follow));
+    }
+    const handleUnfollowButton = (event) =>{
+        event.preventDefault();
+        console.log(followed[0]);
+        dispatch(followActions.removeFollow(followed[0].id));
     }
 
     //clear follow error
@@ -68,8 +77,8 @@ const PostHeader =({post,followed,setFollowed}) =>{
                                 </span>
                             </div>
                         </div>
-                        {followed===0 && <button onClick={(event)=>handleFollowButton(event)}className='follow-button' style={{ backgroundColor: 'transparent', border: 'none', boxShadow: 'none' }}><span>Follow</span></button>}
-                        {followed!==0 && <button onClick={(event)=>handleFollowButton(event)}className='follow-button' style={{ backgroundColor: 'transparent', border: 'none', boxShadow: 'none' }}><span>Unfollow</span></button>}
+                        {followed.length===0 && <button onClick={(event)=>handleFollowButton(event)} className='follow-button' style={{ backgroundColor: 'transparent', border: 'none', boxShadow: 'none' }}><span>Follow</span></button>}
+                        {followed.length>0 && <button onClick={(event)=>handleUnfollowButton(event)} className='follow-button' style={{ backgroundColor: 'transparent', border: 'none', boxShadow: 'none' }}><span>Unfollow</span></button>}
                     </div>
                     {/* make div for extra things like post creation date */}
                     <div className='options-box'>

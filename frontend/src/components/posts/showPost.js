@@ -9,20 +9,6 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import PostFooter from "./PostFooter";
 const ShowPost = ({post})=>{
-const [followed,setFollowed] = useState(null);
-const sessionUser = useSelector(state=>state.session.user);
-useEffect(()=>{
-    const fetchData = async () => {
-        if (sessionUser) {
-          const result = await fetch(`/api/checkfollowstatus/${post.author.id}`);
-          if (result.ok) {
-            const data = await result.json();
-            setFollowed(data.result);
-          }
-        }
-      };
-      fetchData();
-    }, []);
     if (!post){
         return (
             <p>Loading</p>
@@ -38,7 +24,7 @@ useEffect(()=>{
                             <img src={post.author.profilepic}></img>
                         </div>
                     </div>
-                        <PostHeader post={post} followed={followed} setFollowed={setFollowed} />
+                        <PostHeader post={post} />
                     <div className='post-meat'>
                         <PostText post={post} />
                     </div>
