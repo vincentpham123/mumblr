@@ -2,6 +2,7 @@ import "./styling/showPost.css";
 import PostHeader from "./PostHeader";
 import PostText from "./PostText";
 import * as postActions from '../../store/posts';
+import { useState, useEffect} from "react";
 import { useDispatch } from "react-redux";
 import UpdatePostModal from "./UpdatePostModal";
 import { Link } from "react-router-dom";

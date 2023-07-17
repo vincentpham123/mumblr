@@ -6,24 +6,26 @@ const RECEIVE_FOLLOW = '/api/RECEIVEFOLLOW'
 
 //actions
 
-const receiveFollows = (follows) =>({
+export const receiveFollows = (follows) =>({
 type: RECEIVE_FOLLOWS,
 follows
 })
 
-const deleteFollow = (followid) => ({
+export const deleteFollow = (followId) => ({
     type: DELETE_FOLLOW,
-    followid
+    followId
 });
 
-const receiveFollow = (follow) =>({
+export const receiveFollow = (follow) =>({
     type: RECEIVE_FOLLOW,
     follow
 })
 
-
+// getter 
+export const userFollowed = (postAuthorid) => state => {
+  return state.follows ? Object.values(state.follows).filter((follow)=> follow.userId === postAuthorid) : null;
+}
 // thunk actions
-
 export const createFollow = (follow) => async dispatch => {
     let response = await csrfFetch('/api/follows',{
         method: 'POST',
