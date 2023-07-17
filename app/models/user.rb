@@ -55,6 +55,8 @@ class User < ApplicationRecord
     source: :post 
   
   has_many :follows,
+    foreign_key: :follower_id,
+    class_name: :Follow,
     dependent: :destroy
 
   has_many :followers,

@@ -14,7 +14,7 @@ class Api::FollowsController < ApplicationController
         currentuser=current_user;
         follow_id = current_user.follows.find_by(user_id: person_to_follow.to_i);
         if follow_id
-            render json:{result: follow_id}
+            render json:{result: follow_id.user_id}
         else 
             render json: {result: 0}
         end
