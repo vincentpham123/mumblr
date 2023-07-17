@@ -25,6 +25,12 @@ const PostFooter = ({ post }) => {
     const [loggedin, setLoggedIn] = useState(false);
     const [showTabMenu, setShowTabMenu] = useState(false);
     const [liked, setLiked] = useState(false);
+    const [errors,setErrors] = useState(
+        {
+            like:'',
+            follow: '',
+        }
+    );
     const [tabMenuSelection, setTabMenuSelection] = useState('comments');
     const [body,setBody] = useState('');
     // cons [isActive, setIsActive] = useState();
@@ -32,6 +38,19 @@ const PostFooter = ({ post }) => {
     // will have a postid passed in from parent
     //can access the post from the state and grab data
     const sessionUser = useSelector(state => state.session.user);
+
+    // to remove any errors 
+    useEffect(
+        ()=>{
+        setTimeout(()=>{
+            setErrors(
+                {
+                    like:'',
+                    follow:''
+                }
+            )},2000)
+        }
+    ,[errors])
     useEffect(()=>{
         const fetchData = async () => {
             if (sessionUser) {
@@ -51,7 +70,10 @@ const PostFooter = ({ post }) => {
     // 
     const handleLikeButton = (event) => {
         if(!sessionUser){
-            return;
+            setErrors(state=>{
+                return {...state,like: 'Login to Like!'}
+            });
+            console.log(errors);
         } else{
             if (liked===0) {
                 const like = { post_id: post.id, user_id: sessionUser.id }
@@ -141,6 +163,13 @@ const PostFooter = ({ post }) => {
                     <button className={`likesbutton ${liked>0 ? 'true': 'false'} `} onClick={event => handleLikeButton(event)}>
                         <i className="fa-solid fa-heart"></i>
                     </button>
+                    { errors.like &&
+                    <div className='like-errors'>
+                        <span>
+                            {errors.like}
+                        </span>
+                    </div>
+                    }
                 </div>
 
             </div>
