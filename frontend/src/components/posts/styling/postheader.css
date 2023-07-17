@@ -122,6 +122,19 @@
     
 }
 
+.follow-errors{
+    position: absolute;
+    right: -5vw;
+    background-color: rgb(var(--red));
+    padding: 20px;
+    border-radius: 3px;
+}
+
+.follow-errors span{
+    color: white;
+    font-weight: 700;
+}
+
 
 
 

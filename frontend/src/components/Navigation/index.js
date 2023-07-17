@@ -15,6 +15,10 @@ const Navigation = ()=>{
         event.preventDefault();
         dispatch(sessionActions.login({ email: 'Demo-lition', password: 'password' }));
     }
+    const handleLinks = (e)=>{
+        e.preventDefault();
+        window.open(e.target.href,'_blank')
+    };
     if (sessionUser){
         sessionLinks=(
             <>
@@ -56,15 +60,14 @@ const Navigation = ()=>{
             <li>
 
 
-            <Link className='linkedin' to='https://www.linkedin.com/in/vincent-pham-163347133/' target='_blank'>   
+            <Link className='linkedin' onClick={e=>window.open('https://www.linkedin.com/in/vincent-pham-163347133')} to='https://www.linkedin.com/in/vincent-pham-163347133/' target='_blank'>   
                 <i className ="fa-brands fa-linkedin"></i>
             </Link>
             </li>
             <li>
-                <Link className='github' to='https://github.com/vincentpham123/mumblr/wiki' target='_blank'>
+                <Link className='github' onClick={e=>window.open('https://github.com/vincentpham123/mumblr/wiki')} to='https://github.com/vincentpham123/mumblr/wiki' target='_blank'>
                     <i className="fa-brands fa-github"></i>
-                </Link>
-                    
+                </Link>      
              </li>
                     {sessionLinks}
             </ul>
