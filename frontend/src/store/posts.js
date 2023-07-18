@@ -13,7 +13,7 @@ const RECEIVE_USER_POST = "api/USERNAME/RECEIVE_POSTS";
 // action types
 
 
-const receivePost = (post) => ({
+export const receivePost = (post) => ({
     type: RECEIVE_POST,
     post 
 })
@@ -23,7 +23,7 @@ export const receivePosts = (posts) => ({
     posts
 })
 
-const deletePost = (postId) =>({
+export const deletePost = (postId) =>({
     type: REMOVE_POST,
     postId
 })
@@ -43,6 +43,7 @@ export const fetchPosts = () => async(dispatch) =>{
     dispatch(receivePosts(data.posts));
     dispatch(receiveUsers(data.users));
     dispatch(receiveFollows(data.follows));
+    dispatch(receiveLikes(data.likes));
     return data
     }
 }

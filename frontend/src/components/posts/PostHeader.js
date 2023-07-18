@@ -6,7 +6,7 @@ import './styling/postheader.css';
 import { useDispatch } from "react-redux";
 import * as followActions from '../../store/follows';
 import { userFollowed } from "../../store/follows";
-const PostHeader =({post}) =>{
+const PostHeader =({post,profile}) =>{
     const sessionUser = useSelector(state=> state.session.user);
     const dispatch = useDispatch();
     const [showOptions, setShowOptions] = useState(false);
@@ -34,21 +34,27 @@ const PostHeader =({post}) =>{
     // }
     const handleFollowButton = (event)=>{
         event.preventDefault();
-        const follow={user_id: post.author.id, follower_id: sessionUser.id}
-        dispatch(followActions.createFollow(follow));
+        if(!sessionUser){
+            setErrors(['Login to Follow!'])
+            setTimeout(()=>{
+                setErrors([])
+            },5000)
+        } else{
+            const follow={user_id: post.author.id, follower_id: sessionUser.id}
+            dispatch(followActions.createFollow(follow));
+        }
     }
     const handleUnfollowButton = (event) =>{
         event.preventDefault();
-        console.log(followed[0]);
         dispatch(followActions.removeFollow(followed[0].id));
     }
 
     //clear follow error
-    useEffect(()=>{
-        setTimeout(()=>{
-            setErrors([])
-        },5000)
-    },[errors])
+    // useEffect(()=>{
+    //     setTimeout(()=>{
+    //         setErrors([])
+    //     },5000)
+    // },[errors])
     
     useEffect(()=>{
         if (!showOptions) return;

@@ -29,6 +29,17 @@ json.follows do
         end
     end
 end
+json.likes do
+    session_user = current_user
+    if session_user
+      post_user_likes = Like.joins(:post).where(posts: { id: @posts.map(&:id) }, user_id: session_user.id)
+      post_user_likes.each do |like|
+        json.set! like.id do
+          json.extract! like, :id, :user_id, :post_id
+        end
+      end
+    end
+end
 # json.likes do 
 #     @posts.each do |post|
 #         post.likes.each do |like|
