@@ -32,7 +32,9 @@ class Api::LikesController < ApplicationController
     end
     def destroy 
         # need to pass in like_id in body 
+      
         @like=Like.find(params[:id])
+        @post = @like.post 
         @like.destroy 
     end
 
