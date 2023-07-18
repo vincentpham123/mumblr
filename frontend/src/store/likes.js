@@ -1,9 +1,12 @@
 // constants
-import csrfFetch from "./csrf"
-import { receivePosts } from "./posts"
-const RECEIVE_LIKES = 'api/RECEIVELIKES'
-const DELETE_LIKE = 'api/DELETELIKE'
-const RECEIVE_LIKE = 'api/RECEIVELIKE'
+import csrfFetch from "./csrf";
+
+import { receivePosts, receivePost } from "./posts";
+
+
+const RECEIVE_LIKES = 'api/RECEIVELIKES';
+const DELETE_LIKE = 'api/DELETELIKE';
+const RECEIVE_LIKE = 'api/RECEIVELIKE';
 
 // actions 
 
@@ -65,7 +68,8 @@ export const createLike = (like) => async dispatch => {
         });
     if (response.ok){
         let data = await response.json();
-        dispatch(receiveLike(data));
+        dispatch(receiveLike(data.like));
+        dispatch(receivePost(data.post));
     }
 
     //fetch like creation
