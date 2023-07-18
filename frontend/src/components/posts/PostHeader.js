@@ -6,7 +6,7 @@ import './styling/postheader.css';
 import { useDispatch } from "react-redux";
 import * as followActions from '../../store/follows';
 import { userFollowed } from "../../store/follows";
-const PostHeader =({post}) =>{
+const PostHeader =({post,profile}) =>{
     const sessionUser = useSelector(state=> state.session.user);
     const dispatch = useDispatch();
     const [showOptions, setShowOptions] = useState(false);

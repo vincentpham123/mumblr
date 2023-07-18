@@ -7,12 +7,12 @@ const RECEIVE_LIKE = 'api/RECEIVELIKE'
 
 // actions 
 
-export const receiveLikes = (payload) =>({
+export const receiveLikes = (likes) =>({
     // will be called when fetching posts
     // will update likes to be contain the likes for the posts in the state
 
     type: RECEIVE_LIKES,
-    payload
+    likes
 })
 export const receiveLike = (like) => ({
     type: RECEIVE_LIKE,
@@ -80,7 +80,7 @@ const likesReducer = (state={},action) =>{
     switch (action.type) {
         case RECEIVE_LIKES:
             //will receive likes for posts currently in state
-            return {...newState,...action.payload}
+            return {...newState,...action.likes}
             
         case DELETE_LIKE:
             delete newState[action.likeid]

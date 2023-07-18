@@ -8,7 +8,7 @@ import UpdatePostModal from "./UpdatePostModal";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import PostFooter from "./PostFooter";
-const ShowPost = ({post})=>{
+const ShowPost = ({post,profile=false})=>{
     if (!post){
         return (
             <p>Loading</p>
@@ -19,12 +19,14 @@ const ShowPost = ({post})=>{
         <div className='postMain'>
             <div className='postContainer'>
                 <article className='postContent'>
+                    {!profile &&
                     <div className='author-pfp'>
                         <div className='author-pfp-frame'>
                             <img src={post.author.profilepic}></img>
                         </div>
                     </div>
-                        <PostHeader post={post} />
+                    }
+                        <PostHeader post={post} profile={profile} />
                     <div className='post-meat'>
                         <PostText post={post} />
                     </div>

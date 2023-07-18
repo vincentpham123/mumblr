@@ -43,6 +43,7 @@ export const fetchPosts = () => async(dispatch) =>{
     dispatch(receivePosts(data.posts));
     dispatch(receiveUsers(data.users));
     dispatch(receiveFollows(data.follows));
+    dispatch(receiveLikes(data.likes));
     return data
     }
 }
