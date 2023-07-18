@@ -24,7 +24,6 @@ const PostFooter = ({ post }) => {
     // this is to pass down logged in status to child components
     const [loggedin, setLoggedIn] = useState(false);
     const [showTabMenu, setShowTabMenu] = useState(false);
-    const [liked, setLiked] = useState(false);
     const [errors,setErrors] = useState(
         {
             like:'',
@@ -38,7 +37,7 @@ const PostFooter = ({ post }) => {
     // will have a postid passed in from parent
     //can access the post from the state and grab data
     const sessionUser = useSelector(state => state.session.user);
-
+    const liked = useSelector(likesActions.userLike(sessionUser.id,post.id));
     // to remove any errors 
     useEffect(
         ()=>{
@@ -51,39 +50,20 @@ const PostFooter = ({ post }) => {
             )},4000)
         }
     ,[errors])
-    useEffect(()=>{
-        const fetchData = async () => {
-            if (sessionUser) {
-              const result = await fetch(`/api/checkpostlike/${post.id}`);
-              if (result.ok) {
-                const data = await result.json();
-                setLiked(data.result);
-              }
-            }
-          };
-        
-          fetchData();
-        }, [liked]);
-    useEffect(() => {
-        if (sessionUser) setLoggedIn(true);
-    }, [sessionUser,liked]);
-    // 
     const handleLikeButton = (event) => {
+        event.preventDefault();
         if(!sessionUser){
             setErrors(state=>{
                 return {...state,like: 'Login to Like!'}
             });
-            console.log(errors);
-        } else{
-            if (liked===0) {
-                const like = { post_id: post.id, user_id: sessionUser.id }
-                const likeId=dispatch(likesActions.createLike(like));
-                setLiked(likeId);
-            } else {
-                dispatch(likesActions.removeLike(liked));
-                setLiked(0);
-            }
-        }
+        } 
+            const like = { post_id: post.id, user_id: sessionUser.id }
+            const likeId=dispatch(likesActions.createLike(like));
+           
+    }
+    const handleUnlikeButton = (event) =>{
+        event.preventDefault();
+        dispatch(likesActions.removeLike(liked[0].id))
     }
     const handleNotesButtonClick = (event) => {
         if (!showTabMenu) {
@@ -160,9 +140,15 @@ const PostFooter = ({ post }) => {
                     </button>
                 </div>
                 <div className='footbutton-container'>
-                    <button className={`likesbutton ${liked>0 ? 'true': 'false'} `} onClick={event => handleLikeButton(event)}>
+                    {liked.length>0&& <button className={`likesbutton  true`} onClick={event => handleUnlikeButton(event)}>
                         <i className="fa-solid fa-heart"></i>
                     </button>
+                    }
+                    {liked.length===0 &&
+                    <button className={`likesbutton false `} onClick={event => handleLikeButton(event)}>
+                        <i className="fa-solid fa-heart"></i>
+                    </button>
+                    }
                     { errors.like &&
                     <div className='like-errors'>
                         <span>

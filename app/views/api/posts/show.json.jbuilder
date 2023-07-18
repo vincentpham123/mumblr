@@ -6,7 +6,7 @@ end
 json.likes do
     @post.likes.each do |like|
         json.set! like.id do
-            json.extract! like, :id, :post_id
+            json.extract! like, :id, :post_id, :user_id
             json.liker do
                 json.extract! like.user, :id, :username
                 json.profilepic like.user.profilepic.url

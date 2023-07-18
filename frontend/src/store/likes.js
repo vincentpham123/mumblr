@@ -2,7 +2,7 @@
 import csrfFetch from "./csrf"
 import { receivePosts } from "./posts"
 const RECEIVE_LIKES = 'api/RECEIVELIKES'
-const DELETE_LIKE = 'api/RECEIVELIKES'
+const DELETE_LIKE = 'api/DELETELIKE'
 const RECEIVE_LIKE = 'api/RECEIVELIKE'
 
 // actions 
@@ -30,6 +30,9 @@ export const postLikes = (postid) => (state) => {
     return state?.likes ? Object.values(state.likes).filter((like)=>like.postId ===postid) : null;
     
 }
+export const userLike = (userId,postId) => state =>{
+    return state?.likes ? Object.values(state.likes).filter((like)=>like.userId===userId && like.postId ==postId) : null;
+}
 //thunk actions 
 //will need a createlike and deletelike thunk action
 // no need for thunk action to receive likes
@@ -53,7 +56,6 @@ export const removeLike = (likeid) => async dispatch => {
     if (response.ok){
         //return likes with deleted user like
         dispatch(deleteLike(likeid))
-        return response;
     }
 }
 export const createLike = (like) => async dispatch => {
@@ -64,7 +66,6 @@ export const createLike = (like) => async dispatch => {
     if (response.ok){
         let data = await response.json();
         dispatch(receiveLike(data));
-        return data.id
     }
 
     //fetch like creation
@@ -83,7 +84,7 @@ const likesReducer = (state={},action) =>{
             return {...newState,...action.likes}
             
         case DELETE_LIKE:
-            delete newState[action.likeid]
+            delete newState[action.likeid];
             return newState;
         case RECEIVE_LIKE:
             newState[action.like.id] = action.like;

@@ -1,3 +1,4 @@
+
 json.extract! @like, :id, :post_id 
 json.liker do
     json.extract! @like.user, :id, :username

@@ -46,7 +46,6 @@ const PostHeader =({post,profile}) =>{
     }
     const handleUnfollowButton = (event) =>{
         event.preventDefault();
-        console.log(followed[0]);
         dispatch(followActions.removeFollow(followed[0].id));
     }
 
