@@ -33,7 +33,7 @@ export const postLikes = (postid) => (state) => {
     return state?.likes ? Object.values(state.likes).filter((like)=>like.postId ===postid) : null;
     
 }
-export const userLike = (userId,postId) => state =>{
+export const userLike = (userId=0,postId) => state =>{
     return state?.likes ? Object.values(state.likes).filter((like)=>like.userId===userId && like.postId ==postId) : null;
 }
 //thunk actions 
