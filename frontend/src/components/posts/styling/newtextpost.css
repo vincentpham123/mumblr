@@ -212,4 +212,18 @@
     opacity: .4;
 }
 
+.createpost-pic{
+    width:64px;
+    height:64px;
+    position: absolute;
+    left:-100px;
+    border-radius: 3px;
+    top:50px;
+}
+.createpost-pic img{
+    width:64px;
+    height:64px;
+    border-radius: 3px;
+
+}
 

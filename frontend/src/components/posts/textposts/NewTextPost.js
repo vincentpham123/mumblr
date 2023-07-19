@@ -186,7 +186,11 @@ return (
     <div className='text-post-container'>
         <div className='postheader-container'>
             <div className='postHeader-body'>
-            {/* for the left side of the header */}
+                <div className='createpost-pic'>
+                    <img src={sessionUser.profilepic}>
+                    </img>
+
+                </div>
                 <div className='postheader-left'>
                     <div className="post-username">{sessionUser.username}</div>
                 </div>
