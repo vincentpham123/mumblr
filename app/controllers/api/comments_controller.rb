@@ -6,7 +6,7 @@ class Api::CommentsController < ApplicationController
             render :show
             #show will provide comment data to update the state 
         else
-            render json: @post.errors.full_messages,status: 422 
+            render json: @comment.errors.full_messages,status: 422 
         end
     end
 

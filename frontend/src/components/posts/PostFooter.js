@@ -258,14 +258,32 @@ const CommentTextArea = ({post}) => {
     const dispatch = useDispatch();
     const sessionUser=useSelector(state=>state.session.user);
     const [body,setBody] = useState('');
+    const [errors,setErrors] = useState('');
+    useEffect(()=>{
+        setTimeout(()=>{
+            setErrors('')
+        },3000)
+    },[errors])
     const handleCommentSubmit=(event)=>{
         event.preventDefault();
         const formData=new FormData();
         formData.append('comment[body]', body)
         formData.append('comment[user_id]',sessionUser.id)
         formData.append('comment[post_id]',post.id);
-
-        let response = dispatch(commentsActions.createComment(formData));
+        setErrors('');
+        dispatch(commentsActions.createComment(formData))
+            .catch(async (res)=>{
+                let data;
+                try {
+                    data=await res.clone().json();
+                } catch {
+                    data = await res.text();
+                }
+                console.log(res);
+                if (data?.errors) setErrors(data.errors);
+                else if (data) setErrors(data);
+                else setErrors(res.statusText);
+            })
         setBody('');
 
     }
@@ -289,6 +307,10 @@ const CommentTextArea = ({post}) => {
                     </div>
 
                 </div>
+                {errors && 
+                <div className='comment-error'> 
+                    <span style={{color:'white'}}>{errors}</span>
+                </div>}
             </div>}
         </>
     )

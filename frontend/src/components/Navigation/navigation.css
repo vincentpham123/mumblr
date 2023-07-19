@@ -74,6 +74,7 @@ need to add class when profile is clicked */
     font-size: 1rem;
     font-weight: 700;
     line-height: 1.5;
+    cursor: pointer;
 }
 .linkedin i{
     font-size: 30px;
