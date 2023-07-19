@@ -12,42 +12,39 @@ const TodayDashboard = () =>{
     const [loading,setLoading] = useState(true);
     const [hasMore,setHasMore] = useState(false);
     const [error,setError] = useState(false);
-    // const [posts,setPosts] = useState({});
     const observer = useRef();
-    // const lastPostElementRef = useCallback(node=>{
-    //     if(loading) return 
-    //     if(observer.current) observer.current.disconnect();
+    const lastPostElementRef = useCallback(node=>{
+        if(loading) return 
+        if(observer.current) observer.current.disconnect();
         
-    //     observer.current = new IntersectionObserver(entries =>{
-    //         if (entries[0].isIntersecting && hasMore) {
-    //             setPageNumber(prevPageNumber=> prevPageNumber +1 )
-    //         }
-    //     })
-    //     if (node) observer.current.bserve(node)
-    // },[loading,hasMore]);
+        observer.current = new IntersectionObserver(entries =>{
+            if (entries[0].isIntersecting) {
+                setPageNumber(prevPageNumber=> prevPageNumber +1 )
+            }
+        })
+        if (node) observer.current.observe(node)
+    },[loading]);
     useEffect(()=>{
-        dispatch(postActions.fetchPosts(1))
-    },[])
+        dispatch(postActions.fetchPosts(pageNumber));
+    },[dispatch])
     const posts = useSelector(state=>state.posts);
 
     //will trigger a dispatch for more data when
     // pagenumber changes
-    // useEffect(()=>{
-    //     setLoading(true);
-    //     setError(false);
-    //     dispatch(postActions.fetchPosts())
-    //         .then(res => {
-    //             setPosts(
-    //                 state=>{
-    //                     return [...state,...res];
-    //                 }
-    //             )
-    //         })
+    useEffect(()=>{
+        setLoading(true);
+        setError(false);
+        dispatch(postActions.fetchPosts(pageNumber))
+            .then( () =>{
+                setLoading(false);
+            })
 
-    // },[]);
+    },[pageNumber]);
+    useEffect(()=>{
+        console.log(pageNumber)
+    },[pageNumber]);
     const postsToShow=Object.values(posts);
-    // const trendingPosts=postsToShow.sort(()=>.5-Math.random());
-    // let selected = trendingPosts.slice(0,10);
+    
     
     // if (sessionUser) return <Redirect to="/" />;
     //all Today dashboard will be in here
@@ -56,9 +53,20 @@ const TodayDashboard = () =>{
     // in seeding, need to have posts reblogged by todayonmumblr
     return (
         <>
-        {postsToShow.map ((post)=>{
-        return <ShowPost post={post} profile={false}/>})
-        }
+        {postsToShow.map ((post,index)=>{
+            if (postsToShow.length === index +1) {
+                return (
+                    <div ref={lastPostElementRef} key={post.id} className='postMain'>
+                    <ShowPost  post={post} profile={false}/>
+                    </div>)
+            } else {
+                return( 
+                    <div className='postMain' key={post.id}>
+                        <ShowPost  post={post} profile={false}/>
+                    </div>
+                )
+            }
+        })}
         </>
     );
 

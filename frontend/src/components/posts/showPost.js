@@ -16,7 +16,6 @@ const ShowPost = ({post,profile=false})=>{
     }
     return (
         <>
-        <div className='postMain'>
             <div className='postContainer'>
                 <article className='postContent'>
                     {!profile &&
@@ -35,7 +34,6 @@ const ShowPost = ({post,profile=false})=>{
                     <PostFooter post={post}/>
                 </article>
             </div>
-        </div>
         </>
     )
 }
