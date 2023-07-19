@@ -3,17 +3,11 @@ class Api::PostsController < ApplicationController
     before_action :set_post, only: [:show, :update, :destroy]
 
     def index 
-        if params[:query]
-            #find posts with tag 
-            # take string in query 
-            #find posts where 
-            tag = params[:query]
-            #hype#2023
-            @posts = Post.includes(:comments,like: :user).where('posts.tags LIKE ?', "#{tag}")
-            
-        else
-            @posts = Post.includes(:comments,:likes).all
-        end
+            page_number = params[:page_number].to_i 
+            number_of_posts = 5
+            offset = (page_number-1) * number_of_posts
+            @posts = Post.includes(:comments,:likes).limit(number_of_posts).offset(offset)
+        
     end
 
     def show
@@ -52,6 +46,8 @@ class Api::PostsController < ApplicationController
         render json: ['post not found'], status: :not_found
     end
     def post_params
-        params.require(:post).permit(:title,:body,:author_id,:photo1,:photo2,:photo3,:photo4,:user_id)
+        #take in pagenumber to know which section of the data to pass in 
+        #type to know if trending or following 
+        params.require(:post).permit(:title,:body,:author_id,:photo1,:photo2,:photo3,:photo4,:user_id,:type,:page_number)
     end
 end

@@ -36,8 +36,8 @@ export const userPosts = (username) => (state) => {
 
 // thunk actions
 
-export const fetchPosts = () => async(dispatch) =>{
-    let response = await fetch('/api/posts');
+export const fetchPosts = (pagenumber) => async(dispatch) =>{
+    let response = await fetch(`/api/posts?page_number=${pagenumber}`)
     if (response.ok){
     const data = await response.json();
     dispatch(receivePosts(data.posts));
@@ -109,7 +109,7 @@ const postsReducer = (state={},action)=>{
             newState[action.post.id] = action.post;
             return newState;
         case RECEIVE_POSTS:
-            return {...action.posts};
+            return {...newState,...action.posts};
         case REMOVE_POST:
             delete newState[action.postId];
             return newState;

@@ -47,7 +47,7 @@ export const fetchUserLikes = () => async dispatch => {
     // wil need to call dispatch(receivePosts(payload.posts))
 
     if (response.ok){
-        let data = response.json();
+        let data = await response.json();
         dispatch(receivePosts(data.posts))
         dispatch(receiveLikes(data.likes))
         return data
@@ -58,7 +58,11 @@ export const removeLike = (likeid) => async dispatch => {
     {method:'DELETE'})
     if (response.ok){
         //return likes with deleted user like
-        dispatch(deleteLike(likeid))
+        let data = await response.json();
+       
+        dispatch(deleteLike(likeid));
+        dispatch(receivePost(data.post));
+        
     }
 }
 export const createLike = (like) => async dispatch => {
