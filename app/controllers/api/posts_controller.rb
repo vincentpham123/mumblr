@@ -7,7 +7,7 @@ class Api::PostsController < ApplicationController
             number_of_posts = 5
             offset = (page_number-1) * number_of_posts
             @posts = Post.includes(:comments,:likes).limit(number_of_posts).offset(offset)
-        
+            @posts_left = @posts.length === 5 ? true : false
     end
 
     def show

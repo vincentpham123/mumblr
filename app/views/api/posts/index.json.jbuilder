@@ -1,4 +1,8 @@
 # @post = Post.includes(:likes, :comments).all
+json.postsleft do 
+    json.posts_left @posts_left
+end
+
 json.posts do 
     @posts.each do |post|
         json.set! post.id do 

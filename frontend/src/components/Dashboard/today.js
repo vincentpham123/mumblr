@@ -12,6 +12,7 @@ const TodayDashboard = () =>{
     const [loading,setLoading] = useState(true);
     const [hasMore,setHasMore] = useState(false);
     const [error,setError] = useState(false);
+    const [morePosts,setMorePosts]=useState(true);
     const observer = useRef();
     const lastPostElementRef = useCallback(node=>{
         if(loading) return 
@@ -19,7 +20,7 @@ const TodayDashboard = () =>{
         
         observer.current = new IntersectionObserver(entries =>{
             console.log(entries);
-            if (entries[0].isIntersecting) {
+            if (entries[0].isIntersecting && morePosts) {
                 setPageNumber(prevPageNumber=> prevPageNumber +1 )
             }
         })
@@ -27,7 +28,11 @@ const TodayDashboard = () =>{
     },[loading]);
     useEffect(()=>{
         dispatch(postActions.clearPosts());
-        dispatch(postActions.fetchPosts(pageNumber));
+        dispatch(postActions.fetchPosts(pageNumber))
+            .then(res=>{
+                console.log(res);
+                setMorePosts(res.postsleft);
+            })
     },[dispatch])
     const posts = useSelector(state=>state.posts);
 
@@ -37,8 +42,9 @@ const TodayDashboard = () =>{
         setLoading(true);
         setError(false);
         dispatch(postActions.fetchPosts(pageNumber))
-            .then( () =>{
+            .then( (res) =>{
                 setLoading(false);
+                setMorePosts(res.postsleft);
             })
 
     },[pageNumber]);
@@ -56,7 +62,7 @@ const TodayDashboard = () =>{
     return (
         <>
         {postsToShow.map ((post,index)=>{
-            if (postsToShow.length === index +1) {
+            if (postsToShow.length === index +1 ) {
                 return (
                     <div ref={lastPostElementRef} key={post.id} className='postMain'>
                     <ShowPost  post={post} profile={false}/>
