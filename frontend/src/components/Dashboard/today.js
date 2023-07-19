@@ -15,25 +15,25 @@ const TodayDashboard = () =>{
     const [morePosts,setMorePosts]=useState(true);
     const observer = useRef();
     const lastPostElementRef = useCallback(node=>{
-        if(loading) return 
+        if(loading) return ;
         if(observer.current) observer.current.disconnect();
+        if(!morePosts) return;
         
         observer.current = new IntersectionObserver(entries =>{
-            console.log(entries);
+            console.log(morePosts);
             if (entries[0].isIntersecting && morePosts) {
                 setPageNumber(prevPageNumber=> prevPageNumber +1 )
             }
         })
         if (node) observer.current.observe(node);
-    },[loading]);
+    },[loading,morePosts]);
     useEffect(()=>{
         dispatch(postActions.clearPosts());
-        dispatch(postActions.fetchPosts(pageNumber))
+        dispatch(postActions.fetchPosts(pageNumber,'today'))
             .then(res=>{
-                console.log(res);
-                setMorePosts(res.postsleft);
+                setMorePosts(res.postsleft.postsLeft);
             })
-    },[dispatch])
+    },[])
     const posts = useSelector(state=>state.posts);
 
     //will trigger a dispatch for more data when
@@ -41,15 +41,13 @@ const TodayDashboard = () =>{
     useEffect(()=>{
         setLoading(true);
         setError(false);
-        dispatch(postActions.fetchPosts(pageNumber))
+        // dispatch(postActions.clearPosts());
+        dispatch(postActions.fetchPosts(pageNumber,'today'))
             .then( (res) =>{
                 setLoading(false);
-                setMorePosts(res.postsleft);
+                setMorePosts(res.postsleft.postsLeft);
             })
 
-    },[pageNumber]);
-    useEffect(()=>{
-        console.log(pageNumber)
     },[pageNumber]);
     const postsToShow=Object.values(posts);
     

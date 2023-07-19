@@ -4,8 +4,10 @@ class Api::PostsController < ApplicationController
 
     def index 
             page_number = params[:page_number].to_i 
+            type = params[:type]
             number_of_posts = 5
             offset = (page_number-1) * number_of_posts
+          
             @posts = Post.includes(:comments,:likes).limit(number_of_posts).offset(offset)
             @posts_left = @posts.length === 5 ? true : false
     end
