@@ -365,7 +365,6 @@ const Comments = ({ comment_id, id,username, profilepic, body }) => {
 const FooterButtons = ({post,setShowTabMenu}) => {
     // will contain 2 buttons(3 if time)
     // const liked = useSelector()
-    const [heart,setHeart] = useState(false);
     const [errors,setErrors] = useState(
         {
             like:'',
@@ -374,8 +373,9 @@ const FooterButtons = ({post,setShowTabMenu}) => {
     );
     const dispatch = useDispatch();
     const sessionUser = useSelector(state=> state.session.user);
-    const liked = useSelector(likesActions.userLike(sessionUser.id,post.id));
-
+    const userid= sessionUser ? sessionUser.id : 0;
+    const liked = useSelector(likesActions.userLike(userid,post.id));
+    
     useEffect(
         ()=>{
         setTimeout(()=>{
@@ -393,6 +393,7 @@ const FooterButtons = ({post,setShowTabMenu}) => {
             setErrors(state=>{
                 return {...state,like: 'Login to Like!'}
             });
+            return;
         } 
             const like = { post_id: post.id, user_id: sessionUser.id }
             const likeId=dispatch(likesActions.createLike(like));
@@ -413,15 +414,22 @@ const FooterButtons = ({post,setShowTabMenu}) => {
                 </button>
             </div>
             <div className='footbutton-container'>
-                {liked.length>0 && <button className={`likesbutton  true`} onClick={event => handleUnlikeButton(event)}>
+                
+                {sessionUser && liked.length>0 && <button className={`likesbutton  true`} onClick={event => handleUnlikeButton(event)}>
                     <i color='rgb(var(--red))' className="fa-solid fa-heart"></i>
                 </button>
                 }
-                {liked.length===0 &&
+                {sessionUser && liked.length===0 &&
                 <button className={`likesbutton`} onClick={event => handleLikeButton(event)}>
                     <i className="fa-solid fa-heart"></i>
                 </button>
                 }
+                {!sessionUser && 
+                <button className={`likesbutton`} onClick={event => handleLikeButton(event)}>
+                    <i className="fa-solid fa-heart"></i>
+                </button>
+                }
+                
                 { errors.like &&
                 <div className='like-errors'>
                     <span>
