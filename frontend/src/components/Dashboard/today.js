@@ -18,11 +18,12 @@ const TodayDashboard = () =>{
         if(observer.current) observer.current.disconnect();
         
         observer.current = new IntersectionObserver(entries =>{
+            console.log(entries);
             if (entries[0].isIntersecting) {
                 setPageNumber(prevPageNumber=> prevPageNumber +1 )
             }
         })
-        if (node) observer.current.observe(node)
+        if (node) observer.current.observe(node);
     },[loading]);
     useEffect(()=>{
         dispatch(postActions.fetchPosts(pageNumber));
