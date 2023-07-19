@@ -48,11 +48,11 @@ const EmailCheck = ({setEmail,onEmailClick}) =>{
                     value={initialEmail} onChange={event=>setInitialEmail(event.target.value)} required
                     />
                 
-                {<div>{emailError}</div>}
                     <button style={{ backgroundColor:`${buttonColor}`,color:`${fontColor}`}} className='email-button' type='submit' >
                     Next<i className="fa-solid fa-arrow-right icon" style={{border: 'none', color: `${fontColor}` }}></i> 
                     </button>
                 </form>
+                {emailError && <div className='invalid-email-error'>{emailError}</div>}
             </div>
             </>
         )
