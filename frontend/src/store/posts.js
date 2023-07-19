@@ -9,10 +9,14 @@ const RECEIVE_POST = "api/RECEIVE_POST";
 const RECEIVE_POSTS = "api/RECEIVE_POSTS";
 const REMOVE_POST = 'api/UPDATE_POST';
 const RECEIVE_USER_POST = "api/USERNAME/RECEIVE_POSTS";
+const CLEAR_POSTS = 'api/CLEAR_POSTS';
 
 // action types
 
-
+export const receiveUserPosts = (posts) => ({
+    type: RECEIVE_USER_POST,
+    posts
+})
 export const receivePost = (post) => ({
     type: RECEIVE_POST,
     post 
@@ -27,7 +31,9 @@ export const deletePost = (postId) =>({
     type: REMOVE_POST,
     postId
 })
-
+export const clearPosts = () => ({
+    type: CLEAR_POSTS
+})
 //getter
 
 export const userPosts = (username) => (state) => {
@@ -113,6 +119,10 @@ const postsReducer = (state={},action)=>{
         case REMOVE_POST:
             delete newState[action.postId];
             return newState;
+        case RECEIVE_USER_POST:
+            return {...action.posts};
+        case CLEAR_POSTS:
+            return {};
         default:
             return newState;
     }

@@ -2,7 +2,7 @@
 // consts
 
 import csrfFetch from "./csrf";
-import { receivePosts } from "./posts";
+import { receivePost, receiveUserPosts } from "./posts";
 const RECEIVE_USER = 'api/RECEIVEUSER'
 const DELETE_USER = 'api/DELETEUSER'
 const RECEIVE_USERS = 'api/RECEIVEUSERS'
@@ -42,7 +42,7 @@ export const fetchUser = (username) => async(dispatch) =>{
     if (response.ok){
         const data = await response.json();
         dispatch(receiveUser(data.user));
-        dispatch(receivePosts(data.posts));
+        dispatch(receiveUserPosts(data.posts));
         return data;
     }
 
