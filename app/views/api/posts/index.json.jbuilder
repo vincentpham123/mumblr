@@ -4,7 +4,7 @@ json.postsleft do
 end
 
 json.posts do 
-    @posts.each do |post|
+    @posts.shuffle().each do |post|
         json.set! post.id do 
             json.partial! '/api/posts/post_brief',post: post 
         end

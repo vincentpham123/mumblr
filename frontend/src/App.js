@@ -4,7 +4,6 @@ import SignupFormPage from './components/SignupFormPage';
 import Navigation from './components/Navigation';
 import { useSelector } from "react-redux";
 import Dashboard from './components/Dashboard/dashboard';
-import TodayDashboard from './components/Dashboard/today';
 import LoginFormModel from './components/LoginFormModal';
 import NewPost from './components/posts/NewPost';
 import NewTextModal from './components/posts/textposts/NewTextPostModal';

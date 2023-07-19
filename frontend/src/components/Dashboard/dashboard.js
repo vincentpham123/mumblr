@@ -4,10 +4,9 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import LoggedIn from "./loggedin";
 import LoggedOut from "./loggedout";
 import './dashboardnav.css';
-import TodayDashboard from "./today";
-import ForYouDashboard from "./ForYou";
 import TrendingDashboard from "./trending";
 import SpotLightDashboard from "./Spotlight";
+import ForYouDashboard from "./ForYou";
 const Dashboard = ({})=>{
     const sessionUser = useSelector(state=> state.session.user)
 
@@ -15,15 +14,14 @@ const Dashboard = ({})=>{
     return (
         <>
         <div className='dashboard-main'>
-            <LoggedOut />
-            {/* {sessionUser && <LoggedIn />}
-            {!sessionUser && <LoggedOut />} */}
+            {sessionUser && <LoggedIn />}
+            {!sessionUser && <LoggedOut />}
         </div>
         <Switch>
             <Redirect exact from="/explore" to="/explore/today" />
 
-            <Route path="/explore/today">
-                <TodayDashboard />
+            <Route path="/explore/foryou">
+                <ForYouDashboard />
             </Route>
             <Route path="/explore/trending">
                 <TrendingDashboard />
@@ -38,7 +36,7 @@ const Dashboard = ({})=>{
                 {/* render spotlight */}
             {/* </Route> */} 
             <Route path="/">
-                <TodayDashboard />
+                <ForYouDashboard />
             </Route>
         </Switch>
 
