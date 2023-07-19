@@ -162,6 +162,7 @@
 .commenttext-container{
     margin: 15px 10px 0 10px;
     display: flex;
+    justify-content: center;
     
 }
 .commenttext-body{
@@ -470,4 +471,18 @@ padding-bottom: 15px;
     color: white;
     font-family: 'Favorit Tumblr';
 
+}
+
+.comment-error{
+    position: absolute;
+    background-color: rgb(var(--red));
+    padding: 20px;
+    border-radius: 3px;
+    right: -10vw;
+    
+}
+
+.comment-error span{
+    font-weight: 700;
+    font-size: 1rem;
 }

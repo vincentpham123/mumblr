@@ -9,6 +9,7 @@
     font-family: var(--font-family);
     border-radius:5px;
     padding: 40px;
+    align-items: center;
 
 }
 @media only screen and (min-width:600px){
@@ -145,4 +146,15 @@ display flex and center everything */
     margin-bottom:1%;
 
     
+}
+
+.invalid-email-error{
+    background-color: rgb(var(--red));
+    width:30vw;
+    position: absolute;
+    bottom:-8vh;
+    padding: 15px;
+    border-radius: 3px;
+    font-family: 'Favorit Tumblr';
+
 }
