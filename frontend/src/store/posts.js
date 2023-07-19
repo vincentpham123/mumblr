@@ -36,8 +36,8 @@ export const userPosts = (username) => (state) => {
 
 // thunk actions
 
-export const fetchPosts = () => async(dispatch) =>{
-    let response = await fetch('/api/posts');
+export const fetchPosts = (pagenumber) => async(dispatch) =>{
+    let response = await fetch('/api/posts?page_number=2')
     if (response.ok){
     const data = await response.json();
     dispatch(receivePosts(data.posts));
