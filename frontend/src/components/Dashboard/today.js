@@ -26,6 +26,7 @@ const TodayDashboard = () =>{
         if (node) observer.current.observe(node);
     },[loading]);
     useEffect(()=>{
+        dispatch(postActions.clearPosts());
         dispatch(postActions.fetchPosts(pageNumber));
     },[dispatch])
     const posts = useSelector(state=>state.posts);
