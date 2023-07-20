@@ -16,6 +16,8 @@ json.users do
         author = User.find(author_id)
         json.set! author.id do 
             json.extract! author, :username, :id
+            json.profilepic author.profilepic.attached? ? author.profilepic.url : nil 
+            json.background author.background.attached? ? author.background.url : nil
         end
     end
 

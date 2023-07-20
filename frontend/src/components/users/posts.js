@@ -3,7 +3,7 @@ import { useEffect,useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import * as postActions from "../../store/posts";
-const PostsDashboard = ({posts}) =>{
+const PostsDashboard = ({posts,type}) =>{
     const sessionUser = useSelector(state=>state.session.user);
     const dispatch = useDispatch();
   

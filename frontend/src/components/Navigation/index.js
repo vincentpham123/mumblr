@@ -1,5 +1,5 @@
 
-import React,{useState} from 'react';
+import {useState,useEffect} from 'react';
 import {useDispatch,useSelector} from 'react-redux'
 import * as sessionActions from '../../store/session';
 import { Redirect, NavLink,Link,useHistory } from 'react-router-dom'
@@ -15,13 +15,17 @@ const Navigation = ()=>{
     const handleDemoButton=(event)=>{
         event.preventDefault();
         dispatch(sessionActions.login({ email: 'Demo-lition', password: 'password' }));
-        history.push('/explore/foryou')
+        // history.push('/explore/foryou')
 
     }
-    const handleLinks = (e)=>{
-        e.preventDefault();
-        window.open(e.target.href,'_blank')
-    };
+    useEffect(()=>{
+        if (sessionUser){
+            history.push('/explore/foryou')
+        }else {
+            history.push('/explore/preview')
+        }
+
+    },[sessionUser])
     if (sessionUser){
         sessionLinks=(
             <>

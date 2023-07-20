@@ -13,6 +13,7 @@ const DashboardPartial = ({type}) =>{
     const [error,setError] = useState(false);
     const [morePosts,setMorePosts]=useState(true);
     const observer = useRef();
+    
     const lastPostElementRef = useCallback(node=>{
         if(loading) return ;
         if(observer.current) observer.current.disconnect();
@@ -30,6 +31,7 @@ const DashboardPartial = ({type}) =>{
         dispatch(postActions.clearPosts())
         dispatch(postActions.fetchPosts(pageNumber,type))
             .then(res=>{
+                setPostsMap([]);
                 setMorePosts(res.postsleft.postsLeft);
             })
     },[type])
@@ -49,6 +51,7 @@ const DashboardPartial = ({type}) =>{
             })
     },[pageNumber]);
     useEffect(()=>{
+        setLoading(true);
         setPostsMap(state=>{
             const existingPostIds = state.map((post)=>post.id);
             const newPosts = Object.values(posts).filter(
@@ -60,6 +63,7 @@ const DashboardPartial = ({type}) =>{
             })
             return newState;
         })
+        setLoading(false);
     },[posts])
 
 
@@ -71,16 +75,15 @@ const DashboardPartial = ({type}) =>{
     //todayonmumblr
     // in seeding, need to have posts reblogged by todayonmumblr
     if (!posts){
-        console.log('loading')
+        return null;
     }
     return (
         <>
-        {!posts && <div><h1>Loading</h1></div> }
         {postsMap.map ((post,index)=>{
             if (postsMap.length === index +1 ) {
                 return (
                     <div ref={lastPostElementRef} key={post.id} className='postMain'>
-                    <ShowPost  post={post} profile={false}/>
+                        <ShowPost  post={post} profile={false}/>
                     </div>)
             } else {
                 return( 

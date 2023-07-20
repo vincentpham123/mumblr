@@ -24,8 +24,8 @@ export const deleteUser = (userId) => ({
 });
 
 //gett
-export const getUser = username => state =>{
-    return state?.users ? Object.values(state.users).filter((user)=>user.username===username) : []
+export const getUser = id => state =>{
+    return state?.users ? state.users[id] : null;
     
 }
 export const fetchUsers =() => async(dispatch) => {
@@ -36,9 +36,9 @@ export const fetchUsers =() => async(dispatch) => {
         return users;
     }
 }
-export const fetchUser = (username) => async(dispatch) =>{
+export const fetchUser = (id) => async(dispatch) =>{
     // debugger
-    let response = await fetch(`/api/users/${username}`)
+    let response = await fetch(`/api/users/${id}`)
     if (response.ok){
         const data = await response.json();
         dispatch(receiveUser(data.user));
@@ -67,8 +67,8 @@ const userReducer = (state={},action) => {
             return {...state, ...action.users}; 
 
         case RECEIVE_USER:
-            return action.user;
-            
+            newState[action.user.id]=action.user;
+            return newState;
         case DELETE_USER:
             delete newState[action.user.username];
             return newState;

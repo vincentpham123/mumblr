@@ -8,6 +8,7 @@ class Api::PostsController < ApplicationController
             number_of_posts = 5
             offset = (page_number-1) * number_of_posts
             user = current_user
+            userid = params[:user].to_i
             case type 
                 when 'foryou'
                     @posts = Post
@@ -24,10 +25,16 @@ class Api::PostsController < ApplicationController
                                 .order(Arel.sql('RANDOM()'))
                                 .limit(number_of_posts)
                                 .offset(offset)
+                when 'userposts'
+                    user = User.find(params[:user])
+                    @posts = user.posts.limit(number_of_posts).offset(offset)
+                when 'likes'
+                    user = User.find(params[:user])
+                    @posts = user.liked_posts.limit(number_of_posts).offset(offset)
                 else 
                     @posts = Post.includes(:comments,:likes).limit(number_of_posts).offset(offset)
             end
-            @posts_left = @posts.length === 5 ? true : false
+            @posts_left = @posts.length >4 ? true : false
     end
 
     def show
@@ -68,6 +75,6 @@ class Api::PostsController < ApplicationController
     def post_params
         #take in pagenumber to know which section of the data to pass in 
         #type to know if trending or following 
-        params.require(:post).permit(:title,:body,:author_id,:photo1,:photo2,:photo3,:photo4,:user_id,:type,:page_number)
+        params.require(:post).permit(:title,:body,:author_id,:photo1,:photo2,:photo3,:photo4,:user_id,:type,:page_number,:user)
     end
 end

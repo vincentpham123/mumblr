@@ -7,9 +7,10 @@ import { Route , Switch,useParams, NavLink,Link } from "react-router-dom";
 import PostsDashboard from "./posts";
 import './index.css';
 import LikesDashboard from "./likes";
+import UserDashboard from "./UserDashBoard";
 const UserShowPage =() =>{
     const dispatch = useDispatch();
-    const params = useParams();
+    const {userid} = useParams();
     const [pageType,setPageType] =useState('false');
 
 
@@ -19,18 +20,26 @@ const UserShowPage =() =>{
     //user or otheruser render
     // each user will have a profile Pic, and backgroundImage
     // need to fetch user from backend
-    const user = useSelector(state=> state.users);
+    const user= useSelector(state=>state.users[userid]);
+    // const user = users[userid];
     const sessionUser = useSelector(state=>state.session.user);
+    // this logic will be handled by the userdashboard
     useEffect(()=>{
-        dispatch(userActions.fetchUser(params.userid))
-
-    },[params]);
+        dispatch(userActions.fetchUser(userid))
+            .then(res=>{
+                console.log(res)
+            })
+    },[userid]);
 
     
     
     const userPosts = useSelector(state=>state.posts);
     // if (!user) return (null);
-    if (!userPosts) return(null);
+    if (!user) {
+    return(
+        <div>Loading...</div>
+    )
+    }
   
 
     // if sessionUser matches userId passed in 
@@ -107,17 +116,17 @@ const UserShowPage =() =>{
                             <div className='profilenavigation'>
                                 
                                 <div className='profilelinks'>
-                                    <NavLink className='profilelink' to={`/user/${params.userid}/posts`}>Posts</NavLink>
-                                    <NavLink className='profilelink' to={`/user/${params.userid}/likes`}>Likes</NavLink>
+                                    <NavLink className='profilelink' to={`/user/${userid}/posts`}>Posts</NavLink>
+                                    <NavLink className='profilelink' to={`/user/${userid}/likes`}>Likes</NavLink>
                                 </div>
                             </div>
                             <div className='profile-meat'>
                             <Switch>
                                 <Route path='/user/:userid/posts' >
-                                    <PostsDashboard posts={Object.values(userPosts)} />
+                                    <UserDashboard type={'userposts'}/>
                                 </Route>
                                 <Route path='/user/:userid/likes' >
-                                    <LikesDashboard posts={Object.values(userPosts)} />
+                                    <UserDashboard type={'likes'}/>
                                 </Route>
                             </Switch>
                             </div>

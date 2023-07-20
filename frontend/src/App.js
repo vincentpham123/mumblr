@@ -29,11 +29,6 @@ function App() {
               <Dashboard />
             </div>
           </Route>
-          <Route exact path="/">
-            <div className="dashboard">
-              <Dashboard />
-            </div>
-          </Route>
           <Route path="/user/:userid">
             <UserShowPage />
           </Route>
@@ -50,6 +45,12 @@ function App() {
           </Route>
           <Route path="/new">
             <NewPost />
+          </Route>
+            
+          <Route exact path="/">
+            <div className="dashboard">
+              <Dashboard />
+            </div>
           </Route>
       </div>
       {/* <Switch location={background || location}>
