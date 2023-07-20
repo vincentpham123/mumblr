@@ -17,14 +17,7 @@ class Api::PostsController < ApplicationController
                                 .limit(number_of_posts)
                                 .offset(offset)
                 when 'trending'
-                    @posts = Post
-                                .includes(:comments,:likes,:author)
-                                .select('posts.*,COUNT(DISTINCT comments.id) as comments_count, COUNT(DISTINC likes.id) as likes_count')
-                                .left_joins(:comments,:likes)
-                                .group('posts.id')
-                                .order(Arel.sql('comments_count + likes_count DESC'))
-                                .limit(number_of_posts)
-                                .offset(offset)
+                    @posts = Post.trending_query(number_of_posts,offset)
                 when 'preview'
                     @posts = Post
                                 .includes(:comments,:likes,:author)

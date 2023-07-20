@@ -1,32 +1,34 @@
-import { useSelector,useEffect } from "react-redux";
+import { useState,useEffect } from "react";
 
+import { useSelector } from "react-redux";
 import { Route, Switch, Redirect } from "react-router-dom";
 import LoggedIn from "./loggedin";
 import LoggedOut from "./loggedout";
 import './dashboardnav.css';
 import TrendingDashboard from "./trending";
 import SpotLightDashboard from "./Spotlight";
-import ForYouDashboard from "./ForYou";
 import DashboardPartial from "./DashBoardPartial";
 const Dashboard = ({})=>{
     const sessionUser = useSelector(state=> state.session.user)
-
-
+    const [currentTab,setCurrentTab] = useState('');
+   
     return (
         <>
         <div className='dashboard-main'>
-            {sessionUser && <LoggedIn />}
-            {!sessionUser && <LoggedOut />}
+            {sessionUser && <LoggedIn setCurrentTab={setCurrentTab}/>}
+            {!sessionUser && <LoggedOut setCurrentTab={setCurrentTab}/>}
         </div>
         <Switch>      
             <Route path='/explore/preview'>
                 <DashboardPartial type={'preview'}/>
             </Route>
             <Route path="/explore/foryou">
-                <DashboardPartial type={'foryou'} />
+                <DashboardPartial type={'foryou'}/>
+
             </Route>
             <Route path="/explore/trending">
-                <DashboardPartial type={'trending'} />
+                <DashboardPartial type={'trending'}/>
+
             </Route>
             <Route exact path="/explore/spotlight">
                 <SpotLightDashboard />

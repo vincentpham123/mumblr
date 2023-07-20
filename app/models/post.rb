@@ -40,6 +40,16 @@ class Post < ApplicationRecord
     has_one_attached :photo3
     has_one_attached :photo4
 
+    def self.trending_query(number_of_posts, offset)
+        select("posts.*, COUNT(DISTINCT comments.id) as comments_count, COUNT(DISTINCT likes.id) as likes_count")
+          .includes(:comments, :likes, :author)
+          .left_outer_joins(:comments, :likes)
+          .group("posts.id")
+          .order('likes_count DESC')
+          .limit(number_of_posts)
+          .offset(offset)
+    end
+    
     # def purge_photos
     #     if self.photo1.attached? && self.photo1 == 'remove'
     #         self.photo1=nil

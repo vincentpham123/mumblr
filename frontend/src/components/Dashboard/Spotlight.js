@@ -13,6 +13,9 @@ const SpotLightDashboard = () =>{
    
     useEffect(()=>{
         dispatch(userActions.fetchUser(10));
+        return ()=>{
+            dispatch(postActions.clearPosts())
+        }
     },[]);
     const postsToShow=Object.values(posts);
     const trendingPosts=[];
@@ -25,7 +28,12 @@ const SpotLightDashboard = () =>{
     return (
         <>
         {postsToShow.map ((post)=>{
-        return <ShowPost post={post} profile={false}/>})
+        return (
+            <div className='postMain' key={post.id}>
+                <ShowPost post={post} profile={false}/>
+            </div>
+        )
+        })
         }
         </>
     );

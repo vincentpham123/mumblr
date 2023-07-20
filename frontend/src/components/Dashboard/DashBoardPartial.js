@@ -1,13 +1,11 @@
 import ShowPost from "../posts/showPost";
 import { useEffect,useState,useRef,useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Redirect,useParams} from "react-router-dom";
 import * as postActions from "../../store/posts";
 const DashboardPartial = ({type}) =>{
     const sessionUser = useSelector(state=>state.session.user);
     const dispatch = useDispatch();
-    // pagenumber to pass to backend to pass the next batch of data
-    // 
     const [postsMap,setPostsMap] = useState([]);
     const [pageNumber,setPageNumber]=useState(1);
     const [loading,setLoading] = useState(true);
@@ -21,7 +19,6 @@ const DashboardPartial = ({type}) =>{
         if(!morePosts) return;
         
         observer.current = new IntersectionObserver(entries =>{
-            console.log(morePosts);
             if (entries[0].isIntersecting && morePosts) {
                 setPageNumber(prevPageNumber=> prevPageNumber +1 )
             }
@@ -29,13 +26,15 @@ const DashboardPartial = ({type}) =>{
         if (node) observer.current.observe(node);
     },[loading,morePosts]);
     useEffect(()=>{
+        setPostsMap([]);
         dispatch(postActions.clearPosts());
         dispatch(postActions.fetchPosts(pageNumber,type))
             .then(res=>{
                 setMorePosts(res.postsleft.postsLeft);
             })
     },[])
-    const posts = useSelector(state=>state.posts);
+    let posts;
+    posts = useSelector(state=>state.posts);
 
     //will trigger a dispatch for more data when
     // pagenumber changes
@@ -51,25 +50,35 @@ const DashboardPartial = ({type}) =>{
 
     },[pageNumber]);
     useEffect(()=>{
+        console.log('updating postMaps')
         setPostsMap(state=>{
-            const existingPostIds = new Set(state.map((post)=>post.id));
+            const existingPostIds = state.map((post)=>post.id);
             const newPosts = Object.values(posts).filter(
-                (post)=> !existingPostIds.has(post.id)
+                (post)=> !existingPostIds.includes(post.id)
             )
-            return [...state,...newPosts]
+            const newState=[];
+            [...state,...newPosts].forEach((post)=>{
+                newState.push(post);
+            })
+            return newState;
         })
-        return ()=> setPostsMap([]);
-    },[dispatch,posts])
+    },[posts])
+    // let posts;
+    // posts = useSelector(state=>state.posts);
+
     const postsToShow=Object.values(posts);
-    console.log(postsMap)
     
     // if (sessionUser) return <Redirect to="/" />;
     //all Today dashboard will be in here
     //select posts that were reblogged by 
     //todayonmumblr
     // in seeding, need to have posts reblogged by todayonmumblr
+    if (!posts){
+        console.log('loading')
+    }
     return (
         <>
+        {!posts && <div><h1>Loading</h1></div> }
         {postsMap.map ((post,index)=>{
             if (postsMap.length === index +1 ) {
                 return (
@@ -84,6 +93,12 @@ const DashboardPartial = ({type}) =>{
                 )
             }
         })}
+        {loading && 
+            <div className='post-load-container'>
+                <div className='post-load-body'>
+                    <i className="fa-solid fa-spinner fa-spin"></i>
+                </div>
+            </div>}
         </>
     );
 

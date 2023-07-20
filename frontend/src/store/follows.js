@@ -1,5 +1,5 @@
 import csrfFetch from "./csrf";
-
+import { createSelector } from "reselect";
 const RECEIVE_FOLLOWS ='/api/RECEIVEFOLLOWS'
 const DELETE_FOLLOW = '/api/DELETEFOLLOW'      
 const RECEIVE_FOLLOW = '/api/RECEIVEFOLLOW'
@@ -25,6 +25,9 @@ export const receiveFollow = (follow) =>({
 export const userFollowed = (postAuthorid) => state => {
   return state.follows ? Object.values(state.follows).filter((follow)=> follow.userId === postAuthorid) : null;
 }
+// export const userFollowedSelector= createSelector(
+//   (state,postAuthorid)=>()
+// )
 // thunk actions
 export const createFollow = (follow) => async dispatch => {
     let response = await csrfFetch('/api/follows',{
