@@ -81,4 +81,4 @@ const DashboardPartial = ({type}) =>{
 
 }
 
-export default ForYouDashboard;
+export default DashboardPartial;

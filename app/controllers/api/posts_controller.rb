@@ -7,8 +7,18 @@ class Api::PostsController < ApplicationController
             type = params[:type]
             number_of_posts = 5
             offset = (page_number-1) * number_of_posts
-          
-            @posts = Post.includes(:comments,:likes).limit(number_of_posts).offset(offset)
+            user = current_user
+            case type 
+                when 'foryou'
+                    @posts = Post
+                                .includes(:comments,:likes,:author)
+                                .joins(:author)
+                                .where(users: { id: user.follows.pluck(:user_id) })
+                                .limit(number_of_posts)
+                                .offset(offset)
+                else 
+                    @posts = Post.includes(:comments,:likes).limit(number_of_posts).offset(offset)
+            end
             @posts_left = @posts.length === 5 ? true : false
     end
 

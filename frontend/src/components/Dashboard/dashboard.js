@@ -7,6 +7,7 @@ import './dashboardnav.css';
 import TrendingDashboard from "./trending";
 import SpotLightDashboard from "./Spotlight";
 import ForYouDashboard from "./ForYou";
+import DashboardPartial from "./DashBoardPartial";
 const Dashboard = ({})=>{
     const sessionUser = useSelector(state=> state.session.user)
 
@@ -21,7 +22,7 @@ const Dashboard = ({})=>{
             <Redirect exact from="/explore" to="/explore/today" />
 
             <Route path="/explore/foryou">
-                <ForYouDashboard />
+                <DashboardPartial type={'foryou'} />
             </Route>
             <Route path="/explore/trending">
                 <TrendingDashboard />
