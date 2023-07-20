@@ -1,6 +1,10 @@
 # @post = Post.includes(:likes, :comments).all
+json.postsleft do 
+    json.posts_left @posts_left
+end
+
 json.posts do 
-    @posts.each do |post|
+    @posts.shuffle().each do |post|
         json.set! post.id do 
             json.partial! '/api/posts/post_brief',post: post 
         end
@@ -12,6 +16,8 @@ json.users do
         author = User.find(author_id)
         json.set! author.id do 
             json.extract! author, :username, :id
+            json.profilepic author.profilepic.attached? ? author.profilepic.url : nil 
+            json.background author.background.attached? ? author.background.url : nil
         end
     end
 

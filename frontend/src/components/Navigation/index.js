@@ -1,8 +1,8 @@
 
-import React,{useState} from 'react';
+import {useState,useEffect} from 'react';
 import {useDispatch,useSelector} from 'react-redux'
 import * as sessionActions from '../../store/session';
-import { Redirect, NavLink,Link } from 'react-router-dom'
+import { Redirect, NavLink,Link,useHistory } from 'react-router-dom'
 import Profilebutton from './ProfileButton';
 import PostButton from './PostButton';
 import LoginFormModel from '../LoginFormModal';
@@ -10,15 +10,22 @@ import './navigation.css'
 const Navigation = ()=>{
     const sessionUser = useSelector(state=> state.session.user);
     const dispatch = useDispatch();
+    const history = useHistory();
     let sessionLinks;
     const handleDemoButton=(event)=>{
         event.preventDefault();
         dispatch(sessionActions.login({ email: 'Demo-lition', password: 'password' }));
+        // history.push('/explore/foryou')
+
     }
-    const handleLinks = (e)=>{
-        e.preventDefault();
-        window.open(e.target.href,'_blank')
-    };
+    useEffect(()=>{
+        if (sessionUser){
+            history.push('/explore/foryou')
+        }else {
+            history.push('/explore/preview')
+        }
+
+    },[sessionUser])
     if (sessionUser){
         sessionLinks=(
             <>

@@ -1,5 +1,5 @@
 import csrfFetch from "./csrf"
-
+import { createSelector } from "reselect"
 const RECEIVE_COMMENT = 'api/RECEIVECOMMENT'
 const DELETE_COMMENT = 'api/DELETECOMMENT'
 const RECEIVE_COMMENTS= 'api/RECEIVECOMMENTS'
@@ -20,10 +20,28 @@ export const deleteComment = (commentId) => ({
 })
 
 //getter 
+// export const postComments = (postid) => (state) => {
+//     return state?.posts ? Object.values(state.comments).filter((comment)=> comment.postId ===postid) : null;
+    
+// }
+const getCommentState = state=> state.comments;
 export const postComments = (postid) => (state) => {
     return state?.posts ? Object.values(state.comments).filter((comment)=> comment.postId ===postid) : null;
     
 }
+
+// export const postComments = (postid) => createSelector(
+//     [getCommentState],
+//     (comments) => comments.filer((comment)=>comment.postId ===postid)
+//     // return state?.posts ? Object.values(state.comments).filter((comment)=> comment.postId ===postid) : null;
+    
+// )
+
+// export const postCommentsSelector = createSelector(
+//     getCommentState,
+//     (_,postId) => postId,
+//     postComments
+// );
 //thunk actions
 
 export const createComment = (formData) =>async dispatch=> {

@@ -16,6 +16,12 @@ class Follow < ApplicationRecord
         class_name: :User,
         foreign_key: :follower_id
 
-    belongs_to :user
+    belongs_to :user,
+        class_name: :User,
+        foreign_key: :user_id 
+
+    has_many :user_posts,
+        through: :user,
+        source: :posts
     
 end

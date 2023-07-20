@@ -1,8 +1,9 @@
-import { useState, useEffect} from "react"
-import './index.css'
+import { useState, useEffect} from "react";
+
+import './index.css';
 import * as sessionActions from '../../store/session';
 import csrfFetch from "../../store/csrf";
-import { Redirect } from "react-router-dom";
+import { Redirect,useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import './passwordLogin.css';
 const PasswordLogin = ({email},{setshowModal}) =>{
@@ -11,6 +12,7 @@ const PasswordLogin = ({email},{setshowModal}) =>{
     const [errors,setErrors] = useState([]);
     const [buttonColor,setButtonColor] = useState('');
     const [fontColor,setFontColor] = useState('');
+    const history = useHistory();
     useEffect(()=>{
         if (password.length){
             setButtonColor('white');
@@ -24,7 +26,7 @@ const PasswordLogin = ({email},{setshowModal}) =>{
         event.preventDefault();
 
         setErrors([]);
-        return dispatch(sessionActions.login({email, password}))
+        dispatch(sessionActions.login({email, password}))
             .catch(async (res) => {
                 let data;
                 try {
@@ -38,6 +40,7 @@ const PasswordLogin = ({email},{setshowModal}) =>{
                 else setErrors([res.statusText]);
 
             });
+        history.push('/explore/foryou');
     }
     return (
         <>

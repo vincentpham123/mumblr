@@ -1,21 +1,74 @@
 import ShowPost from "../posts/showPost";
-import { useEffect,useState } from "react";
+import { useEffect,useState,useRef,useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Redirect,useParams} from "react-router-dom";
 import * as postActions from "../../store/posts";
-const TrendingDashboard = () =>{
+const Trending = () =>{
     const sessionUser = useSelector(state=>state.session.user);
     const dispatch = useDispatch();
-    const randomPost = Math.floor(Math.random()*50)+1;
-    const posts = useSelector(state=>state.posts);
-    // can write a fetch that sorts by likes.count descending. limit 10
-    // select random ones
-   
+    const params = useParams();
+    // pagenumber to pass to backend to pass the next batch of data
+    // 
+    const [postsMap,setPostsMap] = useState([]);
+    const [pageNumber,setPageNumber]=useState(1);
+    const [hasMore,setHasMore] = useState(false);
+    const [loading,setLoading] = useState(true);
+    const [error,setError] = useState(false);
+    const [morePosts,setMorePosts]=useState(true);
+    const observer = useRef();
+    const lastPostElementRef = useCallback(node=>{
+        if(loading) return ;
+        if(observer.current) observer.current.disconnect();
+        if(!morePosts) return;
+        
+        observer.current = new IntersectionObserver(entries =>{
+            console.log(morePosts);
+            if (entries[0].isIntersecting && morePosts) {
+                setPageNumber(prevPageNumber=> prevPageNumber +1 )
+            }
+        })
+        if (node) observer.current.observe(node);
+    },[loading,morePosts]);
     useEffect(()=>{
-        dispatch(postActions.fetchPosts());
-    },[]);
+        dispatch(postActions.clearPosts());
+        dispatch(postActions.fetchPosts(pageNumber,'trending'))
+            .then(res=>{
+                setMorePosts(res.postsleft.postsLeft);
+            })
+    },[])
+    const posts = useSelector(state=>state.posts);
+
+    //will trigger a dispatch for more data when
+    // pagenumber changes
+    useEffect(()=>{
+        setLoading(true);
+        setError(false);
+        // dispatch(postActions.clearPosts());
+        dispatch(postActions.fetchPosts(pageNumber,'trending'))
+            .then( (res) =>{
+                setLoading(false);
+                setMorePosts(res.postsleft.postsLeft);
+            })
+
+    },[pageNumber]);
+    useEffect(()=>{
+        setPostsMap(state=>{
+            const existingPostIds = state.map((post)=>post.id);
+            const newPosts = Object.values(posts).filter(
+                (post)=> !existingPostIds.includes(post.id)
+            )
+            const newState=[];
+            [...state,...newPosts].forEach((post)=>{
+                newState.push(post);
+            })
+            return newState;
+        })
+        return ()=>{
+            setPostsMap([]);
+        }
+    },[posts])
     const postsToShow=Object.values(posts);
-    const trendingPosts=[];
+    
     // if (sessionUser) return <Redirect to="/" />;
     //all Today dashboard will be in here
     //select posts that were reblogged by 
@@ -23,9 +76,20 @@ const TrendingDashboard = () =>{
     // in seeding, need to have posts reblogged by todayonmumblr
     return (
         <>
-        {postsToShow.map ((post)=>{
-        return <ShowPost post={post} profile={false}/>})
-        }
+        {postsMap.map ((post,index)=>{
+            if (postsMap.length === index +1 ) {
+                return (
+                    <div ref={lastPostElementRef} key={post.id} className='postMain'>
+                    <ShowPost  post={post} profile={false}/>
+                    </div>)
+            } else {
+                return( 
+                    <div className='postMain' key={post.id}>
+                        <ShowPost  post={post} profile={false}/>
+                    </div>
+                )
+            }
+        })}
         </>
     );
 
@@ -34,4 +98,4 @@ const TrendingDashboard = () =>{
 
 }
 
-export default TrendingDashboard;
+export default Trending;

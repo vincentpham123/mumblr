@@ -61,8 +61,7 @@ class User < ApplicationRecord
 
   has_many :followers,
     foreign_key: :follower_id,
-    class_name: :Follow,
-    dependent: :destroy
+    class_name: :Follow
   
   
     has_one_attached :profilepic 

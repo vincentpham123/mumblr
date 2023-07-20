@@ -1,32 +1,34 @@
-import { useSelector,useEffect } from "react-redux";
+import { useState,useEffect } from "react";
 
+import { useSelector } from "react-redux";
 import { Route, Switch, Redirect } from "react-router-dom";
 import LoggedIn from "./loggedin";
 import LoggedOut from "./loggedout";
 import './dashboardnav.css';
-import TodayDashboard from "./today";
-import ForYouDashboard from "./ForYou";
 import TrendingDashboard from "./trending";
 import SpotLightDashboard from "./Spotlight";
+import DashboardPartial from "./DashBoardPartial";
 const Dashboard = ({})=>{
     const sessionUser = useSelector(state=> state.session.user)
-
-
+    const [currentTab,setCurrentTab] = useState('');
+   
     return (
         <>
         <div className='dashboard-main'>
-            <LoggedOut />
-            {/* {sessionUser && <LoggedIn />}
-            {!sessionUser && <LoggedOut />} */}
+            {sessionUser && <LoggedIn setCurrentTab={setCurrentTab}/>}
+            {!sessionUser && <LoggedOut setCurrentTab={setCurrentTab}/>}
         </div>
-        <Switch>
-            <Redirect exact from="/explore" to="/explore/today" />
+        <Switch>      
+            <Route path='/explore/preview'>
+                <DashboardPartial type={'preview'}/>
+            </Route>
+            <Route path="/explore/foryou">
+                <DashboardPartial type={'foryou'}/>
 
-            <Route path="/explore/today">
-                <TodayDashboard />
             </Route>
             <Route path="/explore/trending">
-                <TrendingDashboard />
+                <DashboardPartial type={'trending'}/>
+
             </Route>
             <Route exact path="/explore/spotlight">
                 <SpotLightDashboard />
@@ -37,9 +39,9 @@ const Dashboard = ({})=>{
             <Route path="/explore/following">
                 {/* render spotlight */}
             {/* </Route> */} 
-            <Route path="/">
-                <TodayDashboard />
-            </Route>
+            {/* <Route path="/">
+                <ForYouDashboard />
+            </Route> */}
         </Switch>
 
 

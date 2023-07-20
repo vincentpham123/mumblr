@@ -2,7 +2,7 @@
 import csrfFetch from "./csrf";
 
 import { receivePosts, receivePost } from "./posts";
-
+import { createSelector} from "reselect";
 
 const RECEIVE_LIKES = 'api/RECEIVELIKES';
 const DELETE_LIKE = 'api/DELETELIKE';
@@ -29,13 +29,26 @@ export const deleteLike = (likeid) => ({
     likeid
 })
 //getter
+const getLikesState = (state) => state.likes;
 export const postLikes = (postid) => (state) => {
     return state?.likes ? Object.values(state.likes).filter((like)=>like.postId ===postid) : null;
     
 }
+export const postLikesSelector = createSelector(
+    getLikesState,
+    (_,postId) => postId,
+    postLikes
+
+);
 export const userLike = (userId=0,postId) => state =>{
     return state?.likes ? Object.values(state.likes).filter((like)=>like.userId===userId && like.postId ==postId) : null;
 }
+export const userLikesSelector = createSelector(
+    getLikesState,
+    (_,userId=0,postId)=>({userId,postId}),
+    userLike
+)
+
 //thunk actions 
 //will need a createlike and deletelike thunk action
 // no need for thunk action to receive likes

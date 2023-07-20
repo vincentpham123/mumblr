@@ -104,38 +104,6 @@ const PostFooter = ({ post }) => {
         )
     }
 
-    // const FooterButtons = () => {
-    //     // will contain 2 buttons(3 if time)
-    //     return (
-    //         <div className='footerbuttons-container'>
-    //             <div className='footbutton-container'>
-    //                 <button className='commentbutton' onClick={() => setShowTabMenu(true)}>
-    //                     <i className="fa-regular fa-comment"></i>
-    //                 </button>
-    //             </div>
-    //             <div className='footbutton-container'>
-    //                 {liked.length>0 && <button className={`likesbutton  true`} onClick={event => handleUnlikeButton(event)}>
-    //                     <i color='rgb(var(--red))' className="fa-solid fa-heart"></i>
-    //                 </button>
-    //                 }
-    //                 {liked.length===0 &&
-    //                 <button className={`likesbutton`} onClick={event => handleLikeButton(event)}>
-    //                     <i className="fa-solid fa-heart"></i>
-    //                 </button>
-    //                 }
-    //                 { errors.like &&
-    //                 <div className='like-errors'>
-    //                     <span>
-    //                         {errors.like}
-    //                     </span>
-    //                 </div>
-    //                 }
-    //             </div>
-
-    //         </div>
-    //     )
-    // }
-
     const FooterTabsMenu = () => {
         // this will contain the tabs for the menu
         // it will have 2 separate tabs depending on which one is clicked
@@ -218,6 +186,7 @@ const PostFooter = ({ post }) => {
                         <FooterButtons 
                             post={post}
                             setShowTabMenu={setShowTabMenu}
+                            sessionUser={sessionUser}
                         />
                     </div>
                     <div className='posttabmenu-container'>
@@ -384,7 +353,7 @@ const Comments = ({ comment_id, id,username, profilepic, body }) => {
 }
 
 
-const FooterButtons = ({post,setShowTabMenu}) => {
+const FooterButtons = ({post,setShowTabMenu,sessionUser}) => {
     // will contain 2 buttons(3 if time)
     // const liked = useSelector()
     const [errors,setErrors] = useState(
@@ -394,7 +363,7 @@ const FooterButtons = ({post,setShowTabMenu}) => {
         }
     );
     const dispatch = useDispatch();
-    const sessionUser = useSelector(state=> state.session.user);
+    // const sessionUser = useSelector(state=> state.session.user);
     const userid= sessionUser ? sessionUser.id : 0;
     const liked = useSelector(likesActions.userLike(userid,post.id));
     
@@ -464,3 +433,4 @@ const FooterButtons = ({post,setShowTabMenu}) => {
         </div>
     )
 }
+
