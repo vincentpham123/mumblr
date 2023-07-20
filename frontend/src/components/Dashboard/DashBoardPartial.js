@@ -27,14 +27,14 @@ const DashboardPartial = ({type}) =>{
     },[loading,morePosts]);
     useEffect(()=>{
         setPostsMap([]);
-        dispatch(postActions.clearPosts());
+        dispatch(postActions.clearPosts())
         dispatch(postActions.fetchPosts(pageNumber,type))
             .then(res=>{
                 setMorePosts(res.postsleft.postsLeft);
             })
-    },[])
-    let posts;
-    posts = useSelector(state=>state.posts);
+    },[type])
+   
+    const posts = useSelector(state=>state.posts);
 
     //will trigger a dispatch for more data when
     // pagenumber changes
@@ -47,10 +47,8 @@ const DashboardPartial = ({type}) =>{
                 setLoading(false);
                 setMorePosts(res.postsleft.postsLeft);
             })
-
     },[pageNumber]);
     useEffect(()=>{
-        console.log('updating postMaps')
         setPostsMap(state=>{
             const existingPostIds = state.map((post)=>post.id);
             const newPosts = Object.values(posts).filter(
@@ -63,8 +61,7 @@ const DashboardPartial = ({type}) =>{
             return newState;
         })
     },[posts])
-    // let posts;
-    // posts = useSelector(state=>state.posts);
+
 
     const postsToShow=Object.values(posts);
     
