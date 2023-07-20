@@ -16,6 +16,21 @@ class Api::PostsController < ApplicationController
                                 .where(users: { id: user.follows.pluck(:user_id) })
                                 .limit(number_of_posts)
                                 .offset(offset)
+                when 'trending'
+                    @posts = Post
+                                .includes(:comments,:likes,:author)
+                                .select('posts.*,COUNT(DISTINCT comments.id) as comments_count, COUNT(DISTINC likes.id) as likes_count')
+                                .left_joins(:comments,:likes)
+                                .group('posts.id')
+                                .order(Arel.sql('comments_count + likes_count DESC'))
+                                .limit(number_of_posts)
+                                .offset(offset)
+                when 'preview'
+                    @posts = Post
+                                .includes(:comments,:likes,:author)
+                                .order(Arel.sql('RANDOM()'))
+                                .limit(number_of_posts)
+                                .offset(offset)
                 else 
                     @posts = Post.includes(:comments,:likes).limit(number_of_posts).offset(offset)
             end

@@ -18,14 +18,15 @@ const Dashboard = ({})=>{
             {sessionUser && <LoggedIn />}
             {!sessionUser && <LoggedOut />}
         </div>
-        <Switch>
-            <Redirect exact from="/explore" to="/explore/today" />
-
+        <Switch>      
+            <Route path='/explore/preview'>
+                <DashboardPartial type={'preview'}/>
+            </Route>
             <Route path="/explore/foryou">
                 <DashboardPartial type={'foryou'} />
             </Route>
             <Route path="/explore/trending">
-                <TrendingDashboard />
+                <DashboardPartial type={'trending'} />
             </Route>
             <Route exact path="/explore/spotlight">
                 <SpotLightDashboard />
@@ -36,9 +37,9 @@ const Dashboard = ({})=>{
             <Route path="/explore/following">
                 {/* render spotlight */}
             {/* </Route> */} 
-            <Route path="/">
+            {/* <Route path="/">
                 <ForYouDashboard />
-            </Route>
+            </Route> */}
         </Switch>
 
 

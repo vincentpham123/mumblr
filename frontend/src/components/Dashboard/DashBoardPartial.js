@@ -8,6 +8,7 @@ const DashboardPartial = ({type}) =>{
     const dispatch = useDispatch();
     // pagenumber to pass to backend to pass the next batch of data
     // 
+    const [postsMap,setPostsMap] = useState([]);
     const [pageNumber,setPageNumber]=useState(1);
     const [loading,setLoading] = useState(true);
     const [hasMore,setHasMore] = useState(false);
@@ -49,8 +50,18 @@ const DashboardPartial = ({type}) =>{
             })
 
     },[pageNumber]);
+    useEffect(()=>{
+        setPostsMap(state=>{
+            const existingPostIds = new Set(state.map((post)=>post.id));
+            const newPosts = Object.values(posts).filter(
+                (post)=> !existingPostIds.has(post.id)
+            )
+            return [...state,...newPosts]
+        })
+        return ()=> setPostsMap([]);
+    },[dispatch,posts])
     const postsToShow=Object.values(posts);
-    
+    console.log(postsMap)
     
     // if (sessionUser) return <Redirect to="/" />;
     //all Today dashboard will be in here
@@ -59,8 +70,8 @@ const DashboardPartial = ({type}) =>{
     // in seeding, need to have posts reblogged by todayonmumblr
     return (
         <>
-        {postsToShow.map ((post,index)=>{
-            if (postsToShow.length === index +1 ) {
+        {postsMap.map ((post,index)=>{
+            if (postsMap.length === index +1 ) {
                 return (
                     <div ref={lastPostElementRef} key={post.id} className='postMain'>
                     <ShowPost  post={post} profile={false}/>

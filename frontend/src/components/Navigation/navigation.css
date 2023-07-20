@@ -52,11 +52,11 @@ need to add class when profile is clicked */
     font-family: 'Inknut Antiqua', serif;
     font-size: 40px;
     background-color: transparent;
-    line-height: 1;
 }
 .title a{
-    height:100px;
+    height:auto;
     background-color: transparent;
+    display: inline-block;
 }
 
 

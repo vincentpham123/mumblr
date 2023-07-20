@@ -14,8 +14,8 @@ const LoggedIn = () => {
                     </NavLink>
                 </li>
                 <li className='tabs'>
-                    <NavLink to='/explore/following'>
-                        Following
+                    <NavLink to='/explore/Trending'>
+                        Trending
                     </NavLink>
                 </li>
             </ul>
