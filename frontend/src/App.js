@@ -24,7 +24,7 @@ function App() {
       <div className='body'>
 
         <Switch>
-          <Route  path="/explore">
+          <Route path="/explore">
             <div className="dashboard">
               <Dashboard />
             </div>
@@ -32,7 +32,12 @@ function App() {
           <Route path="/user/:userid">
             <UserShowPage />
           </Route>
-          
+          <Route exact path="/">
+            <Redirect to='/explore' />
+            {/* <div className="dashboard">
+              <Dashboard />
+            </div> */}
+          </Route>
         </Switch>
         <Route exact path="/new/text">
             <NewTextModal />
@@ -46,11 +51,8 @@ function App() {
           <Route path="/new">
             <NewPost />
           </Route>
+          <Route path='/' >
             
-          <Route exact path="/">
-            <div className="dashboard">
-              <Dashboard />
-            </div>
           </Route>
       </div>
       {/* <Switch location={background || location}>

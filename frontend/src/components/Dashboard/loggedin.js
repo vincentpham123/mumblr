@@ -1,8 +1,8 @@
 import './loggedin.css';
 import { useState,useEffect } from 'react';
 import { NavLink, Switch,useHistory} from 'react-router-dom';
-const LoggedIn = ({setCurrentTab}) => {
-    // const [currentTab,setCurrentTab] = useState('')
+const LoggedIn = () => {
+    const [currentTab,setCurrentTab] = useState('foryou')
     // headers will ne today, trending, spotlight
     const history = useHistory();
     useEffect(()=>{
@@ -13,12 +13,12 @@ const LoggedIn = ({setCurrentTab}) => {
         <div className='tabs'>
             <ul className='tab-selection'>
                 <li className='tabs'>
-                    <NavLink onClick={()=>setCurrentTab('foryou')} to='/explore/foryou'>
+                    <NavLink className={currentTab==='foryou' ? 'active':''} onClick={()=>setCurrentTab('foryou')} to='/explore/foryou'>
                         For You
                     </NavLink>
                 </li>
                 <li className='tabs'>
-                    <NavLink onClick={()=>setCurrentTab('trending')} to='/explore/Trending'>
+                    <NavLink className={currentTab==='trending' ? 'active':''} onClick={()=>setCurrentTab('trending')} to='/explore/Trending'>
                         Trending
                     </NavLink>
                 </li>

@@ -18,7 +18,13 @@ const Dashboard = ({})=>{
             {sessionUser && <LoggedIn setCurrentTab={setCurrentTab}/>}
             {!sessionUser && <LoggedOut setCurrentTab={setCurrentTab}/>}
         </div>
-        <Switch>      
+        <Switch>
+            <Route exact path='/'>
+                {sessionUser ? 
+                    <DashboardPartial type={'foryou'}/> :
+                    <DashboardPartial type={'preview'}/>
+                }
+            </Route>      
             <Route path='/explore/preview'>
                 <DashboardPartial type={'preview'}/>
             </Route>
