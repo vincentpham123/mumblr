@@ -6,7 +6,7 @@ import * as sessionActions from '../../store/session';
 import LoginFormModel from '../LoginFormModal';
 const Profilebutton = () =>{
 // work on dropdown menu that will bring down menu
-const user = useSelector(state=>state.session.user)
+const user = useSelector(state=>state.session.user);
 const dispatch = useDispatch();
 const [showMenu,setShowMenu] = useState(false);
 let menu;
@@ -35,7 +35,7 @@ if(user){
         
         <ul className='profile-dropdown'>
             <li className='dropdownlink'>
-                <NavLink to='./likes' className='menu-link'>
+                <NavLink to={`/user/${user.id}/likes`} className='menu-link'>
                     <div className='icon'>
                         <i className="fa-solid fa-heart heart icons" ></i>
                     </div>

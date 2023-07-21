@@ -230,5 +230,79 @@
 
 }
 
+.empty-post-button{
+    background-color: rgb(var(--green));
+    width:80px;
+    height:80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    transition: transform .2s linear;
+}
+
+.nouserposts-message{
+    display: flex;
+    flex-direction: column;
+    background-color: transparent;
+    align-items: center;
+    justify-content: space-between;
+    height: 150px;
+    padding-top: 10px;
+
+}
+.nouserposts-message h2{
+    background-color: transparent;
+    color: rgb(var(--green));
+    font-family: 'Favorit Tumblr';
+    font-size: 20px;
+
+}
+.empty-post-link{
+
+    background-color: transparent;
+}
+.animation-pencil{
+    font-size: 50px;
+    background-color: transparent;
+    color: black;
+}
+.empty-post-button:hover{
+    animation: bigcircle .1s forwards;
+}
+
+.empty-post-button:hover i{
+    animation: move 1s linear infinite;
+}
+
+
+@keyframes move{
+    0%{
+        transform: rotate(0deg)
+    }
+    25%{
+        transform: rotate(25deg)
+    }
+    50%{
+        transform: rotate(-25deg)
+    }
+    75%{
+        transform: rotate(0deg)
+    }
+    100%{
+        transform: rotate(0deg)
+    }
+}
+@keyframes bigcircle{
+    0%{
+        transform: scale(1);
+    }
+    100%{
+        transform:scale(1.1);
+    }
+}
+
+
+
 
 
