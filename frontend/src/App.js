@@ -24,19 +24,19 @@ function App() {
       <div className='body'>
 
         <Switch>
+          <Route path="/user/:userid">
+            <UserShowPage />
+          </Route>
           <Route path="/explore">
             <div className="dashboard">
               <Dashboard />
             </div>
           </Route>
-          <Route path="/user/:userid">
-            <UserShowPage />
-          </Route>
           <Route exact path="/">
-            <Redirect to='/explore' />
-            {/* <div className="dashboard">
+            {/* <Redirect to='/explore' /> */}
+            <div className="dashboard">
               <Dashboard />
-            </div> */}
+            </div>
           </Route>
         </Switch>
         <Route exact path="/new/text">

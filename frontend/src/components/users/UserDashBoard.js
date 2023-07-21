@@ -90,14 +90,14 @@ const UserDashboard = ({type}) =>{
     return (
         <>
         {posts==='test' && <div><h1>Loading</h1></div> }
-        {type==='likes' && postsMap.length==0 &&
+        {type==='likes' && loading && postsMap.length==0 &&
             <div className='noposts-message'>
                 <h2>Empty :(</h2>
                 <h2>Follow some Users to populate For You page!!!</h2>
                 <i className="fa-solid fa-otter fa-bounce"></i>
             </div>
         }
-        {type==='userposts' && postsMap.length==0 &&
+        {type==='userposts' && loading && postsMap.length==0 &&
             <div className='nouserposts-message'>
                 <h2>Empty :(</h2>
                 <h2>A Blog Post will fix that!</h2>

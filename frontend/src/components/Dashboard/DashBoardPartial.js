@@ -101,7 +101,7 @@ const DashboardPartial = ({type}) =>{
                     <i style={{color:'white'}}className="fa-solid fa-spinner fa-spin"></i>
                 </div>
             </div>}
-        {postsMap.length==0 && 
+        {postsMap.length==0 && loading &&
             <div className='noposts-message'>
                 <h2>No posts to show</h2>
                 <h2>Follow some Users to populate For You page!!!</h2>

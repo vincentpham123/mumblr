@@ -33,7 +33,6 @@ const Dashboard = ({})=>{
             </Route>
             <Route path="/explore/trending">
                 <DashboardPartial type={'trending'}/>
-
             </Route>
             <Route exact path="/explore/spotlight">
                 <SpotLightDashboard />

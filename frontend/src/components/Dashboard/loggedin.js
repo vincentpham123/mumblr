@@ -5,9 +5,10 @@ const LoggedIn = () => {
     const [currentTab,setCurrentTab] = useState('foryou')
     // headers will ne today, trending, spotlight
     const history = useHistory();
-    useEffect(()=>{
-        history.push('/explore/foryou')
-    },[])
+    // useEffect(()=>{
+    //     history.push('/explore/foryou')
+    // },[])
+
     return (
         <>
         <div className='tabs'>
