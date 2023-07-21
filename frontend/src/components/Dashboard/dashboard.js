@@ -5,7 +5,6 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import LoggedIn from "./loggedin";
 import LoggedOut from "./loggedout";
 import './dashboardnav.css';
-import TrendingDashboard from "./trending";
 import SpotLightDashboard from "./Spotlight";
 import DashboardPartial from "./DashBoardPartial";
 const Dashboard = ({})=>{

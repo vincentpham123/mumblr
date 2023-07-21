@@ -12,6 +12,7 @@ const DashboardPartial = ({type}) =>{
     const [hasMore,setHasMore] = useState(false);
     const [error,setError] = useState(false);
     const [morePosts,setMorePosts]=useState(true);
+    const [initialLoad,setInitialLoad] = useState(true);
     const observer = useRef();
     
     const lastPostElementRef = useCallback(node=>{
@@ -26,9 +27,15 @@ const DashboardPartial = ({type}) =>{
         })
         if (node) observer.current.observe(node);
     },[loading,morePosts]);
+
     useEffect(()=>{
         setPostsMap([]);
-        dispatch(postActions.clearPosts())
+    },[])
+    useEffect(()=>{
+        setPostsMap([]);
+        setTimeout(()=>{
+        dispatch(postActions.clearPosts());
+        },0)
         dispatch(postActions.fetchPosts(pageNumber,type))
             .then(res=>{
                 setPostsMap([]);
@@ -46,8 +53,8 @@ const DashboardPartial = ({type}) =>{
         // dispatch(postActions.clearPosts());
         dispatch(postActions.fetchPosts(pageNumber,type))
             .then( (res) =>{
-                setLoading(false);
                 setMorePosts(res.postsleft.postsLeft);
+                setLoading(false);
             })
     },[pageNumber]);
     useEffect(()=>{
@@ -74,6 +81,7 @@ const DashboardPartial = ({type}) =>{
             return newState;
         })
         setLoading(false);
+        setInitialLoad(false);
     },[posts])
 
 
@@ -87,12 +95,19 @@ const DashboardPartial = ({type}) =>{
 
     return (
         <>
-          {loading && 
+         { initialLoad &&
             <div className='post-load-container'>
                 <div className='post-load-body'>
-                    <i className="fa-solid fa-spinner fa-spin"></i>
+                    <i style={{color:'white'}}className="fa-solid fa-spinner fa-spin"></i>
                 </div>
             </div>}
+        {postsMap.length==0 && 
+            <div className='noposts-message'>
+                <h2>No posts to show</h2>
+                <h2>Follow some Users to populate For You page!!!</h2>
+                <i className="fa-solid fa-hippo fa-bounce"></i>
+            </div>
+        }
         {postsMap.map ((post,index)=>{
             if (postsMap.length === index +1 ) {
                 return (

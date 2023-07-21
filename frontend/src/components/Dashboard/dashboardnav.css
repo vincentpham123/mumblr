@@ -55,3 +55,17 @@
 .userload{
     color: grey;
 }
+
+.noposts-message{
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100px;
+}
+.noposts-message *{
+    font-size: 20px;
+}
+.noposts-message h2{
+    font-family: 'Favorit Tumblr'
+}
