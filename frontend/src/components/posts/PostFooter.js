@@ -19,6 +19,7 @@ import * as commentsActions from '../../store/comments';
 import * as likesActions from '../../store/likes';
 import './postsfooter.css'
 import { fetchPost } from "../../store/posts";
+import { Modal } from "../Context/Modal";
 
 const PostFooter = ({ post }) => {
     // this is to pass down logged in status to child components
@@ -206,6 +207,7 @@ const PostFooter = ({ post }) => {
                                             body={comment.body}
                                             id={comment.commenter.id}
                                             comment_id={comment.id}
+                                            postId = {post.id}
                                         />
                                     ))}
                                 </div>
@@ -286,12 +288,47 @@ const CommentTextArea = ({post}) => {
 }
 export default PostFooter;
 
-const Comments = ({ comment_id, id,username, profilepic, body }) => {
+const Comments = ({ comment_id, id,username, profilepic, body,postId }) => {
     const dispatch = useDispatch();
     const sessionUser=useSelector(state=> state.session.user);
+    const [update,setUpdate]=useState(false);
+    const [updateComment,setUpdatedComment] = useState(body);
+    const [updateErrors,setUpdateErrors] = useState('');
+    
     const handleCommentDelete = (event)=>{
         event.preventDefault();
         dispatch(commentsActions.removeComment(comment_id));
+    }
+    useEffect(()=>{
+        setTimeout(()=>{
+            setUpdateErrors([])
+        },5000)
+    },[updateErrors])
+    const handleCommentUpdate =(event)=>{
+        event.preventDefault();
+        const formData=new FormData();
+        formData.append('comment[body]', updateComment);
+        formData.append('comment[user_id]',sessionUser.id);
+        formData.append('comment[post_id]',postId);
+        setUpdateErrors([]);
+        dispatch(commentsActions.updateComment(formData,comment_id))
+            .then(()=>{
+                setUpdate(false);
+            })
+            .catch(async (res)=>{
+                let data;
+                try {
+                    data=await res.clone().json();
+
+                } catch {
+                    data = await res.text();
+                }
+                console.log(res);
+                if (data?.errors) setUpdateErrors(data.errors);
+                else if (data) setUpdateErrors(data);
+                else setUpdateErrors(res.statusText);
+            })
+
     }
     // need to take in commenterusername, commenter profilepic, and comment body
     return (
@@ -320,6 +357,7 @@ const Comments = ({ comment_id, id,username, profilepic, body }) => {
                                     </span>
 
                                 </div>
+                                
                                 <div className='replies-container'>
                                     <div className='reply-body'>
                                         <div className='reply-content'>
@@ -327,8 +365,6 @@ const Comments = ({ comment_id, id,username, profilepic, body }) => {
                                         </div>
 
                                     </div>
-
-
                                 </div>
 
                             </div>
@@ -340,13 +376,50 @@ const Comments = ({ comment_id, id,username, profilepic, body }) => {
 
                 </div>
                 { sessionUser && sessionUser.id === id && 
-                <span>
-                    <button className='comment-delete' onClick={event=> handleCommentDelete(event)}>
-                        <i class="fa-solid fa-dumpster"></i>
-                    </button>
-                </span>
+                <>
+                <div className='comment-buttons'>
+                    <div>
+                        <button className='comment-delete' onClick={event=> handleCommentDelete(event)}>
+                            <i class="fa-solid fa-dumpster"></i>
+                        </button>
+                    </div>
+                    <div>
+                        <button className='comment-update' onClick={()=>setUpdate(true)}>
+                            <i className="fa-solid fa-pen-to-square"></i>
+                        </button>
+                    </div>
+                </div>
+                </>
                 }
             </div>
+            {update && (
+                <Modal onClose={()=>{
+                    setUpdate(false);
+                    setUpdatedComment(body);
+                    }}>
+                <div className='commenttext-container'>
+                    <div className='commenttext-body'>
+                            <div className='comment-profile-pic'>
+                                <div className='profilepic-frame1'>
+                                    <img className='reply-profilepic' src={sessionUser.profilepic}></img>
+                                </div>
+                            </div>
+                        <div className='reply-container'>
+                            <div className='textarea-container'>
+                                <textarea value={updateComment} onChange={(event)=>setUpdatedComment(event.target.value)} placeholder='type here' maxLength='475' rows='1' className='reply-textarea'></textarea>
+                            </div>
+                            <button onClick={(event)=>handleCommentUpdate(event)} className='update-comment-button'>
+                                <span>Update</span>
+                            </button>
+                        </div>
+                    </div>
+                    {updateErrors.length>0 && 
+                        <div className='update-error'> 
+                            <span style={{color:'white'}}>{updateErrors[0]}</span>
+                        </div>}
+                </div>
+                </Modal>
+            )}
 
         </>
     )

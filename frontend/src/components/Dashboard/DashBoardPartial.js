@@ -84,11 +84,15 @@ const DashboardPartial = ({type}) =>{
     //select posts that were reblogged by 
     //todayonmumblr
     // in seeding, need to have posts reblogged by todayonmumblr
-    if (!posts){
-        return null;
-    }
+
     return (
         <>
+          {loading && 
+            <div className='post-load-container'>
+                <div className='post-load-body'>
+                    <i className="fa-solid fa-spinner fa-spin"></i>
+                </div>
+            </div>}
         {postsMap.map ((post,index)=>{
             if (postsMap.length === index +1 ) {
                 return (
