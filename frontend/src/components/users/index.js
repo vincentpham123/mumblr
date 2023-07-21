@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { useEffect, useState } from "react"
 import * as postActions from '../../store/posts';
 import * as userActions from '../../store/user';
-import { Route , Switch,useParams, NavLink,Link } from "react-router-dom";
+import { Route , Switch,useParams, NavLink,Link,useHistory } from "react-router-dom";
 import PostsDashboard from "./posts";
 import './index.css';
 import LikesDashboard from "./likes";
@@ -12,7 +12,8 @@ const UserShowPage =() =>{
     const dispatch = useDispatch();
     const {userid} = useParams();
     const [pageType,setPageType] =useState('false');
-
+    const [tabSelection,setTabSelection] = useState('posts');
+    const history = useHistory();
 
 
 
@@ -31,13 +32,19 @@ const UserShowPage =() =>{
             })
     },[userid]);
 
-    
+    useEffect(()=>{
+        history.push(`/user/${userid}/posts`)
+    },[]);
     
     const userPosts = useSelector(state=>state.posts);
     // if (!user) return (null);
     if (!user) {
     return(
-        <div>Loading...</div>
+        <div className='post-load-container'>
+            <div className='post-load-body'>
+                <i style={{color:'white'}}className="fa-solid fa-spinner fa-spin"></i>
+            </div>
+        </div>
     )
     }
   

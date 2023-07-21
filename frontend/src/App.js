@@ -51,9 +51,6 @@ function App() {
           <Route path="/new">
             <NewPost />
           </Route>
-          <Route path='/' >
-            
-          </Route>
       </div>
       {/* <Switch location={background || location}>
       <Route path='/new/'>
