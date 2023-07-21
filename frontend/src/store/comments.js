@@ -1,5 +1,6 @@
 import csrfFetch from "./csrf"
 import { createSelector } from "reselect"
+import { receivePost } from "./posts"
 const RECEIVE_COMMENT = 'api/RECEIVECOMMENT'
 const DELETE_COMMENT = 'api/DELETECOMMENT'
 const RECEIVE_COMMENTS= 'api/RECEIVECOMMENTS'
@@ -52,7 +53,9 @@ export const createComment = (formData) =>async dispatch=> {
 
     if (response.ok){
         let data = await response.json();
-        dispatch(receiveComment(data));
+        dispatch(receiveComment(data.comment));
+        dispatch(receivePost(data.post));
+        return data;
     }
 }
 
@@ -62,7 +65,10 @@ export const removeComment = (commentId) => async dispatch =>{
     method:'DELETE'});
 
     if (response.ok){
+        let data = await response.json();
         dispatch(deleteComment(commentId))
+        dispatch(receivePost(data.post));
+
     }
 
 }

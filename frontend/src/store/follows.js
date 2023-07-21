@@ -1,5 +1,6 @@
 import csrfFetch from "./csrf";
 import { createSelector } from "reselect";
+import { receivePost } from "./posts";
 const RECEIVE_FOLLOWS ='/api/RECEIVEFOLLOWS'
 const DELETE_FOLLOW = '/api/DELETEFOLLOW'      
 const RECEIVE_FOLLOW = '/api/RECEIVEFOLLOW'
@@ -45,6 +46,7 @@ export const removeFollow = (followId) => async dispatch => {
       method: 'DELETE'
     });
     if (response.ok) {
+      let data = await response.json();
       dispatch(deleteFollow(followId));
     }
   };

@@ -53,12 +53,22 @@ const DashboardPartial = ({type}) =>{
     useEffect(()=>{
         setLoading(true);
         setPostsMap(state=>{
+            const stateCopy=[...state];
+            Object.values(posts).forEach ((post)=>{
+                //update info for each post 
+                const postIndex = stateCopy.findIndex((origPost)=>origPost.id===post.id)
+                if (postIndex!==-1){
+                    stateCopy[postIndex]={
+                        ...post
+                    };
+                }
+            })
             const existingPostIds = state.map((post)=>post.id);
             const newPosts = Object.values(posts).filter(
                 (post)=> !existingPostIds.includes(post.id)
             )
             const newState=[];
-            [...state,...newPosts].forEach((post)=>{
+            [...stateCopy,...newPosts].forEach((post)=>{
                 newState.push(post);
             })
             return newState;
