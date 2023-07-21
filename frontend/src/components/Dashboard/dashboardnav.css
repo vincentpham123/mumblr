@@ -62,9 +62,15 @@
     flex-direction: column;
     justify-content: space-between;
     height: 100px;
+    background-color: transparent;
+    padding-top: 10px;
+
 }
 .noposts-message *{
     font-size: 20px;
+    background-color: transparent;
+    color: rgb(var(--green));
+
 }
 .noposts-message h2{
     font-family: 'Favorit Tumblr'
