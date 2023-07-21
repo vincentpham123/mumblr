@@ -59,6 +59,18 @@ export const createComment = (formData) =>async dispatch=> {
     }
 }
 
+export const updateComment = (formData,commentId) => async dispatch => {
+    let response = await csrfFetch(`/api/comments/${commentId}`,{
+        body: formData,
+        method: 'PATCH'
+    })
+
+    if (response.ok) {
+        let data = await response.json();
+        dispatch(receiveComment(data.comment));
+    }
+}
+
 
 export const removeComment = (commentId) => async dispatch =>{
     let response = await csrfFetch(`/api/comments/${commentId}`,{

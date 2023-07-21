@@ -12,7 +12,7 @@ Rails.application.routes.draw do
     resource :session, only: [:show, :create, :destroy]
     resources :posts
     resources :likes, only: [:index,:create,:destroy]
-    resources :comments, only: [:index, :create, :destroy]
+    resources :comments, only: [:index, :create, :destroy,:update]
     resources :follows, only: [:create, :destroy]
     get '/checkpostlike/:postid', to: 'likes#check_for_like'
     get '/checkfollowstatus/:userid', to: 'follows#check_for_follow'

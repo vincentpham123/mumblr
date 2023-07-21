@@ -168,17 +168,23 @@
 .commenttext-body{
     display: flex;
     align-items: center;
+    background-color: transparent;
 
 }
+
 .comment-profile-pic{
     position: relative;
-    border-radius: 3px;;
+    border-radius: 3px;
+    background-color: transparent;
+
 }
 
 .profilepic-frame1{
     border-radius:50%;
     width: 100%;
     height: 100%;
+    background-color: transparent;
+
 
 }
 .profilepic-frame1 img{
@@ -195,6 +201,8 @@
     display: flex;
     width: calc(100%-20px - 32px -10px);
     border: 1px solid rgba(var(--black),.25);
+    background-color: transparent;
+
 }
 
 .commentsshow-container{
@@ -211,16 +219,25 @@
 
 
 }
+.comment-buttons{
+    display: flex;
+
+}
 .comment-delete{
     border:none;
     cursor: pointer;
 }
-.comment-delete i{
-    color:transparent;
-}
+
 .comment-delete:hover i{
     color: rgb(var(--red));
 
+}
+.comment-update{
+    border:none;
+}
+
+.comment-update:hover i{
+    color: rgb(var(--purple));
 }
 .comment-content{
     margin-bottom: 15px;
@@ -319,7 +336,7 @@ margin: -8px calc(20px*-1)-15px;
 .textarea-container textarea{
     resize: none;
     height: auto;
-     white-space: pre-line;
+    white-space: pre-line;
     word-break: break-word;
     background: 0 0;
     font-weight: 400;
@@ -328,6 +345,7 @@ margin: -8px calc(20px*-1)-15px;
     line-height: inherit;
     width:100%;
     height:100%;
+    background-color: transparent;
     
 }
 
@@ -363,7 +381,7 @@ margin: -8px calc(20px*-1)-15px;
     
 }
 
-.reply-button{
+.reply-button,.update-comment-button {
     border: none;
     margin-left:10px;
     font-size:1rem;
@@ -375,8 +393,9 @@ margin: -8px calc(20px*-1)-15px;
     align-items: center;
     justify-content: center;
 }
-.reply-button span{
+.reply-button,.update-comment-button span{
     color: rgb(var(--blue));
+    background-color: transparent;
 }
 .likeslist-container{
 height: 100%;
@@ -473,7 +492,7 @@ padding-bottom: 15px;
 
 }
 
-.comment-error{
+.comment-error,.update-error{
     position: absolute;
     background-color: rgb(var(--red));
     padding: 20px;
@@ -482,7 +501,12 @@ padding-bottom: 15px;
     
 }
 
-.comment-error span{
+.comment-error,.update-error span{
     font-weight: 700;
     font-size: 1rem;
+    background-color: transparent;
+}
+
+.update-error{
+    right: -20vw;
 }
