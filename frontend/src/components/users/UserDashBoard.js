@@ -13,7 +13,7 @@ const UserDashboard = ({type}) =>{
     const dispatch = useDispatch();
     const [postsMap,setPostsMap] = useState([]);
     const [pageNumber,setPageNumber]=useState(1);
-    const [loading,setLoading] = useState('test');
+    const [loading,setLoading] = useState(true);
     const [hasMore,setHasMore] = useState(false);
     const [error,setError] = useState(false);
     const [morePosts,setMorePosts]=useState(true);

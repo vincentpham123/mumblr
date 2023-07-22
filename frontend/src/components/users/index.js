@@ -135,6 +135,12 @@ const UserShowPage =() =>{
                                 <Route path='/user/:userid/likes' >
                                     <UserDashboard type={'likes'}/>
                                 </Route>
+                                <Route path='/user/:userid/follows'>
+
+                                </Route>
+                                <Route path='/user/:userid/followers'>
+
+                                </Route>
                             </Switch>
                             </div>
                         </div>

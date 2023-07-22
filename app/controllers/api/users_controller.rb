@@ -19,6 +19,7 @@ class Api::UsersController < ApplicationController
     end
   end
 
+ 
   
   def show 
     # can use by username

@@ -48,6 +48,10 @@ export const fetchUser = (id) => async(dispatch) =>{
 
 }
 
+export const fetchUserFollows = (id) => async dispatch =>{
+
+}
+
 export const removeUser = (userid) => async (dispatch) => {
     const response = await csrfFetch(`/api/users/${userid}`,{
         method: 'DELETE'
