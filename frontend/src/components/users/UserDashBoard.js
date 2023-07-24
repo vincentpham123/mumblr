@@ -79,11 +79,20 @@ const UserDashboard = ( {type}) =>{
             [...stateCopy,...newPosts].forEach((post)=>{
                 newState.push(post);
             })
-            newState.forEach((post,index)=>{
-                const storeIndex=Object.values(posts).findIndex((storePost)=>storePost.id===post.id)
-                if (storeIndex===-1){
-                    newState.splice(index,1);
-                }
+            // newState.forEach((post,index)=>{
+            //     const storeIndex=Object.values(posts).findIndex((storePost)=>storePost.id===post.id)
+            //     if (storeIndex===-1){
+            //         newState.splice(index,1);
+            //     }
+            // })
+            newState.sort((post1, post2) => {
+                const timestamp1 = new Date(post1.dateCreated + ' ' + post1.timeCreated).getTime();
+                const timestamp2 = new Date(post2.dateCreated + ' ' + post2.timeCreated).getTime();
+              
+                return timestamp1 < timestamp2 ? 1 : timestamp1 > timestamp2 ? -1 : 0;
+              });
+            newState.sort((post1,post2)=>{
+                return (post1.dateCreated<post2.dateCreated && post1.timeCreated<post2.timeCreated) ? 1 : (post1.dateCreated>post2.dateCreated && post1.timeCreated>post2.timeCreated) ? -1 : 0;
             })
             return newState;
         })
