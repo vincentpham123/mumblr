@@ -11,6 +11,7 @@ const PostHeader =({post,profile}) =>{
     const dispatch = useDispatch();
     const [showOptions, setShowOptions] = useState(false);
     const [errors, setErrors] = useState([]);
+    const [dateObj,setDateObj]=useState(new Date(post.dateCreated+' '+post.timeCreated));
     const openOptions = ()=> {
         if(showOptions) return;
         setShowOptions(true);
@@ -18,6 +19,22 @@ const PostHeader =({post,profile}) =>{
     const followed = useSelector(userFollowed(post.author.id));
     const closeOptions= () =>{
         if (showOptions) setShowOptions(false);
+    }
+    const convertTime = (hour)=>{
+        let result = hour;
+        
+        if (hour>12){
+            result -=12;
+        }
+        if (result<10){
+            return '0'+result;
+        } else{
+            return result;
+        }
+    }
+    const getAMPM = (hour)=>{
+        let ap = hour >= 12 ? 'PM' : 'AM';
+        return ap;
     }
     // const handleFollowButton = (event)=>{
     //     event.preventDefault();
@@ -102,8 +119,8 @@ const PostHeader =({post,profile}) =>{
                             
                             <div className='optionsMenu'>
                                 <div className='time-date'>
-                                    {post.dateCreated}
-                                    {post.timeCreated}
+                                    {`${dateObj.toLocaleString('en-US',{year:'numeric',month:'long',day:'numeric'})}   
+                                    ${convertTime(dateObj.getHours())}:${dateObj.getMinutes()} ${getAMPM(dateObj.getHours())}`}
                                 </div>
                                 <ul className='optionscontent'>
                                     

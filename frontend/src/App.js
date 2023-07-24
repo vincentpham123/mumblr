@@ -32,7 +32,7 @@ function App() {
               <Dashboard />
             </div>
           </Route>
-          <Route exact path="/">
+          <Route>
             {/* <Redirect to='/explore' /> */}
             <div className="dashboard">
               <Dashboard />
@@ -45,11 +45,11 @@ function App() {
           <Route path="/new/photo">
             <NewPhotoModal />
           </Route>
-          <Route path="/edit/:postid">
-            <UpdatePostModal />
-          </Route>
           <Route path="/new">
             <NewPost />
+          </Route>
+          <Route path="/edit/:postid">
+            <UpdatePostModal />
           </Route>
       </div>
       {/* <Switch location={background || location}>

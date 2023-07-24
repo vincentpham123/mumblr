@@ -12,7 +12,7 @@ const DashboardPartial = ({type}) =>{
     const [hasMore,setHasMore] = useState(false);
     const [error,setError] = useState(false);
     const [morePosts,setMorePosts]=useState(true);
-    const [initialLoad,setInitialLoad] = useState(true);
+    const [initialLoad,setInitialLoad] = useState(false);
     const observer = useRef();
     
     const lastPostElementRef = useCallback(node=>{
@@ -33,6 +33,8 @@ const DashboardPartial = ({type}) =>{
     },[])
     useEffect(()=>{
         setPostsMap([]);
+        setPageNumber(1);
+
         setTimeout(()=>{
         dispatch(postActions.clearPosts());
         },0)
@@ -73,10 +75,21 @@ const DashboardPartial = ({type}) =>{
             const existingPostIds = state.map((post)=>post.id);
             const newPosts = Object.values(posts).filter(
                 (post)=> !existingPostIds.includes(post.id)
-            )
+                )
+            if (type==='trending'){
+                newPosts.sort((post1,post2)=>{
+                   return (post1.commentcount+post1.comentcount)<(post2.comentcount+post2.comentcount) ? 1 : (post1.commentcount+post1.comentcount)>(post2.comentcount+post2.comentcount) ? -1 : 0;
+                })
+            }
             const newState=[];
             [...stateCopy,...newPosts].forEach((post)=>{
                 newState.push(post);
+            })
+            newState.forEach((post,index)=>{
+                const storeIndex=Object.values(posts).findIndex((storePost)=>storePost.id===post.id)
+                if (storeIndex===-1){
+                    newState.splice(index,1);
+                }
             })
             return newState;
         })
@@ -84,7 +97,7 @@ const DashboardPartial = ({type}) =>{
         setInitialLoad(false);
     },[posts])
 
-
+    
     const postsToShow=Object.values(posts);
     
     // if (sessionUser) return <Redirect to="/" />;
@@ -101,7 +114,7 @@ const DashboardPartial = ({type}) =>{
                     <i style={{color:'white'}}className="fa-solid fa-spinner fa-spin"></i>
                 </div>
             </div>}
-        {postsMap.length==0 && loading &&
+        {postsMap.length==0 && loading && !initialLoad &&
             <div className='noposts-message'>
                 <h2>No posts to show</h2>
                 <h2>Follow some Users to populate For You page!!!</h2>

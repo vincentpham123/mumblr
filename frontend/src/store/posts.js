@@ -7,7 +7,7 @@ import { receiveFollows } from "./follows";
 
 const RECEIVE_POST = "api/RECEIVE_POST";
 const RECEIVE_POSTS = "api/RECEIVE_POSTS";
-const REMOVE_POST = 'api/UPDATE_POST';
+const REMOVE_POST = 'api/REMOVE_POST';
 const RECEIVE_USER_POST = "api/USERNAME/RECEIVE_POSTS";
 const CLEAR_POSTS = 'api/CLEAR_POSTS';
 

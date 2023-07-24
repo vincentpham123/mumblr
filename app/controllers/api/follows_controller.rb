@@ -19,6 +19,16 @@ class Api::FollowsController < ApplicationController
             render json: {result: 0}
         end
     end
+
+    def get_follows
+        @user=User.find(params[:userid])
+        @follows=@user.follows
+    end
+
+    def get_followers 
+        @user=User.find(params[:userid])
+        @followers=@user.followers 
+    end
     def destroy 
         @follow = Follow.find(params[:id])
         @follow.destroy

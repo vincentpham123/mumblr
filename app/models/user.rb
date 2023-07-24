@@ -60,8 +60,9 @@ class User < ApplicationRecord
     dependent: :destroy
 
   has_many :followers,
-    foreign_key: :follower_id,
-    class_name: :Follow
+    foreign_key: :user_id,
+    class_name: :Follow,
+    dependent: :destroy
   
   
     has_one_attached :profilepic 

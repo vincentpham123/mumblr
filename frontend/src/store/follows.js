@@ -1,6 +1,7 @@
 import csrfFetch from "./csrf";
 import { createSelector } from "reselect";
 import { receivePost } from "./posts";
+import { receiveUsers } from "./user";
 const RECEIVE_FOLLOWS ='/api/RECEIVEFOLLOWS'
 const DELETE_FOLLOW = '/api/DELETEFOLLOW'      
 const RECEIVE_FOLLOW = '/api/RECEIVEFOLLOW'
@@ -46,10 +47,32 @@ export const removeFollow = (followId) => async dispatch => {
       method: 'DELETE'
     });
     if (response.ok) {
-      let data = await response.json();
+      // let data = await response.json();
       dispatch(deleteFollow(followId));
     }
   };
+
+  export const getFollows = (userid) => async dispatch =>{
+    let response = await fetch(`/api/user/${userid}/follows`)
+    if (response.ok){
+      let data = await response.json();
+      dispatch(receiveFollows(data.follows));
+      dispatch(receiveUsers(data.users));
+      return data;
+    }
+  }
+
+  export const getFollowers = (userid) => async dispatch =>{
+    let response = await fetch(`/api/user/${userid}/followers`)
+    if (response.ok){
+      let data = await response.json();
+      dispatch(receiveFollows(data.follows));
+      dispatch(receiveUsers(data.users));
+      return data;
+    }
+  }
+
+
 
   const followsReducer = (state = {}, action) => {
     let newState = { ...state };
