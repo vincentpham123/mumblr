@@ -9,9 +9,9 @@ end
 json.users do 
     @followers.each do |follower|
         json.set! follower.follower.id do 
-            json.extract! author, :username, :id
-            json.profilepic author.profilepic.attached? ? author.profilepic.url : nil 
-            json.background author.background.attached? ? author.background.url : nil
+            json.extract! follower.follower, :username, :id
+            json.profilepic follower.follower.profilepic.attached? ? follower.follower.profilepic.url : nil 
+            json.background follower.follower.background.attached? ? follower.follower.background.url : nil
         end
     end
 end

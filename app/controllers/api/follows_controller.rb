@@ -23,6 +23,8 @@ class Api::FollowsController < ApplicationController
     def get_follows
         @user=User.find(params[:userid])
         @follows=@user.follows
+
+        
     end
 
     def get_followers 
