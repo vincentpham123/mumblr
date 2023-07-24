@@ -12,7 +12,7 @@ const DashboardPartial = ({type}) =>{
     const [hasMore,setHasMore] = useState(false);
     const [error,setError] = useState(false);
     const [morePosts,setMorePosts]=useState(true);
-    const [initialLoad,setInitialLoad] = useState(true);
+    const [initialLoad,setInitialLoad] = useState(false);
     const observer = useRef();
     
     const lastPostElementRef = useCallback(node=>{
@@ -33,6 +33,8 @@ const DashboardPartial = ({type}) =>{
     },[])
     useEffect(()=>{
         setPostsMap([]);
+        // setPageNumber(1);
+
         setTimeout(()=>{
         dispatch(postActions.clearPosts());
         },0)
@@ -84,7 +86,7 @@ const DashboardPartial = ({type}) =>{
         setInitialLoad(false);
     },[posts])
 
-
+    
     const postsToShow=Object.values(posts);
     
     // if (sessionUser) return <Redirect to="/" />;

@@ -27,11 +27,11 @@ const Dashboard = ({})=>{
             <Route path='/explore/preview'>
                 <DashboardPartial type={'preview'}/>
             </Route>
-            <Route path="/explore/foryou">
+            <Route exact path="/explore/foryou">
                 <DashboardPartial type={'foryou'}/>
 
             </Route>
-            <Route path="/explore/trending">
+            <Route exact path="/explore/trending">
                 <DashboardPartial type={'trending'}/>
             </Route>
             <Route exact path="/explore/spotlight">

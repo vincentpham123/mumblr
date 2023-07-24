@@ -5,7 +5,7 @@ import { Redirect,useParams,Link} from "react-router-dom";
 import * as postActions from "../../store/posts";
 //instead of using fetchPosts, will use User posts with Params
 
-const UserDashboard = ({type}) =>{
+const UserDashboard = ( {type}) =>{
     const {userid} = useParams();
     //params will contain id
     
@@ -14,6 +14,7 @@ const UserDashboard = ({type}) =>{
     const [postsMap,setPostsMap] = useState([]);
     const [pageNumber,setPageNumber]=useState(1);
     const [loading,setLoading] = useState(true);
+    const [initalLoad,setInitialLoad]=useState(false)
     const [hasMore,setHasMore] = useState(false);
     const [error,setError] = useState(false);
     const [morePosts,setMorePosts]=useState(true);
@@ -32,11 +33,15 @@ const UserDashboard = ({type}) =>{
     },[loading,morePosts]);
     useEffect(()=>{
         setPostsMap([]);
+        setPageNumber(1);
         dispatch(postActions.clearPosts())
         dispatch(postActions.fetchPosts(pageNumber,type,userid))
             .then(res=>{
                 setPostsMap([]);
+
                 setMorePosts(res.postsleft.postsLeft);
+                // updatePostsMap(Object.values(res.posts))
+
             })
     },[type])
    
@@ -47,12 +52,16 @@ const UserDashboard = ({type}) =>{
     useEffect(()=>{
         setError(false);
         // dispatch(postActions.clearPosts());
+        console.log(pageNumber)
         dispatch(postActions.fetchPosts(pageNumber,type,userid))
-            .then( (res) =>{
+            .then((res) =>{
                 setMorePosts(res.postsleft.postsLeft);
+                console.log(res.posts);
+                // updatePostsMap(Object.values(res.posts))
             })
     },[pageNumber]);
     useEffect(()=>{
+        // console.log('triggered');
         setLoading(true);
         setPostsMap(state=>{
             const stateCopy=[...state];
@@ -71,8 +80,15 @@ const UserDashboard = ({type}) =>{
             [...stateCopy,...newPosts].forEach((post)=>{
                 newState.push(post);
             })
+            newState.forEach((post,index)=>{
+                const storeIndex=Object.values(posts).findIndex((storePost)=>storePost.id===post.id)
+                if (storeIndex===-1){
+                    newState.splice(index,1);
+                }
+            })
             return newState;
         })
+        // console.log(postsMap);
         setLoading(false);
     },[posts])
 
@@ -89,7 +105,6 @@ const UserDashboard = ({type}) =>{
     }
     return (
         <>
-        {posts==='test' && <div><h1>Loading</h1></div> }
         {type==='likes' && loading && postsMap.length==0 &&
             <div className='noposts-message'>
                 <h2>Empty :(</h2>

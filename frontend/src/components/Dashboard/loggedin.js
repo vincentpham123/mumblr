@@ -19,7 +19,7 @@ const LoggedIn = () => {
                     </NavLink>
                 </li>
                 <li className='tabs'>
-                    <NavLink className={currentTab==='trending' ? 'active':''} onClick={()=>setCurrentTab('trending')} to='/explore/Trending'>
+                    <NavLink className={currentTab==='trending' ? 'active':''} onClick={()=>setCurrentTab('trending')} to='/explore/trending'>
                         Trending
                     </NavLink>
                 </li>
