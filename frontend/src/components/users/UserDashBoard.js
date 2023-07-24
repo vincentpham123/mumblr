@@ -14,7 +14,7 @@ const UserDashboard = ( {type}) =>{
     const [postsMap,setPostsMap] = useState([]);
     const [pageNumber,setPageNumber]=useState(1);
     const [loading,setLoading] = useState(true);
-    const [initalLoad,setInitialLoad]=useState(false)
+    const [initialLoad,setInitialLoad]=useState(false)
     const [hasMore,setHasMore] = useState(false);
     const [error,setError] = useState(false);
     const [morePosts,setMorePosts]=useState(true);
@@ -38,8 +38,10 @@ const UserDashboard = ( {type}) =>{
         dispatch(postActions.fetchPosts(pageNumber,type,userid))
             .then(res=>{
                 setPostsMap([]);
-
                 setMorePosts(res.postsleft.postsLeft);
+                if (Object.values(res.posts).length===0){
+                    setInitialLoad(true);
+                }
                 // updatePostsMap(Object.values(res.posts))
 
             })
@@ -51,17 +53,18 @@ const UserDashboard = ( {type}) =>{
     // pagenumber changes
     useEffect(()=>{
         setError(false);
-        // dispatch(postActions.clearPosts());
+        setLoading(true);
         console.log(pageNumber)
         dispatch(postActions.fetchPosts(pageNumber,type,userid))
             .then((res) =>{
                 setMorePosts(res.postsleft.postsLeft);
+                setLoading(false);
                 // updatePostsMap(Object.values(res.posts))
             })
     },[pageNumber]);
     useEffect(()=>{
-        // console.log('triggered');
-        setLoading(true);
+        // setLoading(true);
+      
         setPostsMap(state=>{
             const stateCopy=[...state];
             Object.values(posts).forEach ((post)=>{
@@ -79,12 +82,12 @@ const UserDashboard = ( {type}) =>{
             [...stateCopy,...newPosts].forEach((post)=>{
                 newState.push(post);
             })
-            // newState.forEach((post,index)=>{
-            //     const storeIndex=Object.values(posts).findIndex((storePost)=>storePost.id===post.id)
-            //     if (storeIndex===-1){
-            //         newState.splice(index,1);
-            //     }
-            // })
+            newState.forEach((post,index)=>{
+                const storeIndex=Object.values(posts).findIndex((storePost)=>storePost.id===post.id)
+                if (storeIndex===-1){
+                    newState.splice(index,1);
+                }
+            })
             newState.sort((post1, post2) => {
                 const timestamp1 = new Date(post1.dateCreated + ' ' + post1.timeCreated).getTime();
                 const timestamp2 = new Date(post2.dateCreated + ' ' + post2.timeCreated).getTime();
@@ -94,10 +97,10 @@ const UserDashboard = ( {type}) =>{
             newState.sort((post1,post2)=>{
                 return (post1.dateCreated<post2.dateCreated && post1.timeCreated<post2.timeCreated) ? 1 : (post1.dateCreated>post2.dateCreated && post1.timeCreated>post2.timeCreated) ? -1 : 0;
             })
+            // setLoading(false);
             return newState;
         })
         // console.log(postsMap);
-        setLoading(false);
     },[posts])
 
 
@@ -108,19 +111,16 @@ const UserDashboard = ( {type}) =>{
     //select posts that were reblogged by 
     //todayonmumblr
     // in seeding, need to have posts reblogged by todayonmumblr
-    if (!posts){
-        console.log('loading')
-    }
     return (
         <>
-        {type==='likes' && loading && postsMap.length==0 &&
+        {type==='likes' && initialLoad && postsMap.length==0 &&
             <div className='noposts-message'>
                 <h2>Empty :(</h2>
                 <h2>Follow some Users to populate For You page!!!</h2>
                 <i className="fa-solid fa-otter fa-bounce"></i>
             </div>
         }
-        {type==='userposts' && loading && postsMap.length==0 &&
+        {type==='userposts' && initialLoad && postsMap.length==0 &&
             <div className='nouserposts-message'>
                 <h2>Empty :(</h2>
                 <h2>A Blog Post will fix that!</h2>
