@@ -56,7 +56,6 @@ const UserDashboard = ( {type}) =>{
         dispatch(postActions.fetchPosts(pageNumber,type,userid))
             .then((res) =>{
                 setMorePosts(res.postsleft.postsLeft);
-                console.log(res.posts);
                 // updatePostsMap(Object.values(res.posts))
             })
     },[pageNumber]);

@@ -129,10 +129,10 @@ const UserShowPage =() =>{
                             </div>
                             <div className='profile-meat'>
                             <Switch>
-                                <Route exact path='/user/:userid/posts' >
+                                <Route path='/user/:userid/posts' >
                                     <UserDashboard type={'userposts'}/>
                                 </Route>
-                                <Route exact path='/user/:userid/likes' >
+                                <Route path='/user/:userid/likes' >
                                     <UserDashboard  type={'likes'}/>
                                 </Route>
                                 <Route path='/user/:userid/follows'>

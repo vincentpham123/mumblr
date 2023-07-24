@@ -27,7 +27,8 @@ class Api::PostsController < ApplicationController
                                 .offset(offset)
                 when 'userposts'
                     user = User.find(params[:user])
-                    @posts = user.posts.limit(number_of_posts).offset(offset)
+                    @posts = user.posts.order(created_at: :desc).limit(number_of_posts).offset(offset)
+                    puts @posts
                 when 'likes'
                     user = User.find(params[:user])
                     @posts = user.liked_posts.limit(number_of_posts).offset(offset)

@@ -33,7 +33,7 @@ const DashboardPartial = ({type}) =>{
     },[])
     useEffect(()=>{
         setPostsMap([]);
-        // setPageNumber(1);
+        setPageNumber(1);
 
         setTimeout(()=>{
         dispatch(postActions.clearPosts());
@@ -75,10 +75,21 @@ const DashboardPartial = ({type}) =>{
             const existingPostIds = state.map((post)=>post.id);
             const newPosts = Object.values(posts).filter(
                 (post)=> !existingPostIds.includes(post.id)
-            )
+                )
+            if (type==='trending'){
+                newPosts.sort((post1,post2)=>{
+                   return (post1.commentcount+post1.comentcount)<(post2.comentcount+post2.comentcount) ? 1 : (post1.commentcount+post1.comentcount)>(post2.comentcount+post2.comentcount) ? -1 : 0;
+                })
+            }
             const newState=[];
             [...stateCopy,...newPosts].forEach((post)=>{
                 newState.push(post);
+            })
+            newState.forEach((post,index)=>{
+                const storeIndex=Object.values(posts).findIndex((storePost)=>storePost.id===post.id)
+                if (storeIndex===-1){
+                    newState.splice(index,1);
+                }
             })
             return newState;
         })
