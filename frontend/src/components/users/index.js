@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { useEffect, useState } from "react"
 import * as postActions from '../../store/posts';
 import * as userActions from '../../store/user';
+import * as followActions from '../../store/follows';
 import { Route , Switch,useParams, NavLink,Link,useHistory } from "react-router-dom";
 import PostsDashboard from "./posts";
 import './index.css';
@@ -15,6 +16,7 @@ const UserShowPage =() =>{
     const [pageType,setPageType] =useState('false');
     const [tabSelection,setTabSelection] = useState('posts');
     const history = useHistory();
+    const [errors,setErrors]=useState([]);
 
 
 
@@ -24,13 +26,32 @@ const UserShowPage =() =>{
     // need to fetch user from backend
     const user= useSelector(state=>state.users[userid]);
     // const user = users[userid];
+    
     const sessionUser = useSelector(state=>state.session.user);
+    const followed = useSelector(followActions.userFollowed(sessionUser,user.id));
+    useEffect(()=>{
+        console.log(followed)
+    },[followed])
+    const handleFollowButton = (event)=>{
+    event.preventDefault();
+    if(!sessionUser){
+        setErrors([]);
+        setErrors(['Login to Follow!']);
+        setTimeout(()=>{
+            setErrors([])
+        },3000)
+    } else{
+        const follow={user_id: user.id, follower_id: sessionUser.id}
+        dispatch(followActions.createFollow(follow));
+    }
+}
+const handleUnfollowButton = (event) =>{
+    event.preventDefault();
+    dispatch(followActions.removeFollow(followed[0].id));
+}
     // this logic will be handled by the userdashboard
     useEffect(()=>{
         dispatch(userActions.fetchUser(userid))
-            .then(res=>{
-                console.log(res)
-            })
     },[userid]);
 
     useEffect(()=>{
@@ -99,20 +120,35 @@ const UserShowPage =() =>{
                                                 </span>
                                             </button>
                                         }
-                                            { sessionUser && user.username !== sessionUser.username &&
-                                            <button className='profileSettings'>
+                                            { sessionUser && user.username !== sessionUser.username && followed.length===0 &&
+                                            <button className='profileSettings' onClick={event=>handleFollowButton(event)}>
                                                 <span>
                                                     Follow
                                                 </span>
                                             </button>
                                             }
-                                            { !sessionUser &&
-                                            <button className='profileSettings'>
+                                            { sessionUser && user.username !== sessionUser.username && followed.length>0 &&
+                                            <button className='profileSettings'  onClick={event=>handleUnfollowButton(event)}>
+                                                <span>
+                                                    Unfollow
+                                                </span>
+                                            </button>
+                                            }
+                                            { !sessionUser && user.username !== sessionUser.username && followed.length===0 &&
+                                            <button className='profileSettings' onClick={event=>handleFollowButton(event)}>
                                                 <span>
                                                     Follow
                                                 </span>
                                             </button>
                                             }
+                                            { !sessionUser && user.username !== sessionUser.username && followed.length>0 &&
+                                            <button className='profileSettings' onClick={event=>handleUnfollowButton(event)}>
+                                                <span>
+                                                    Unfollow
+                                                </span>
+                                            </button>
+                                            }
+                                            
                                         </div>
                                     </div>
                                 </div>

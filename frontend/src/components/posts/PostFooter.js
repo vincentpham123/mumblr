@@ -17,6 +17,7 @@ import { useState, useEffect } from "react";
 import { Link, Redirect } from "react-router-dom/cjs/react-router-dom.min";
 import * as commentsActions from '../../store/comments';
 import * as likesActions from '../../store/likes';
+import * as followActions from '../../store/follows';
 import './postsfooter.css'
 import { fetchPost } from "../../store/posts";
 import { Modal } from "../Context/Modal";
@@ -33,15 +34,43 @@ const PostFooter = ({ post }) => {
     );
     const [tabMenuSelection, setTabMenuSelection] = useState('comments');
     const [body,setBody] = useState('');
+    const sessionUser = useSelector(state => state.session.user);
+    const followed = useSelector(followActions.userFollowed(sessionUser,post.author.id));
     // cons [isActive, setIsActive] = useState();
     const dispatch = useDispatch();
     // will have a postid passed in from parent
     //can access the post from the state and grab data
-    const sessionUser = useSelector(state => state.session.user);
     // const liked = useSelector(likesActions.userLike(sessionUser.id,post.id));
     // to remove any errors 
 
- 
+    const handleFollowButton = (event)=>{
+        event.preventDefault();
+        if(!sessionUser){
+            setErrors(
+                {
+                    like:'',
+                    follow: '',
+                }
+            )
+            setErrors(state=>{
+                return {...state,['follow']:'login to follow'}
+            })
+            setTimeout(()=>{
+                setErrors( {
+                    like:'',
+                    follow: '',
+                })
+            },5000)
+        } else{
+            const follow={user_id: post.author.id, follower_id: sessionUser.id}
+            dispatch(followActions.createFollow(follow));
+        }
+    }
+    const handleUnfollowButton = (event) =>{
+        event.preventDefault();
+        dispatch(followActions.removeFollow(followed[0].id));
+    }
+
   
     const handleNotesButtonClick = (event) => {
         if (!showTabMenu) {
@@ -140,43 +169,7 @@ const PostFooter = ({ post }) => {
 
    
 
-    const Likes = ({ likerpic, likerusername,liker_id }) => {
-        // will have a useSelector to pull likes from the state
-        //will map over the likers for the post and render
-
-        return (
-            <div className='likeslist-container'>
-                <div className='likeslist-body'>
-                    <div className='likeslist-content'>
-                        {/* this is where i will map over the likers. will be pulled from the likes where post_id matches the post */}
-                        <div className='liker-container'>
-                            <div className='liker-profilepic-container'>
-                                <div className="liker-profilepic-body">
-                                    <Link className='liker-link' to={`/user/${liker_id}`}>
-                                        <img className='liker-pic' src={likerpic}></img>
-                                    </Link>
-                                </div>
-
-                            </div>
-                            <div className="liker-information">
-                                <div className='liker-username'>
-                                    <span>{likerusername}</span>
-                                </div>
-                                <button className='userFollow'>
-                                    {/* onClick will trigger a follow for the sessionUser */}
-                                    <span>Follow</span>
-                                </button>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-                </div>
-
-            </div>
-        )
-    }
+   
     return (
         <>
             <div className='postfoot-container'>
@@ -507,3 +500,67 @@ const FooterButtons = ({post,setShowTabMenu,sessionUser}) => {
     )
 }
 
+const Likes = ({ likerpic, likerusername,liker_id }) => {
+    // will have a useSelector to pull likes from the state
+    //will map over the likers for the post and render
+const sessionUser = useSelector(state=> state.session.user);
+const followed = useSelector(followActions.userFollowed(sessionUser,liker_id));
+const [errors,setErrors]=useState([]);
+const dispatch = useDispatch();
+const handleFollowButton = (event)=>{
+    event.preventDefault();
+    if(!sessionUser){
+        setErrors([]);
+        setErrors(['Login to Follow!']);
+        setTimeout(()=>{
+            setErrors([])
+        },3000)
+    } else{
+        const follow={user_id: liker_id, follower_id: sessionUser.id}
+        dispatch(followActions.createFollow(follow));
+    }
+}
+const handleUnfollowButton = (event) =>{
+    event.preventDefault();
+    dispatch(followActions.removeFollow(followed[0].id));
+}
+    return (
+        <>
+        <div className='likeslist-container'>
+            <div className='likeslist-body'>
+                <div className='likeslist-content'>
+                    {/* this is where i will map over the likers. will be pulled from the likes where post_id matches the post */}
+                    <div className='liker-container'>
+                        <div className='liker-profilepic-container'>
+                            <div className="liker-profilepic-body">
+                                <Link className='liker-link' to={`/user/${liker_id}`}>
+                                    <img className='liker-pic' src={likerpic}></img>
+                                </Link>
+                            </div>
+
+                        </div>
+                        <div className="liker-information">
+                            <div className='liker-username'>
+                                <span>{likerusername}</span>
+                            </div>
+                            {followed.length===0 && <button onClick={(event)=>handleFollowButton(event)} className='follow-button' style={{ backgroundColor: 'transparent', border: 'none', boxShadow: 'none' }}><span>Follow</span></button>}
+                            {followed.length>0 && <button onClick={(event)=>handleUnfollowButton(event)} className='follow-button' style={{ backgroundColor: 'transparent', border: 'none', boxShadow: 'none' }}><span>Unfollow</span></button>}    
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            { errors.length>0 &&
+                    <div style={{backgroundColor:'rgb(var(--red)'}}className='follow-footer-errors'>
+                            <span style={{color:'white'}}>
+                                {errors[0]}
+                            </span>
+                    </div>
+            }
+
+        </div>
+        </>
+    )
+}

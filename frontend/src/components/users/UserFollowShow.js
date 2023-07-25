@@ -21,7 +21,7 @@ const FollowShow = ({ id,type,setErrors})=>{
             setErrors(['Login to Follow!'])
             setTimeout(()=>{
                 setErrors([])
-            },5000)
+            },2000)
         } else{
             const follow={user_id: id, follower_id: sessionUser.id}
             dispatch(followActions.createFollow(follow));
