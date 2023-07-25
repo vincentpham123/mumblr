@@ -152,7 +152,7 @@
     line-height: 1.5;
 }
 .text-paragraph:empty:before{
-    content:'...';
+    content:'type here';
     color: grey;
 }
 
