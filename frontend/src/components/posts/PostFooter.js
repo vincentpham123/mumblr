@@ -99,7 +99,7 @@ const PostFooter = ({ post }) => {
                                 {!showTabMenu &&
                                     <>
                                         <span className='shownotesbutton-container'>
-                                            <span clasName='show-notes-body'>
+                                            <span className='show-notes-body'>
                                                 <div className='show-notes-content'>
                                                     <span className='show-notes-text'>
                                                         <span className='notes-count'>

@@ -350,3 +350,16 @@
     
 }
 
+.userprofilefollowerror{
+    position: absolute;
+    background-color: rgb(var(--red));
+    padding: 15px;
+    border-radius: 3px;
+}
+.userprofilefollowerror span{
+    color: white;
+    font-size: 18px;
+    background-color: transparent;
+    right: 5vw;
+}
+
