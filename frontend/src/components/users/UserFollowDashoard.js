@@ -11,6 +11,7 @@ const UserFollowDashboard = ({type}) =>{
     const [moreUsers,setMoreUsers] = useState(true);
     const [pageNumber,setPageNumber] = useState(1);
     const [loading,setLoading]=useState(true);
+    const [errors,setErrors]=useState([]);
     const observer = useRef();
     const dispatch = useDispatch();
     const lastUserRef = useCallback(node=>{
@@ -69,14 +70,14 @@ const UserFollowDashboard = ({type}) =>{
                     if(type==='follows' && follow.followerId==userid){
                         return(
                         <div ref={lastUserRef} key={follow.id} className='likeslist-container'>
-                            <FollowShow id={follow.userId} type={type} />
+                            <FollowShow id={follow.userId} type={type} setErrors={setErrors} />
                         </div>
                         )
                     } 
                     if (type==='followers' && follow.userId==userid){
                         return(
                         <div ref={lastUserRef} key={follow.id} className='likeslist-container'>
-                            <FollowShow id={follow.followerId} type={type} />
+                            <FollowShow id={follow.followerId} type={type} setErrors={setErrors}/>
                         </div>
                         )
                     }
@@ -85,7 +86,13 @@ const UserFollowDashboard = ({type}) =>{
                 }
 
             </div>
-
+            { errors.length>0 &&
+                    <div className='follow-dash-errors'>
+                            <span>
+                                {errors[0]}
+                            </span>
+                    </div>
+                    }
         </div>
         </>
     )

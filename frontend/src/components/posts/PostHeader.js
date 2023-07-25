@@ -16,7 +16,7 @@ const PostHeader =({post,profile}) =>{
         if(showOptions) return;
         setShowOptions(true);
     }
-    const followed = useSelector(userFollowed(post.author.id));
+    const followed = useSelector(userFollowed(sessionUser,post.author.id));
     const closeOptions= () =>{
         if (showOptions) setShowOptions(false);
     }

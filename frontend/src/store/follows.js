@@ -27,8 +27,9 @@ export const clearFollow = ()=>({
 })
 
 // getter 
-export const userFollowed = (postAuthorid) => state => {
-  return state.follows ? Object.values(state.follows).filter((follow)=> follow.userId === postAuthorid) : null;
+export const userFollowed = (sessionUser,postAuthorid) => state => {
+  if (!sessionUser) return [];
+  return state.follows ? Object.values(state.follows).filter((follow)=> follow.userId === postAuthorid && follow.followerId===sessionUser.id) : [];
 }
 export const followsUser = (id,sessionUser,type) => state => {
   if (!sessionUser) return [];

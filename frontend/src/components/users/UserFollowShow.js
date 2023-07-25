@@ -3,7 +3,7 @@ import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import { useState,useEffect } from "react";
 import * as followActions from '../../store/follows';
 import { useDispatch } from "react-redux";
-const FollowShow = ({ id,type})=>{
+const FollowShow = ({ id,type,setErrors})=>{
     //can pull user from the state with follow id and type 
     //if follower, can pull from selector with followerid 
     //if follows, can pull from selector with userid
@@ -13,10 +13,11 @@ const FollowShow = ({ id,type})=>{
     const sessionUser = useSelector(state=>state.session.user);
     const followed = useSelector(followActions.followsUser(id,sessionUser,type));
     const user = useSelector(state=>state.users[id]);
-    const [errors,setErrors] = useState([]);
+    // const [errors,setErrors] = useState([]);
     const handleFollowButton = (event)=>{
         event.preventDefault();
         if(!sessionUser){
+            setErrors([]);
             setErrors(['Login to Follow!'])
             setTimeout(()=>{
                 setErrors([])
@@ -33,7 +34,7 @@ const FollowShow = ({ id,type})=>{
 
     if (!user) return null;
     return(
-            <div className='likeslist-body'>
+        <div className='likeslist-body'>
             <div className='likeslist-content'>
                 {/* this is where i will map over the likers. will be pulled from the likes where post_id matches the post */}
                 <div className='liker-container'>
@@ -57,6 +58,7 @@ const FollowShow = ({ id,type})=>{
                 </div>
 
             </div>
+          
         </div>
 
  
