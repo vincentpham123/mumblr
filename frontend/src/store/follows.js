@@ -27,18 +27,36 @@ export const clearFollow = ()=>({
 })
 
 // getter 
-export const userFollowed = (sessionUser,postAuthorid) => state => {
-  if (!sessionUser) return [];
-  return state.follows ? Object.values(state.follows).filter((follow)=> follow.userId == postAuthorid && follow.followerId==sessionUser.id) : [];
-}
-export const followsUser = (id,sessionUser,type) => state => {
-  if (!sessionUser) return [];
-  if (type==='follows'){
-    return state.follows ? Object.values(state.follows).filter((follow)=> follow.userId===id&& follow.followerId === sessionUser.id) : [];
-  } else{
-    return state.follows ? Object.values(state.follows).filter((follow)=> follow.followerId===sessionUser.id&& follow.userId === id) : [];
+const getFollowState=state=>state.follows;
+// export const userFollowed = (sessionUser,postAuthorid) => state => {
+//   if (!sessionUser) return [];
+//   return state.follows ? Object.values(state.follows).filter((follow)=> follow.userId == postAuthorid && follow.followerId==sessionUser.id) : [];
+// }
+export const userFollowed = (sessionUser,postAuthorid) => createSelector(
+  state=>state.follows,
+  (follows)=>{
+    if (!sessionUser) return [];
+    return follows ? Object.values(follows).filter((follow)=>follow.userId==postAuthorid && follow.followerId==sessionUser.id) : [];
   }
-}
+)
+export const followsUser = (id,sessionUser,type) => createSelector(
+  state=>state.follows,
+  (getFollowState)=>{
+    if (type==='follows'){
+      return getFollowState ? Object.values(getFollowState).filter((follow)=>follow.userId===id && follow.followerId===sessionUser.id) : [];
+    } else{
+      return getFollowState ? Object.values(getFollowState).filter((follow)=> follow.followerId===sessionUser.id && follow.userId===id ) : [];
+    }
+  }
+)
+// export const followsUser = (id,sessionUser,type) => state => {
+//   if (!sessionUser) return [];
+//   if (type==='follows'){
+//     return state.follows ? Object.values(state.follows).filter((follow)=> follow.userId===id&& follow.followerId === sessionUser.id) : [];
+//   } else{
+//     return state.follows ? Object.values(state.follows).filter((follow)=> follow.followerId===sessionUser.id&& follow.userId === id) : [];
+//   }
+// }
 // export const userFollowedSelector= createSelector(
 //   (state,postAuthorid)=>()
 // )

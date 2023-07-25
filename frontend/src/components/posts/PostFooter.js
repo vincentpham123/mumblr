@@ -505,6 +505,7 @@ const Likes = ({ likerpic, likerusername,liker_id }) => {
     //will map over the likers for the post and render
 const sessionUser = useSelector(state=> state.session.user);
 const followed = useSelector(followActions.userFollowed(sessionUser,liker_id));
+console.log(followed);
 const [errors,setErrors]=useState([]);
 const dispatch = useDispatch();
 const handleFollowButton = (event)=>{
