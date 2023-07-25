@@ -5,7 +5,7 @@ import { receiveUsers } from "./user";
 const RECEIVE_FOLLOWS ='/api/RECEIVEFOLLOWS'
 const DELETE_FOLLOW = '/api/DELETEFOLLOW'      
 const RECEIVE_FOLLOW = '/api/RECEIVEFOLLOW'
-
+const CLEAR_FOLLOW = '/api/CLEARFOLLOW'
 //actions
 
 export const receiveFollows = (follows) =>({
@@ -22,10 +22,22 @@ export const receiveFollow = (follow) =>({
     type: RECEIVE_FOLLOW,
     follow
 })
+export const clearFollow = ()=>({
+  type: CLEAR_FOLLOW
+})
 
 // getter 
-export const userFollowed = (postAuthorid) => state => {
-  return state.follows ? Object.values(state.follows).filter((follow)=> follow.userId === postAuthorid) : null;
+export const userFollowed = (sessionUser,postAuthorid) => state => {
+  if (!sessionUser) return [];
+  return state.follows ? Object.values(state.follows).filter((follow)=> follow.userId === postAuthorid && follow.followerId===sessionUser.id) : [];
+}
+export const followsUser = (id,sessionUser,type) => state => {
+  if (!sessionUser) return [];
+  if (type==='follows'){
+    return state.follows ? Object.values(state.follows).filter((follow)=> follow.userId===id&& follow.followerId === sessionUser.id) : [];
+  } else{
+    return state.follows ? Object.values(state.follows).filter((follow)=> follow.followerId===sessionUser.id&& follow.userId === id) : [];
+  }
 }
 // export const userFollowedSelector= createSelector(
 //   (state,postAuthorid)=>()
@@ -53,7 +65,7 @@ export const removeFollow = (followId) => async dispatch => {
   };
 
   export const getFollows = (userid) => async dispatch =>{
-    let response = await fetch(`/api/user/${userid}/follows`)
+    let response = await fetch(`/api/users/${userid}/follows`)
     if (response.ok){
       let data = await response.json();
       dispatch(receiveFollows(data.follows));
@@ -63,10 +75,10 @@ export const removeFollow = (followId) => async dispatch => {
   }
 
   export const getFollowers = (userid) => async dispatch =>{
-    let response = await fetch(`/api/user/${userid}/followers`)
+    let response = await fetch(`/api/users/${userid}/followers`)
     if (response.ok){
       let data = await response.json();
-      dispatch(receiveFollows(data.follows));
+      dispatch(receiveFollows(data.followers));
       dispatch(receiveUsers(data.users));
       return data;
     }
@@ -80,7 +92,7 @@ export const removeFollow = (followId) => async dispatch => {
     switch (action.type) {
       case RECEIVE_FOLLOWS:
         return { ...newState, ...action.follows };
-  
+      
       case RECEIVE_FOLLOW:
         newState[action.follow.id] = action.follow;
         return newState;
@@ -88,7 +100,8 @@ export const removeFollow = (followId) => async dispatch => {
       case DELETE_FOLLOW:
         delete newState[action.followId];
         return newState;
-  
+      case CLEAR_FOLLOW:
+        return {};
       default:
         return newState;
     }

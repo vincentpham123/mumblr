@@ -1,18 +1,19 @@
 import { useParams } from "react-router-dom/cjs/react-router-dom.min"
 import { useState,useCallback,useEffect,useRef } from "react";
-import { useSelector } from "react-redux";
-
-
+import { useDispatch, useSelector } from "react-redux";
+import * as followActions from '../../store/follows';
+import FollowShow from "./UserFollowShow";
 
 const UserFollowDashboard = ({type}) =>{
     //type will determine if i grab followers or follows 
-    const {userid} = useParams
+    const {userid} = useParams();
     const [usersMap,setUsersMap] = useState([]);
     const [moreUsers,setMoreUsers] = useState(true);
     const [pageNumber,setPageNumber] = useState(1);
+    const [loading,setLoading]=useState(true);
+    const [errors,setErrors]=useState([]);
     const observer = useRef();
-
-
+    const dispatch = useDispatch();
     const lastUserRef = useCallback(node=>{
         if(loading) return;
         if (observer.current) observer.current.disconnect();
@@ -27,10 +28,13 @@ const UserFollowDashboard = ({type}) =>{
     })
     useEffect(()=>{
         setUsersMap([]);
+        setLoading(true);
+        // dispatch(followActions.clearFollow());
         if (type==='follows'){
-            //fetch follows
+            dispatch(followActions.getFollows(userid));
         } else {
             //fetch followers 
+            dispatch(followActions.getFollowers(userid));
         }
     },[type])
 
@@ -51,14 +55,47 @@ const UserFollowDashboard = ({type}) =>{
         })
         setLoading(false);
     },[pageNumber])
-
+   
+    
     return(
+        <>
         <div className='follow-dash-container'>
             <div className='follow-dash-body'>
-                {/* here is where i will show the followers/follows */}
-                {/* will map through usersMap */}
-            </div>
+                {Object.values(followState).map((follow,index)=>{
+                    {/* return(
+                        <div ref={lastUserRef} key={follow.id} className='likeslist-container'>
+                            <FollowShow id={follow.userId} type={type} />
+                        </div>
+                        ) */}
+                    if(type==='follows' && follow.followerId==userid){
+                        return(
+                        <div ref={lastUserRef} key={follow.id} className='likeslist-container'>
+                            <FollowShow id={follow.userId} type={type} setErrors={setErrors} />
+                        </div>
+                        )
+                    } 
+                    if (type==='followers' && follow.userId==userid){
+                        return(
+                        <div ref={lastUserRef} key={follow.id} className='likeslist-container'>
+                            <FollowShow id={follow.followerId} type={type} setErrors={setErrors}/>
+                        </div>
+                        )
+                    }
+                })
+                    
+                }
 
+            </div>
+            { errors.length>0 &&
+                    <div className='follow-dash-errors'>
+                            <span>
+                                {errors[0]}
+                            </span>
+                    </div>
+                    }
         </div>
+        </>
     )
 }
+
+export default UserFollowDashboard;

@@ -8,6 +8,7 @@ import PostsDashboard from "./posts";
 import './index.css';
 import LikesDashboard from "./likes";
 import UserDashboard from "./UserDashBoard";
+import UserFollowDashboard from "./UserFollowDashoard";
 const UserShowPage =() =>{
     const dispatch = useDispatch();
     const {userid} = useParams();
@@ -125,6 +126,8 @@ const UserShowPage =() =>{
                                 <div className='profilelinks'>
                                     <NavLink className='profilelink' to={`/user/${userid}/posts`}>Posts</NavLink>
                                     <NavLink className='profilelink' to={`/user/${userid}/likes`}>Likes</NavLink>
+                                    <NavLink className='profilelink' to={`/user/${userid}/follows`}>Follows</NavLink>
+                                    <NavLink className='profilelink' to={`/user/${userid}/followers`}>Followers</NavLink>
                                 </div>
                             </div>
                             <div className='profile-meat'>
@@ -136,10 +139,10 @@ const UserShowPage =() =>{
                                     <UserDashboard  type={'likes'}/>
                                 </Route>
                                 <Route path='/user/:userid/follows'>
-
+                                    <UserFollowDashboard type='follows' />
                                 </Route>
                                 <Route path='/user/:userid/followers'>
-
+                                    <UserFollowDashboard type='followers' />
                                 </Route>
                             </Switch>
                             </div>
