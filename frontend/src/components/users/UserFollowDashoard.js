@@ -28,7 +28,7 @@ const UserFollowDashboard = ({type}) =>{
     useEffect(()=>{
         setUsersMap([]);
         setLoading(true);
-        dispatch(followActions.clearFollow());
+        // dispatch(followActions.clearFollow());
         if (type==='follows'){
             dispatch(followActions.getFollows(userid));
         } else {
@@ -54,20 +54,34 @@ const UserFollowDashboard = ({type}) =>{
         })
         setLoading(false);
     },[pageNumber])
+   
     
     return(
         <>
         <div className='follow-dash-container'>
             <div className='follow-dash-body'>
                 {Object.values(followState).map((follow,index)=>{
-                    return(
-                    <div ref={lastUserRef} key={follow.id} className='likeslist-container'>
-                        <FollowShow id={type==='follows' ? follow.userId : follow.followerId} type={type} />
-                    </div>
-                    )
-            
-                    
+                    {/* return(
+                        <div ref={lastUserRef} key={follow.id} className='likeslist-container'>
+                            <FollowShow id={follow.userId} type={type} />
+                        </div>
+                        ) */}
+                    if(type==='follows' && follow.followerId==userid){
+                        return(
+                        <div ref={lastUserRef} key={follow.id} className='likeslist-container'>
+                            <FollowShow id={follow.userId} type={type} />
+                        </div>
+                        )
+                    } 
+                    if (type==='followers' && follow.userId==userid){
+                        return(
+                        <div ref={lastUserRef} key={follow.id} className='likeslist-container'>
+                            <FollowShow id={follow.followerId} type={type} />
+                        </div>
+                        )
+                    }
                 })
+                    
                 }
 
             </div>

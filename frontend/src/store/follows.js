@@ -30,6 +30,14 @@ export const clearFollow = ()=>({
 export const userFollowed = (postAuthorid) => state => {
   return state.follows ? Object.values(state.follows).filter((follow)=> follow.userId === postAuthorid) : null;
 }
+export const followsUser = (id,sessionUser,type) => state => {
+  if (!sessionUser) return [];
+  if (type==='follows'){
+    return state.follows ? Object.values(state.follows).filter((follow)=> follow.userId===id&& follow.followerId === sessionUser.id) : [];
+  } else{
+    return state.follows ? Object.values(state.follows).filter((follow)=> follow.followerId===sessionUser.id&& follow.userId === id) : [];
+  }
+}
 // export const userFollowedSelector= createSelector(
 //   (state,postAuthorid)=>()
 // )

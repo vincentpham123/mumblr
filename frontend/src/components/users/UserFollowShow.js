@@ -1,15 +1,36 @@
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import { useState,useEffect } from "react";
-
+import * as followActions from '../../store/follows';
+import { useDispatch } from "react-redux";
 const FollowShow = ({ id,type})=>{
     //can pull user from the state with follow id and type 
     //if follower, can pull from selector with followerid 
     //if follows, can pull from selector with userid
     // const user = type==='follows' ? useSelector(state=>state.users[follow.user_id]) : useSelector(state=>state.users[follow.follower_id]);
-
-
+    // console.log(id);
+    const dispatch = useDispatch();
+    const sessionUser = useSelector(state=>state.session.user);
+    const followed = useSelector(followActions.followsUser(id,sessionUser,type));
     const user = useSelector(state=>state.users[id]);
+    const [errors,setErrors] = useState([]);
+    const handleFollowButton = (event)=>{
+        event.preventDefault();
+        if(!sessionUser){
+            setErrors(['Login to Follow!'])
+            setTimeout(()=>{
+                setErrors([])
+            },5000)
+        } else{
+            const follow={user_id: id, follower_id: sessionUser.id}
+            dispatch(followActions.createFollow(follow));
+        }
+    }
+    const handleUnfollowButton = (event) =>{
+        event.preventDefault();
+        dispatch(followActions.removeFollow(followed[0].id));
+    }
+
     if (!user) return null;
     return(
             <div className='likeslist-body'>
@@ -28,10 +49,8 @@ const FollowShow = ({ id,type})=>{
                         <div className='liker-username'>
                             <span>{user.username}</span>
                         </div>
-                        <button className='userFollow'>
-                            {/* onClick will trigger a follow for the sessionUser */}
-                            <span>Follow</span>
-                        </button>
+                        {followed.length===0 && <button onClick={(event)=>handleFollowButton(event)} className='follow-button' style={{ backgroundColor: 'transparent', border: 'none', boxShadow: 'none' }}><span>Follow</span></button>}
+                        {followed.length>0 && <button onClick={(event)=>handleUnfollowButton(event)} className='follow-button' style={{ backgroundColor: 'transparent', border: 'none', boxShadow: 'none' }}><span>Unfollow</span></button>}
 
                     </div>
 
