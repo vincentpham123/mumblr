@@ -172,7 +172,10 @@ const NewTextPost = () => {
             }
             // if (photos[key]) formData.append(param,photos[key]);
         }) 
-        dispatch(createPost(formData));
+        dispatch(createPost(formData))
+        .catch((res)=>{
+            console.log('failed :(')
+        });
         history.go(-2);
     }
 

@@ -192,7 +192,10 @@ const handleFile = (event) => {
 
         
         
-        dispatch(updatePost(formData,postid));
+        dispatch(updatePost(formData,postid))
+        .catch((res)=>{
+            console.log('failed :(')
+        });
         history.push(`/user/${sessionUser.id}/posts`);
     }
 

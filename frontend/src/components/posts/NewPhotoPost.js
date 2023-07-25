@@ -12,6 +12,7 @@ const NewPhotoPost = () => {
     const [title,setTitle] = useState('');
     const [paragraphs,setParagraphs] = useState({1:''});
     const [photos,setPhotos]=useState({1:null,2:null,3:null,4:null});
+    const [errors,setErrors]=useState([]);
     const sessionUser = useSelector(state=>  state.session.user);
     
 
@@ -146,7 +147,10 @@ const NewPhotoPost = () => {
             if (photos[key]) formData.append(param,photos[key]);
         })
 
-        dispatch(createPost(formData));
+        dispatch(createPost(formData))
+            .catch((res)=>{
+                console.log('failed :(')
+            });
         history.go(-2);
     }
 
