@@ -31,6 +31,7 @@ function App() {
             </div>
           </Route>
           <Route>
+            {/* <Redirect to='/explore'></Redirect> */}
             <div className="dashboard">
               <Dashboard />
             </div>

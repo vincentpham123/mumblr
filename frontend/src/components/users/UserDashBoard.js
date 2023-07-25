@@ -39,10 +39,7 @@ const UserDashboard = ( {type}) =>{
             .then(res=>{
                 setPostsMap([]);
                 setMorePosts(res.postsleft.postsLeft);
-                if (Object.values(res.posts).length===0){
-                    setInitialLoad(true);
-                }
-                // updatePostsMap(Object.values(res.posts))
+                setInitialLoad(true);
 
             })
     },[type])

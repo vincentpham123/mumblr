@@ -57,6 +57,7 @@ const DashboardPartial = ({type}) =>{
             .then( (res) =>{
                 setMorePosts(res.postsleft.postsLeft);
                 setLoading(false);
+    
             })
     },[pageNumber]);
     useEffect(()=>{
@@ -114,7 +115,7 @@ const DashboardPartial = ({type}) =>{
                     <i style={{color:'white'}}className="fa-solid fa-spinner fa-spin"></i>
                 </div>
             </div>}
-        {postsMap.length==0 && loading && !initialLoad &&
+        { !initialLoad && postsMap.length===0 &&
             <div className='noposts-message'>
                 <h2>No posts to show</h2>
                 <h2>Follow some Users to populate For You page!!!</h2>
