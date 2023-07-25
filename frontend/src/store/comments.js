@@ -34,7 +34,6 @@ const getCommentState = state=> state.comments;
 export const postComments = (postid) => createSelector(
     state=>state.comments,
     (getCommentState)=>{
-        console.log(getCommentState);
     return getCommentState ? Object.values(getCommentState).filter((comment)=> comment.postId ===postid) : null;
     }
     
