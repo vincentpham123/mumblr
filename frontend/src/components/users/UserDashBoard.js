@@ -48,7 +48,7 @@ const UserDashboard = ( {type}) =>{
     },[type])
    
     const posts = useSelector(state=>state.posts);
-
+    console.log(posts);
     //will trigger a dispatch for more data when
     // pagenumber changes
     useEffect(()=>{

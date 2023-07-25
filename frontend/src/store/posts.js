@@ -88,7 +88,9 @@ export const updatePost = (formData,postid)=> async(dispatch) => {
     });
     if (post.ok){
         const data = await post.json();
-        dispatch(receivePost(data));
+        dispatch(receivePost(data.posts));
+        dispatch(receiveComments(data.comments));
+        dispatch(receiveLikes(data.likes));
         return data;
     } else{
         const error = await post.json();

@@ -193,7 +193,7 @@ const handleFile = (event) => {
         
         
         dispatch(updatePost(formData,postid));
-        history.go(-2);
+        history.push(`/user/${sessionUser.id}/`);
     }
 
     const disableButton = () => {
