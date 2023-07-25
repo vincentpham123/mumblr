@@ -1,6 +1,6 @@
 
 import { useSelector, useDispatch } from "react-redux"
-import { useEffect, useState } from "react"
+import { useEffect, useState,useRef } from "react"
 import * as postActions from '../../store/posts';
 import * as userActions from '../../store/user';
 import * as followActions from '../../store/follows';
@@ -10,28 +10,34 @@ import './index.css';
 import LikesDashboard from "./likes";
 import UserDashboard from "./UserDashBoard";
 import UserFollowDashboard from "./UserFollowDashoard";
-const UserShowPage =() =>{
+import { Redirect,useLocation } from "react-router-dom/cjs/react-router-dom.min";
+const UserShowPage = () =>{
     const dispatch = useDispatch();
     const {userid} = useParams();
     const [pageType,setPageType] =useState('false');
-    const [tabSelection,setTabSelection] = useState('posts');
+    const [tabSelection,setTabSelection] = useState('');
     const history = useHistory();
+    const location = useLocation();
     const [errors,setErrors]=useState([]);
+    const idRef = useRef()
 
-
-
+    useEffect(()=>{
+        setTabSelection(location.pathname);
+    },[location])
     // need sessionUser to determine if it will be a 
     //user or otheruser render
     // each user will have a profile Pic, and backgroundImage
     // need to fetch user from backend
     const user= useSelector(state=>state.users[userid]);
     // const user = users[userid];
-    
+    useEffect(() => {
+       
+        dispatch(userActions.fetchUser(userid));
+        idRef.current=userid
+      }, [userid]);
     const sessionUser = useSelector(state=>state.session.user);
-    const followed = useSelector(followActions.userFollowed(sessionUser,user.id));
-    useEffect(()=>{
-        console.log(followed)
-    },[followed])
+    const followed = useSelector(followActions.userFollowed(sessionUser,userid));
+    console.log(tabSelection);
     const handleFollowButton = (event)=>{
     event.preventDefault();
     if(!sessionUser){
@@ -50,16 +56,15 @@ const handleUnfollowButton = (event) =>{
     dispatch(followActions.removeFollow(followed[0].id));
 }
     // this logic will be handled by the userdashboard
-    useEffect(()=>{
-        dispatch(userActions.fetchUser(userid))
-    },[userid]);
+    // useEffect(()=>{
+    //     dispatch(userActions.fetchUser(userid))
+    // },[]);
 
-    useEffect(()=>{
-        history.push(`/user/${userid}/posts`)
-    },[]);
+    // useEffect(()=>{
+    //     history.push(`/user/${userid}/posts`)
+    // },[]);
     
     const userPosts = useSelector(state=>state.posts);
-    // if (!user) return (null);
     if (!user) {
     return(
         <div className='post-load-container'>
@@ -160,10 +165,14 @@ const handleUnfollowButton = (event) =>{
                             <div className='profilenavigation'>
                                 
                                 <div className='profilelinks'>
-                                    <NavLink className='profilelink' to={`/user/${userid}/posts`}>Posts</NavLink>
-                                    <NavLink className='profilelink' to={`/user/${userid}/likes`}>Likes</NavLink>
-                                    <NavLink className='profilelink' to={`/user/${userid}/follows`}>Follows</NavLink>
-                                    <NavLink className='profilelink' to={`/user/${userid}/followers`}>Followers</NavLink>
+                                    <NavLink className={tabSelection===`/user/${user.id}/` ? 'active' : ''} 
+                                    to={`/user/${userid}/posts`}>Posts</NavLink>
+                                    <NavLink 
+                                    to={`/user/${userid}/likes`}>Likes</NavLink>
+                                    <NavLink 
+                                    to={`/user/${userid}/followers`}>Followers</NavLink>
+                                    <NavLink 
+                                    to={`/user/${userid}/follows`}>Follows</NavLink>
                                 </div>
                             </div>
                             <div className='profile-meat'>
@@ -175,11 +184,16 @@ const handleUnfollowButton = (event) =>{
                                     <UserDashboard  type={'likes'}/>
                                 </Route>
                                 <Route path='/user/:userid/follows'>
-                                    <UserFollowDashboard type='follows' />
+                                    <UserFollowDashboard type={'follows'} />
                                 </Route>
                                 <Route path='/user/:userid/followers'>
-                                    <UserFollowDashboard type='followers' />
+                                    <UserFollowDashboard type={'followers'} />
                                 </Route>
+                                <Route exact path='/user/:userid/'>
+                                    {console.log('userhome')}
+                                    <UserDashboard type={'userposts'} />
+                                </Route>
+                                <Redirect to='/user/:userid' />
                             </Switch>
                             </div>
                         </div>

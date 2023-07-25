@@ -4,6 +4,7 @@ json.user do
     json.background @user.background.attached? ? @user.background.url : nil
     json.postlikes @user.post_likes.length 
     json.followers @user.followers.length
+    json.follows @user.follows.length
 end
 
 # i can nest and then during my payload, i can extract and dispatch 

@@ -14,8 +14,6 @@ import './app.css'
 function App() {
   const sessionUser = useSelector(state => state.session.user);
   const [loggedIn, setLoggedIn] = useState(false);
-  let location = useLocation();
-  let background = location.state && location.state.background
   return (
     <>
       <div className='header-container'>
@@ -33,7 +31,6 @@ function App() {
             </div>
           </Route>
           <Route>
-            {/* <Redirect to='/explore' /> */}
             <div className="dashboard">
               <Dashboard />
             </div>

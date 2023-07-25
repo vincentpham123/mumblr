@@ -18,14 +18,14 @@ const Navigation = ()=>{
         // history.push('/explore/foryou')
 
     }
-    useEffect(()=>{
-        if (sessionUser){
-            history.push('/explore/foryou')
-        }else {
-            history.push('/explore/preview')
-        }
+    // useEffect(()=>{
+    //     if (sessionUser){
+    //         history.push('/explore/foryou')
+    //     }else {
+    //         history.push('/explore/preview')
+    //     }
 
-    },[sessionUser])
+    // },[sessionUser])
     if (sessionUser){
         sessionLinks=(
             <>

@@ -159,6 +159,11 @@
     color: rgb(0,184,255);
 
 }
+.profilelinks a.active{
+    box-shadow: inset 0px -2px 0px rgb(0,184,255);
+
+
+}
 .profilelink.active{
     box-shadow: inset 0px -2px 0px rgb(0,184,255);
 }
