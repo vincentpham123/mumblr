@@ -36,7 +36,6 @@ const PostFooter = ({ post }) => {
     const [body,setBody] = useState('');
     const sessionUser = useSelector(state => state.session.user);
     const followed = useSelector(followActions.userFollowed(sessionUser,post.author.id));
-    console.log(followed);
     // cons [isActive, setIsActive] = useState();
     const dispatch = useDispatch();
     // will have a postid passed in from parent
