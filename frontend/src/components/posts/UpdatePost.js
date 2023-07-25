@@ -193,7 +193,7 @@ const handleFile = (event) => {
         
         
         dispatch(updatePost(formData,postid));
-        history.push(`/user/${sessionUser.id}/`);
+        history.push(`/user/${sessionUser.id}/posts`);
     }
 
     const disableButton = () => {
@@ -225,7 +225,7 @@ return (
                             <div className='textbox-contents'>
                                 <h1 onKeyDown={event=>handleTitleKeyDown(event)} className="contentEdit text-title" contentEditable='true'>{initialTitle}</h1>
                                 {Object.keys(paragraphs).map((paragraph,index)=>{
-                                return <NewPostInput handleKeyDown={handleKeyDown} index={index+1} handleFile={handleFile} photoState={photos} initialValue={paragraphs[paragraph]} create={false} handlePhotoRemove={handlePhotoRemove}/>
+                                    return <NewPostInput handleKeyDown={handleKeyDown} index={index+1} handleFile={handleFile} photoState={photos} initialValue={paragraphs[paragraph]} create={false} handlePhotoRemove={handlePhotoRemove}/>
                                 })}
                                
                             </div>

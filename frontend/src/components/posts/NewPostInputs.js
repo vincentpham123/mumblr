@@ -25,7 +25,8 @@ const NewPostInput = ({ form,handleKeyDown, index,handleFile, photoState,initial
     const pRef = useRef(null);
     //this is for setting the menu to true, if the p tag is focused and not empty 
     useEffect(()=>{
-        if (form==='photo') setType('photo')
+        if (form==='photo') setType('photo');
+        if (initialValue.length===0) setInputMenu(true);
     },[])
 
     
