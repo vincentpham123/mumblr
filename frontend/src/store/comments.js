@@ -26,17 +26,19 @@ export const deleteComment = (commentId) => ({
     
 // }
 const getCommentState = state=> state.comments;
-export const postComments = (postid) => (state) => {
-    return state?.posts ? Object.values(state.comments).filter((comment)=> comment.postId ===postid) : null;
+// export const postComments = (postid) => (state) => {
+//     return state?.posts ? Object.values(state.comments).filter((comment)=> comment.postId ===postid) : null;
     
-}
+// }
 
-// export const postComments = (postid) => createSelector(
-//     [getCommentState],
-//     (comments) => comments.filer((comment)=>comment.postId ===postid)
-//     // return state?.posts ? Object.values(state.comments).filter((comment)=> comment.postId ===postid) : null;
+export const postComments = (postid) => createSelector(
+    state=>state.comments,
+    (getCommentState)=>{
+        console.log(getCommentState);
+    return getCommentState ? Object.values(getCommentState).filter((comment)=> comment.postId ===postid) : null;
+    }
     
-// )
+)
 
 // export const postCommentsSelector = createSelector(
 //     getCommentState,

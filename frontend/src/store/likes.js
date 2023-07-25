@@ -30,19 +30,31 @@ export const deleteLike = (likeid) => ({
 })
 //getter
 const getLikesState = (state) => state.likes;
-export const postLikes = (postid) => (state) => {
-    return state?.likes ? Object.values(state.likes).filter((like)=>like.postId ===postid) : null;
+// export const postLikes = (postid) => (state) => {
+//     return state?.likes ? Object.values(state.likes).filter((like)=>like.postId ===postid) : null;
     
-}
+// }
+export const postLikes = (postid) => createSelector(
+    state=>state.likes,
+    (likes)=>{
+        return likes ? Object.values(likes).filter((like)=> like.postId===postid) : null;
+    }
+)
 export const postLikesSelector = createSelector(
     getLikesState,
     (_,postId) => postId,
     postLikes
 
 );
-export const userLike = (userId=0,postId) => state =>{
-    return state?.likes ? Object.values(state.likes).filter((like)=>like.userId===userId && like.postId ==postId) : null;
-}
+// export const userLike = (userId=0,postId) => state =>{
+//     return state?.likes ? Object.values(state.likes).filter((like)=>like.userId===userId && like.postId ==postId) : null;
+// }
+export const userLike= (userId=0,postId) => createSelector(
+    state=>state.likes,
+    (likes)=>{
+        return likes ? Object.values(likes).filter((like)=>like.userId===userId&&like.postId==postId) : null;
+    }
+)
 export const userLikesSelector = createSelector(
     getLikesState,
     (_,userId=0,postId)=>({userId,postId}),
