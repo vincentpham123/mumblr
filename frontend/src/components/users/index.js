@@ -10,6 +10,7 @@ import './index.css';
 import LikesDashboard from "./likes";
 import UserDashboard from "./UserDashBoard";
 import UserFollowDashboard from "./UserFollowDashoard";
+import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
 const UserShowPage = () =>{
     const dispatch = useDispatch();
     const {userid} = useParams();
@@ -176,14 +177,16 @@ const handleUnfollowButton = (event) =>{
                                     <UserDashboard  type={'likes'}/>
                                 </Route>
                                 <Route path='/user/:userid/follows'>
-                                    <UserFollowDashboard type='follows' />
+                                    <UserFollowDashboard type={'follows'} />
                                 </Route>
                                 <Route path='/user/:userid/followers'>
-                                    <UserFollowDashboard type='followers' />
+                                    <UserFollowDashboard type={'followers'} />
                                 </Route>
-                                <Route >
-                                    <UserFollowDashboard type={'userposts'} />
+                                <Route exact path='/user/:userid/'>
+                                    {console.log('userhome')}
+                                    <UserDashboard type={'userposts'} />
                                 </Route>
+                                <Redirect to='/user/:userid' />
                             </Switch>
                             </div>
                         </div>

@@ -25,7 +25,7 @@ const Dashboard = ({})=>{
             {!loggedIn && <LoggedOut setCurrentTab={setCurrentTab}/>}
         </div>
         <Switch>
-            <Route path='/explore/preview'>
+            <Route exact path='/explore/preview'>
                 <DashboardPartial type={'preview'}/>
             </Route>
             <Route exact path="/explore/foryou">
