@@ -5,12 +5,14 @@ import * as postActions from '../../store/posts';
 import * as userActions from '../../store/user';
 import * as followActions from '../../store/follows';
 import { Route , Switch,useParams, NavLink,Link,useHistory } from "react-router-dom";
+import { Modal } from "../Context/Modal";
 import PostsDashboard from "./posts";
 import './index.css';
 import LikesDashboard from "./likes";
 import UserDashboard from "./UserDashBoard";
 import UserFollowDashboard from "./UserFollowDashoard";
 import { Redirect,useLocation } from "react-router-dom/cjs/react-router-dom.min";
+import AccountSettings from "./AccountSetings";
 const UserShowPage = () =>{
     const dispatch = useDispatch();
     const {userid} = useParams();
@@ -19,6 +21,7 @@ const UserShowPage = () =>{
     const history = useHistory();
     const location = useLocation();
     const [errors,setErrors]=useState([]);
+    const [accountSettings,setAccountSettings] = useState(false);
     const idRef = useRef()
 
     useEffect(()=>{
@@ -118,7 +121,7 @@ const handleUnfollowButton = (event) =>{
                                         <div className='header-buttons-contents'>
                                         {/* make this button follow if sessionuser != user */}
                                         { sessionUser && user.username === sessionUser.username &&
-                                            <button className='profileSettings'>
+                                            <button className='profileSettings' onClick = {()=>setAccountSettings(true)}>
                                                 <span>
                                                     <i className='fa-solid fa-gear'></i>
                                                     Account Settings
@@ -139,20 +142,25 @@ const handleUnfollowButton = (event) =>{
                                                 </span>
                                             </button>
                                             }
-                                            { !sessionUser && user.username !== sessionUser.username && followed.length===0 &&
+                                            { !sessionUser && 
                                             <button className='profileSettings' onClick={event=>handleFollowButton(event)}>
                                                 <span>
                                                     Follow
                                                 </span>
                                             </button>
                                             }
-                                            { !sessionUser && user.username !== sessionUser.username && followed.length>0 &&
+                                            {errors.length>0 &&
+                                                <div className='userprofilefollowerror'>
+                                                    <span>{errors[0]}</span>
+                                                </div>
+                                            }
+                                            {/* { !sessionUser && 
                                             <button className='profileSettings' onClick={event=>handleUnfollowButton(event)}>
                                                 <span>
                                                     Unfollow
                                                 </span>
                                             </button>
-                                            }
+                                            } */}
                                             
                                         </div>
                                     </div>
@@ -206,6 +214,10 @@ const handleUnfollowButton = (event) =>{
                 </div>
 
             </div>
+            { accountSettings && <Modal onClose={()=>setAccountSettings(false)}>
+                
+                    <AccountSettings closeModal={setAccountSettings} user={user}/>
+            </Modal>}
         </>
 
     )

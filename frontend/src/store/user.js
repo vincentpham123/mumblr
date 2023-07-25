@@ -62,6 +62,17 @@ export const removeUser = (userid) => async (dispatch) => {
     }
 };
 
+export const updateUser = (formData,userid) => async dispatch => {
+    const response = await csrfFetch(`/api/users/${userid}`,{
+        method: 'PATCH',
+        body: formData
+    })
+        const data = await response.json();
+        dispatch(receiveUser(data.user));
+        dispatch(receiveUserPosts(data.posts));
+        return response;
+    
+}
 //users reducer
 
 const userReducer = (state={},action) => {

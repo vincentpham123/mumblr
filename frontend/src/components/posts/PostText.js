@@ -82,7 +82,7 @@ const PostText = ({post}) => {
             {/* <img src={post.photo1} alt='' className='post-image' /> */}
                 {post.title!=='' &&
                 <p className='post-paragraph'>
-                    <h1 style={{fontSize: '1.625rem',lineHeight: 1.3077 }}>{post.title}</h1>
+                    <strong style={{fontSize: '1.625rem',lineHeight: 1.3077 }}>{post.title}</strong>
                 </p>
                 }
                 {breakdown(post)}

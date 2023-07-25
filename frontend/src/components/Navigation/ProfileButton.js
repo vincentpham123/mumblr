@@ -4,6 +4,7 @@ import { NavLink,Link } from 'react-router-dom'
 import {useDispatch,useSelector} from 'react-redux'
 import * as sessionActions from '../../store/session';
 import LoginFormModel from '../LoginFormModal';
+import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 const Profilebutton = () =>{
 // work on dropdown menu that will bring down menu
 const user = useSelector(state=>state.session.user);
@@ -27,6 +28,7 @@ useEffect(()=>{
 const logout=(e) => {
     e.preventDefault();
     dispatch(sessionActions.logout());
+    <Redirect to='/' />
 };
 
 let sessionLinks;
