@@ -1,6 +1,6 @@
 
 import { useSelector, useDispatch } from "react-redux"
-import { useEffect, useState } from "react"
+import { useEffect, useState,useRef } from "react"
 import * as postActions from '../../store/posts';
 import * as userActions from '../../store/user';
 import * as followActions from '../../store/follows';
@@ -10,28 +10,30 @@ import './index.css';
 import LikesDashboard from "./likes";
 import UserDashboard from "./UserDashBoard";
 import UserFollowDashboard from "./UserFollowDashoard";
-const UserShowPage =() =>{
+const UserShowPage = () =>{
     const dispatch = useDispatch();
     const {userid} = useParams();
     const [pageType,setPageType] =useState('false');
     const [tabSelection,setTabSelection] = useState('posts');
     const history = useHistory();
     const [errors,setErrors]=useState([]);
+    const idRef = useRef()
 
-
-
+    
     // need sessionUser to determine if it will be a 
     //user or otheruser render
     // each user will have a profile Pic, and backgroundImage
     // need to fetch user from backend
     const user= useSelector(state=>state.users[userid]);
     // const user = users[userid];
-    
+    useEffect(() => {
+       
+        dispatch(userActions.fetchUser(userid));
+        idRef.current=userid
+      }, [userid]);
     const sessionUser = useSelector(state=>state.session.user);
-    const followed = useSelector(followActions.userFollowed(sessionUser,user.id));
-    useEffect(()=>{
-        console.log(followed)
-    },[followed])
+    const followed = useSelector(followActions.userFollowed(sessionUser,userid));
+    
     const handleFollowButton = (event)=>{
     event.preventDefault();
     if(!sessionUser){
@@ -50,16 +52,15 @@ const handleUnfollowButton = (event) =>{
     dispatch(followActions.removeFollow(followed[0].id));
 }
     // this logic will be handled by the userdashboard
-    useEffect(()=>{
-        dispatch(userActions.fetchUser(userid))
-    },[userid]);
+    // useEffect(()=>{
+    //     dispatch(userActions.fetchUser(userid))
+    // },[]);
 
     useEffect(()=>{
         history.push(`/user/${userid}/posts`)
     },[]);
     
     const userPosts = useSelector(state=>state.posts);
-    // if (!user) return (null);
     if (!user) {
     return(
         <div className='post-load-container'>
@@ -179,6 +180,9 @@ const handleUnfollowButton = (event) =>{
                                 </Route>
                                 <Route path='/user/:userid/followers'>
                                     <UserFollowDashboard type='followers' />
+                                </Route>
+                                <Route >
+                                    <UserFollowDashboard type={'userposts'} />
                                 </Route>
                             </Switch>
                             </div>

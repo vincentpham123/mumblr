@@ -44,13 +44,22 @@ if(user){
                         <span>{user.postlikes}</span>
                     </div>
                 </NavLink>
-                <NavLink to='./followers' className='menu-link'>
+                <NavLink exact to={`/user/${user.id}/followers`} className='menu-link'>
                     <div className='icon'>
-                        <i className="fa-solid fa-user-plus heart icons" ></i>
+                        <i className="fa-solid fa-people-group heart icons"></i>
                     </div>
                     <div className='menu-text'>
                         <span>Followers</span>
                         <span>{user.followers}</span>
+                    </div>
+                </NavLink>
+                <NavLink exact to={`/user/${user.id}/follows`} className='menu-link'>
+                    <div className='icon'>
+                        <i className="fa-solid fa-user-plus heart icons" ></i>
+                    </div>
+                    <div className='menu-text'>
+                        <span>Following</span>
+                        <span>{user.follows}</span>
                     </div>
                 </NavLink>
             </li>
@@ -76,7 +85,7 @@ if(user){
         {showMenu && (
             <div className='profile-menu'>
                 <div className='profile-title'>
-                <Link to={`/user/${user.id}`} className='account-link'>
+                <Link to={`/user/${user.id}/`} className='account-link'>
                     <h3 id='account'>Account</h3>
                 </Link>
                     <button className='logout' onClick={e=>logout(e)}>Sign Out</button>
