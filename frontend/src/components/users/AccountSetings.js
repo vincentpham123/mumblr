@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import './accountsettings.css'
+import './accountsettings.css';
 import { useState } from "react";
 import * as userActions from '../../store/user';
 const AccountSettings = ({closeModal, user}) =>{
