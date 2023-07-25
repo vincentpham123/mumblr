@@ -10,17 +10,20 @@ import './index.css';
 import LikesDashboard from "./likes";
 import UserDashboard from "./UserDashBoard";
 import UserFollowDashboard from "./UserFollowDashoard";
-import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
+import { Redirect,useLocation } from "react-router-dom/cjs/react-router-dom.min";
 const UserShowPage = () =>{
     const dispatch = useDispatch();
     const {userid} = useParams();
     const [pageType,setPageType] =useState('false');
-    const [tabSelection,setTabSelection] = useState('posts');
+    const [tabSelection,setTabSelection] = useState('');
     const history = useHistory();
+    const location = useLocation();
     const [errors,setErrors]=useState([]);
     const idRef = useRef()
 
-    
+    useEffect(()=>{
+        setTabSelection(location.pathname);
+    },[location])
     // need sessionUser to determine if it will be a 
     //user or otheruser render
     // each user will have a profile Pic, and backgroundImage
@@ -34,7 +37,7 @@ const UserShowPage = () =>{
       }, [userid]);
     const sessionUser = useSelector(state=>state.session.user);
     const followed = useSelector(followActions.userFollowed(sessionUser,userid));
-    
+    console.log(tabSelection);
     const handleFollowButton = (event)=>{
     event.preventDefault();
     if(!sessionUser){
@@ -162,10 +165,14 @@ const handleUnfollowButton = (event) =>{
                             <div className='profilenavigation'>
                                 
                                 <div className='profilelinks'>
-                                    <NavLink className='profilelink' to={`/user/${userid}/posts`}>Posts</NavLink>
-                                    <NavLink className='profilelink' to={`/user/${userid}/likes`}>Likes</NavLink>
-                                    <NavLink className='profilelink' to={`/user/${userid}/follows`}>Follows</NavLink>
-                                    <NavLink className='profilelink' to={`/user/${userid}/followers`}>Followers</NavLink>
+                                    <NavLink className={tabSelection===`/user/${user.id}/` ? 'active' : ''} 
+                                    to={`/user/${userid}/posts`}>Posts</NavLink>
+                                    <NavLink 
+                                    to={`/user/${userid}/likes`}>Likes</NavLink>
+                                    <NavLink 
+                                    to={`/user/${userid}/followers`}>Followers</NavLink>
+                                    <NavLink 
+                                    to={`/user/${userid}/follows`}>Follows</NavLink>
                                 </div>
                             </div>
                             <div className='profile-meat'>

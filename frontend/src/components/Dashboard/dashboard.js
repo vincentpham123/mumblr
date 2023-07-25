@@ -26,6 +26,7 @@ const Dashboard = ({})=>{
         </div>
         <Switch>
             <Route exact path='/explore/preview'>
+                
                 <DashboardPartial type={'preview'}/>
             </Route>
             <Route exact path="/explore/foryou">

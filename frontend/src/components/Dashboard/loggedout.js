@@ -2,23 +2,25 @@ import './loggedout.css';
 import { useState,useEffect } from 'react';
 import { NavLink, Switch,useHistory,useLocation} from 'react-router-dom';
 const LoggedOut = () => {
-    const [currentTab,setCurrentTab] = useState('preview');
     // headers will ne today, trending, spotlight
     const history = useHistory();
-    // useEffect(()=>{
-    //     history.push('/explore/preview')
-    // },[])
+    const location = useLocation();
+    const [currentTab,setCurrentTab]=useState('');
+
+    useEffect(()=>{
+        setCurrentTab(location.pathname);
+    },[location])
     return (
         <>
           <div className='tabs'>
             <ul className='tab-selection'>
               <li className='tabs'>
-                <NavLink className={currentTab==='preview' ? 'active':''} onClick={()=>setCurrentTab('preview')} to='/explore/preview' activeClassName='active'>
+                <NavLink className={(currentTab==='/explore/preview'||currentTab==='/') ? 'active':''} to='/explore/preview' activeClassName='active'>
                   Preview
                 </NavLink>
               </li>
               <li className='tabs'>
-                <NavLink className={currentTab==='spotlight' ? 'active':''} onClick={()=>setCurrentTab('spotlight')} to='/explore/spotlight' activeClassName='active'>
+                <NavLink className={currentTab==='explore/spotlight' ? 'active':''}  to='/explore/spotlight' activeClassName='active'>
                   Spotlight
                 </NavLink>
               </li>
