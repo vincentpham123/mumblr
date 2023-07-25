@@ -2,7 +2,7 @@ import './loggedin.css';
 import { useState,useEffect } from 'react';
 import { NavLink, Switch,useHistory} from 'react-router-dom';
 const LoggedIn = () => {
-    const [currentTab,setCurrentTab] = useState('foryou')
+    const [currentTab,setCurrentTab] = useState('')
     // headers will ne today, trending, spotlight
     const history = useHistory();
     // useEffect(()=>{

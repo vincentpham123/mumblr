@@ -5,9 +5,9 @@ const LoggedOut = () => {
     const [currentTab,setCurrentTab] = useState('preview');
     // headers will ne today, trending, spotlight
     const history = useHistory();
-    useEffect(()=>{
-        history.push('/explore/preview')
-    },[])
+    // useEffect(()=>{
+    //     history.push('/explore/preview')
+    // },[])
     return (
         <>
           <div className='tabs'>

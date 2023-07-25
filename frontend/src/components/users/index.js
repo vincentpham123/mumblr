@@ -56,9 +56,9 @@ const handleUnfollowButton = (event) =>{
     //     dispatch(userActions.fetchUser(userid))
     // },[]);
 
-    useEffect(()=>{
-        history.push(`/user/${userid}/posts`)
-    },[]);
+    // useEffect(()=>{
+    //     history.push(`/user/${userid}/posts`)
+    // },[]);
     
     const userPosts = useSelector(state=>state.posts);
     if (!user) {
