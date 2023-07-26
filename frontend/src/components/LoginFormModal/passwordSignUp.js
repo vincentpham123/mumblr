@@ -2,10 +2,11 @@ import { useState, useEffect} from "react"
 import * as sessionActions from '../../store/session';
 import { useDispatch} from "react-redux";
 import './passwordSignup.css';
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 const PasswordSignUp = ({email},{setshowModal}) =>{
     
-
+    const history = useHistory();
     const dispatch = useDispatch();
     const [username,setUserName] = useState();
     const [password,setPassword] = useState('');
@@ -29,6 +30,9 @@ const PasswordSignUp = ({email},{setshowModal}) =>{
         if (password===confirmPassword) {
             setErrors([]);
             return dispatch(sessionActions.signup({email,username, password}))
+                .then(res=>{
+                    history.push('/explore/foryou');
+                })
                 .catch(async (res) => {
                     let data;
                     try {

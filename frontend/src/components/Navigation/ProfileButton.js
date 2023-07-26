@@ -1,6 +1,6 @@
 import './profilebutton.css';
 import { useState, useEffect } from 'react';
-import { NavLink,Link } from 'react-router-dom'
+import { NavLink,Link,useHistory } from 'react-router-dom'
 import {useDispatch,useSelector} from 'react-redux'
 import * as sessionActions from '../../store/session';
 import LoginFormModel from '../LoginFormModal';
@@ -10,6 +10,7 @@ const Profilebutton = () =>{
 const user = useSelector(state=>state.session.user);
 const dispatch = useDispatch();
 const [showMenu,setShowMenu] = useState(false);
+const history = useHistory();
 let menu;
 const openMenu = () => {
     if (showMenu) return;
@@ -27,8 +28,10 @@ useEffect(()=>{
 
 const logout=(e) => {
     e.preventDefault();
-    dispatch(sessionActions.logout());
-    <Redirect to='/' />
+    dispatch(sessionActions.logout())
+    .then((res)=>
+        history.push('/')
+    )
 };
 
 let sessionLinks;
