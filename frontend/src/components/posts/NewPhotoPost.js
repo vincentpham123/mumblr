@@ -32,14 +32,10 @@ const NewPhotoPost = () => {
         //need to pass this down to the children
     }
     const handleFile = (event) => {
-        // need to change logic to check for null keys-value pairs
 
-        //need data-type of the input to set paragraph to photo
         const file = event.currentTarget.files[0];
         const pindex=event.target.dataset.type;
-        // need pindex to target the current paragraph 
 
-        //need to find the keys with values null
 
         const nullPhotos = Object.keys(photos).filter((photonumber)=>photos[photonumber]===null);
         const photoToFill = nullPhotos[0];

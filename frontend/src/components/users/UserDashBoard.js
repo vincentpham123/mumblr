@@ -58,14 +58,12 @@ const UserDashboard = ( {type}) =>{
             .then((res) =>{
                 setMorePosts(res.postsleft.postsLeft);
                 setLoading(false);
-                // updatePostsMap(Object.values(res.posts))
             })
         } else{
             setLoading(false);
         }
     },[pageNumber]);
     useEffect(()=>{
-        // setLoading(true);
       
         setPostsMap(state=>{
             const stateCopy=[...state];

@@ -17,7 +17,7 @@ const PostHeader =({post,profile}) =>{
         if(sessionUser && sessionUser.id===post.author.id){
             setSameUser(true);
         }
-    })
+    },[sessionUser])
     const openOptions = ()=> {
         if(showOptions) return;
         setShowOptions(true);
