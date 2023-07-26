@@ -202,7 +202,6 @@ const handleUnfollowButton = (event) =>{
                                     <UserFollowDashboard type={'followers'} />
                                 </Route>
                                 <Route exact path='/user/:userid/'>
-                                    {console.log('userhome')}
                                     <UserDashboard type={'userposts'} />
                                 </Route>
                                 <Redirect to='/user/:userid' />
