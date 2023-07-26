@@ -45,7 +45,7 @@ const NewPhotoPost = () => {
         const photoToFill = nullPhotos[0];
         setPhotos({...photos,[photoToFill]:file});
 
-        setParagraphs({...paragraphs,[Object.keys(paragraphs).length+1]: '',[pindex]:`!@%^#^photo${photoToFill}`});
+        setParagraphs({...paragraphs,[pindex]:`!@%^#^photo${photoToFill}`});
 
         
        
@@ -179,8 +179,8 @@ return (
                             <div className='textbox-contents'>
                                 <h1 onKeyDown={event=>handleTitleKeyDown(event)} className="contentEdit text-title" contentEditable='true'></h1>
                                 {Object.keys(paragraphs).map((paragraph,index)=>{
-                                if(index===0) return <NewPostInput form={'photo'} handleKeyDown={handleKeyDown} index={index} handleFile={handleFile} photoState={photos} create={true} handlePhotoRemove={handlePhotoRemove}/>
-                                return <NewPostInput handleKeyDown={handleKeyDown} index={index} handleFile={handleFile} photoState={photos} create={true}/>
+                                if(index===0) return <NewPostInput key={index} form={'photo'} handleKeyDown={handleKeyDown} index={index} handleFile={handleFile} photoState={photos} create={true} handlePhotoRemove={handlePhotoRemove}/>
+                                return <NewPostInput key={index} handleKeyDown={handleKeyDown} index={index} handleFile={handleFile} photoState={photos} create={true}/>
                                 })}
                                
                             </div>
