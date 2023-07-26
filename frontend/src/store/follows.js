@@ -42,6 +42,8 @@ export const userFollowed = (sessionUser,postAuthorid) => createSelector(
 export const followsUser = (id,sessionUser,type) => createSelector(
   state=>state.follows,
   (getFollowState)=>{
+    if (!sessionUser) return [];
+
     if (type==='follows'){
       return getFollowState ? Object.values(getFollowState).filter((follow)=>follow.userId===id && follow.followerId===sessionUser.id) : [];
     } else{
