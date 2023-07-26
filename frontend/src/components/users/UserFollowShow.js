@@ -8,7 +8,6 @@ const FollowShow = ({ id,type,setErrors})=>{
     //if follower, can pull from selector with followerid 
     //if follows, can pull from selector with userid
     // const user = type==='follows' ? useSelector(state=>state.users[follow.user_id]) : useSelector(state=>state.users[follow.follower_id]);
-    // console.log(id);
     const dispatch = useDispatch();
     const sessionUser = useSelector(state=>state.session.user);
     const followed = useSelector(followActions.followsUser(id,sessionUser,type));

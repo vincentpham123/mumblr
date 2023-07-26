@@ -48,13 +48,11 @@ const UserDashboard = ( {type}) =>{
     },[type])
    
     const posts = useSelector(state=>state.posts);
-    console.log(posts);
     //will trigger a dispatch for more data when
     // pagenumber changes
     useEffect(()=>{
         setError(false);
         setLoading(true);
-        console.log(pageNumber)
         dispatch(postActions.fetchPosts(pageNumber,type,userid))
             .then((res) =>{
                 setMorePosts(res.postsleft.postsLeft);
@@ -100,7 +98,6 @@ const UserDashboard = ( {type}) =>{
             // setLoading(false);
             return newState;
         })
-        // console.log(postsMap);
     },[posts])
 
 

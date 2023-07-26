@@ -243,7 +243,6 @@ const CommentTextArea = ({post}) => {
                 } catch {
                     data = await res.text();
                 }
-                console.log(res);
                 if (data?.errors) setErrors(data.errors);
                 else if (data) setErrors(data);
                 else setErrors(res.statusText);
@@ -316,7 +315,6 @@ const Comments = ({ comment_id, id,username, profilepic, body,postId }) => {
                 } catch {
                     data = await res.text();
                 }
-                console.log(res);
                 if (data?.errors) setUpdateErrors(data.errors);
                 else if (data) setUpdateErrors(data);
                 else setUpdateErrors(res.statusText);
@@ -505,7 +503,6 @@ const Likes = ({ likerpic, likerusername,liker_id }) => {
     //will map over the likers for the post and render
 const sessionUser = useSelector(state=> state.session.user);
 const followed = useSelector(followActions.userFollowed(sessionUser,liker_id));
-console.log(followed);
 const [errors,setErrors]=useState([]);
 const dispatch = useDispatch();
 const handleFollowButton = (event)=>{
