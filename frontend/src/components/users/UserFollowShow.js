@@ -15,10 +15,10 @@ const FollowShow = ({ id,type,setErrors})=>{
     const [sameUser,setSameUser]= useState(false);
     // const [errors,setErrors] = useState([]);
     useEffect(()=>{
-        if(sessionUser && sessionUser.id === user.id){
+        if(sessionUser && user && sessionUser.id === user.id){
             setSameUser(true);
         }
-    },[sessionUser]);
+    },[sessionUser,user]);
     const handleFollowButton = (event)=>{
         event.preventDefault();
         if(!sessionUser){
