@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Route, Switch, Redirect, useLocation } from "react-router-dom"
 import SignupFormPage from './components/SignupFormPage';
 import Navigation from './components/Navigation';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Dashboard from './components/Dashboard/dashboard';
 import LoginFormModel from './components/LoginFormModal';
 import NewPost from './components/posts/NewPost';
@@ -10,10 +10,16 @@ import NewTextModal from './components/posts/textposts/NewTextPostModal';
 import NewPhotoModal from './components/posts/NewPhotoPostModal';
 import UserShowPage from './components/users';
 import UpdatePostModal from './components/posts/UpdatePostModal';
+import { clearPosts } from './store/posts';
 import './app.css'
 function App() {
   const sessionUser = useSelector(state => state.session.user);
   const [loggedIn, setLoggedIn] = useState(false);
+  const location = useLocation();
+  const dispatch = useDispatch();
+  // useEffect(()=>{
+  //   dispatch(clearPosts());
+  // },[location])
   return (
     <>
       <div className='header-container'>

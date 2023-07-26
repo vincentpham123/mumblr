@@ -12,6 +12,12 @@ const PostHeader =({post,profile}) =>{
     const [showOptions, setShowOptions] = useState(false);
     const [errors, setErrors] = useState([]);
     const [dateObj,setDateObj]=useState(new Date(post.dateCreated+' '+post.timeCreated));
+    const [sameUser,setSameUser]=useState(false);
+    useEffect(()=>{
+        if(sessionUser && sessionUser.id===post.author.id){
+            setSameUser(true);
+        }
+    })
     const openOptions = ()=> {
         if(showOptions) return;
         setShowOptions(true);
@@ -100,8 +106,8 @@ const PostHeader =({post,profile}) =>{
                                 </span>
                             </div>
                         </div>
-                        {followed.length===0 && <button onClick={(event)=>handleFollowButton(event)} className='follow-button' style={{ backgroundColor: 'transparent', border: 'none', boxShadow: 'none' }}><span>Follow</span></button>}
-                        {followed.length>0 && <button onClick={(event)=>handleUnfollowButton(event)} className='follow-button' style={{ backgroundColor: 'transparent', border: 'none', boxShadow: 'none' }}><span>Unfollow</span></button>}
+                        {followed.length===0 && !sameUser && <button onClick={(event)=>handleFollowButton(event)} className='follow-button' style={{ backgroundColor: 'transparent', border: 'none', boxShadow: 'none' }}><span>Follow</span></button>}
+                        {followed.length>0 && !sameUser && <button onClick={(event)=>handleUnfollowButton(event)} className='follow-button' style={{ backgroundColor: 'transparent', border: 'none', boxShadow: 'none' }}><span>Unfollow</span></button>}
                     </div>
                     {/* make div for extra things like post creation date */}
                     <div className='options-box'>

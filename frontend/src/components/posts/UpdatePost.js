@@ -23,7 +23,7 @@ const UpdatePost = () => {
     
     // need to fetch the post using the params id in an useeffect
     useEffect(()=>{
-        dispatch(fetchUser(sessionUser.username));
+        dispatch(fetchUser(sessionUser.id));
     },[dispatch]);
     const sessionUser = useSelector(state=>  state.session.user);
     const post = useSelector(state=>state.posts[postid]);
@@ -226,9 +226,9 @@ return (
                 <div className = 'newtext-body'>
                         <div className='text-box'>
                             <div className='textbox-contents'>
-                                <h1 onKeyDown={event=>handleTitleKeyDown(event)} className="contentEdit text-title" contentEditable='true'>{initialTitle}</h1>
+                                <h1 suppressContentEditableWarning={true} onKeyDown={event=>handleTitleKeyDown(event)} className="contentEdit text-title" contentEditable='true'>{initialTitle}</h1>
                                 {Object.keys(paragraphs).map((paragraph,index)=>{
-                                    return <NewPostInput handleKeyDown={handleKeyDown} index={index+1} handleFile={handleFile} photoState={photos} initialValue={paragraphs[paragraph]} create={false} handlePhotoRemove={handlePhotoRemove}/>
+                                    return <NewPostInput key={index} handleKeyDown={handleKeyDown} index={index+1} handleFile={handleFile} photoState={photos} initialValue={paragraphs[paragraph]} create={false} handlePhotoRemove={handlePhotoRemove}/>
                                 })}
                                
                             </div>

@@ -14,8 +14,11 @@ const Navigation = ()=>{
     let sessionLinks;
     const handleDemoButton=(event)=>{
         event.preventDefault();
-        dispatch(sessionActions.login({ email: 'Demo-lition', password: 'password' }));
-        // history.push('/explore/foryou')
+        dispatch(sessionActions.login({ email: 'Demo-lition', password: 'password' }))
+            .then(()=>{
+                history.push('/explore/foryou')
+
+            })
 
     }
     // useEffect(()=>{

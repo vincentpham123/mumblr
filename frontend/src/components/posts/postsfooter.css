@@ -397,6 +397,10 @@ margin: -8px calc(20px*-1)-15px;
     color: rgb(var(--blue));
     background-color: transparent;
 }
+.reply-button span{
+    color: rgb(var(--blue));
+    
+}
 .likeslist-container{
 height: 100%;
 overflow-x: hidden;

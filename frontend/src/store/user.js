@@ -36,13 +36,15 @@ export const fetchUsers =() => async(dispatch) => {
         return users;
     }
 }
-export const fetchUser = (id) => async(dispatch) =>{
+export const fetchUser = (id,type) => async(dispatch) =>{
     // debugger
     let response = await fetch(`/api/users/${id}`)
     if (response.ok){
         const data = await response.json();
         dispatch(receiveUser(data.user));
-        dispatch(receiveUserPosts(data.posts));
+        if(type==='spotlight'){
+            dispatch(receiveUserPosts(data.posts));
+        }
         return data;
     }
 

@@ -12,7 +12,13 @@ const FollowShow = ({ id,type,setErrors})=>{
     const sessionUser = useSelector(state=>state.session.user);
     const followed = useSelector(followActions.followsUser(id,sessionUser,type));
     const user = useSelector(state=>state.users[id]);
+    const [sameUser,setSameUser]= useState(false);
     // const [errors,setErrors] = useState([]);
+    useEffect(()=>{
+        if(sessionUser && sessionUser.id === user.id){
+            setSameUser(true);
+        }
+    },[sessionUser]);
     const handleFollowButton = (event)=>{
         event.preventDefault();
         if(!sessionUser){
@@ -49,8 +55,8 @@ const FollowShow = ({ id,type,setErrors})=>{
                         <div className='liker-username'>
                             <span>{user.username}</span>
                         </div>
-                        {followed.length===0 && <button onClick={(event)=>handleFollowButton(event)} className='follow-button' style={{ backgroundColor: 'transparent', border: 'none', boxShadow: 'none' }}><span>Follow</span></button>}
-                        {followed.length>0 && <button onClick={(event)=>handleUnfollowButton(event)} className='follow-button' style={{ backgroundColor: 'transparent', border: 'none', boxShadow: 'none' }}><span>Unfollow</span></button>}
+                        {followed.length===0 && !sameUser&& <button onClick={(event)=>handleFollowButton(event)} className='follow-button' style={{ backgroundColor: 'transparent', border: 'none', boxShadow: 'none' }}><span>Follow</span></button>}
+                        {followed.length>0 &&!sameUser&&  <button onClick={(event)=>handleUnfollowButton(event)} className='follow-button' style={{ backgroundColor: 'transparent', border: 'none', boxShadow: 'none' }}><span>Unfollow</span></button>}
 
                     </div>
 

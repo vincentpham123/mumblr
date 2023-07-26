@@ -17,17 +17,16 @@ const UserShowPage = () =>{
     const dispatch = useDispatch();
     const {userid} = useParams();
     const [pageType,setPageType] =useState('false');
-    const [tabSelection,setTabSelection] = useState('posts');
+    const [tabSelection,setTabSelection] = useState('');
     const history = useHistory();
     const location = useLocation();
     const [errors,setErrors]=useState([]);
     const [accountSettings,setAccountSettings] = useState(false);
     const idRef = useRef()
 
-    // useEffect(()=>{
-    //     setTabSelection(location.pathname)
-    //     console.log(tabSelection);
-    // },[location])
+    useEffect(()=>{
+        setTabSelection(location.pathname.split('/')[3]);
+    },[location])
     // need sessionUser to determine if it will be a 
     //user or otheruser render
     // each user will have a profile Pic, and backgroundImage
@@ -202,7 +201,6 @@ const handleUnfollowButton = (event) =>{
                                     <UserFollowDashboard type={'followers'} />
                                 </Route>
                                 <Route exact path='/user/:userid/'>
-                                    {console.log('userhome')}
                                     <UserDashboard type={'userposts'} />
                                 </Route>
                                 <Redirect to='/user/:userid' />

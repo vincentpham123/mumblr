@@ -12,7 +12,9 @@ const SpotLightDashboard = () =>{
     // select random ones
    
     useEffect(()=>{
-        dispatch(userActions.fetchUser(10));
+        dispatch(postActions.clearPosts())
+
+        dispatch(userActions.fetchUser(1,'spotlight'));
         return ()=>{
             dispatch(postActions.clearPosts())
         }
