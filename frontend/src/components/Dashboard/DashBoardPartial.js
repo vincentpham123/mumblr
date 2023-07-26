@@ -45,7 +45,7 @@ const DashboardPartial = ({type}) =>{
                 setMorePosts(res.postsleft.postsLeft);
                 if (!res.posts){
                     setNoPosts(true);
-                }
+                } else setNoPosts(false);
             })
     },[type])
    

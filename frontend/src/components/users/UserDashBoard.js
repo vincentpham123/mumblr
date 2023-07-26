@@ -18,6 +18,7 @@ const UserDashboard = ( {type}) =>{
     const [hasMore,setHasMore] = useState(false);
     const [error,setError] = useState(false);
     const [morePosts,setMorePosts]=useState(true);
+    const [noPosts,setNoPosts] = useState(false);
     const observer = useRef();
     const lastPostElementRef = useCallback(node=>{
         if(loading) return ;
@@ -39,7 +40,9 @@ const UserDashboard = ( {type}) =>{
             .then(res=>{
                 setPostsMap([]);
                 setMorePosts(res.postsleft.postsLeft);
-                setInitialLoad(true);
+                if(!res.posts){
+                    setNoPosts(true);
+                } else setNoPosts(false);
 
             })
     },[type])
@@ -110,14 +113,14 @@ const UserDashboard = ( {type}) =>{
     // in seeding, need to have posts reblogged by todayonmumblr
     return (
         <>
-        {type==='likes' && initialLoad && postsMap.length==0 &&
+        {type==='likes' && noPosts && postsMap.length==0 &&
             <div className='noposts-message'>
                 <h2>Empty :(</h2>
                 <h2>Go out and like some posts! :)</h2>
                 <i className="fa-solid fa-otter fa-bounce"></i>
             </div>
         }
-        {type==='userposts' && initialLoad && postsMap.length==0 &&
+        {type==='userposts' && noPosts && postsMap.length==0 &&
             <div className='nouserposts-message'>
                 <h2>Empty :(</h2>
                 <h2>A Blog Post will fix that!</h2>
