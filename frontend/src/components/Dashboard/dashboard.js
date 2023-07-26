@@ -17,7 +17,7 @@ const Dashboard = ({})=>{
         } else{
             setLoggedIn(true)
         }
-    })
+    },[sessionUser])
     return (
         <>
         <div className='dashboard-main'>

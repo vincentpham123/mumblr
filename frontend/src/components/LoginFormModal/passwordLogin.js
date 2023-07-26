@@ -27,6 +27,10 @@ const PasswordLogin = ({email},{setshowModal}) =>{
 
         setErrors([]);
         dispatch(sessionActions.login({email, password}))
+            .then(()=>{
+                history.push('/explore/foryou');
+
+            })
             .catch(async (res) => {
                 let data;
                 try {
@@ -40,7 +44,6 @@ const PasswordLogin = ({email},{setshowModal}) =>{
                 else setErrors([res.statusText]);
 
             });
-        history.push('/explore/foryou');
     }
     return (
         <>

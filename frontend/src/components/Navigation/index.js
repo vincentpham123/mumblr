@@ -55,9 +55,8 @@ const Navigation = ()=>{
         <>
         <header className='navBar-header'>
         <div className='title'>
-            <Link to='/'>
-                
-                    mumblr.
+            <Link to='/explore/foryou'>
+                mumblr.
                 
             </Link>
 
