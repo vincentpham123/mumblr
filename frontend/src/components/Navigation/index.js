@@ -55,10 +55,17 @@ const Navigation = ()=>{
         <>
         <header className='navBar-header'>
         <div className='title'>
+            {sessionUser&&
             <Link to='/explore/foryou'>
                 mumblr.
                 
             </Link>
+            }
+            {!sessionUser && 
+            <Link to='/explore/preview'>
+                mumblr.
+            </Link>
+            }
 
         </div>
         <div className = 'navBody'>

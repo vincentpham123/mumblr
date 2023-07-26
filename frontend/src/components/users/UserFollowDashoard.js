@@ -56,7 +56,9 @@ const UserFollowDashboard = ({type}) =>{
         setLoading(false);
     },[pageNumber])
    
-    
+    if (!followState){
+        return null
+    }
     return(
         <>
         <div className='follow-dash-container'>

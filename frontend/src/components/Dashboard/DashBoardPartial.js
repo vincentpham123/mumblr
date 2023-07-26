@@ -15,7 +15,9 @@ const DashboardPartial = ({type}) =>{
     const [initialLoad,setInitialLoad] = useState(false);
     const [noPosts,setNoPosts] = useState(false);
     const observer = useRef();
-    
+    if ((type==='foryou'||type==='trending') && !sessionUser){
+        <Redirect to='/explore/preview'/>
+    }
     const lastPostElementRef = useCallback(node=>{
         if(loading) return ;
         if(observer.current) observer.current.disconnect();
