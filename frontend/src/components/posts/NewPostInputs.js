@@ -127,7 +127,7 @@ const NewPostInput = ({ form,handleKeyDown, index,handleFile, photoState,initial
         <>
             <div className='input-container'>
                 <div className='inputBody'>
-                    {type === 'text' && <p suppressContentEditableWarning='true' ref={pRef} key={index} data-type={index} onKeyDown={(event) => handleInput(event)} onFocus={()=>setFocus('block')} onBlur={()=>setFocus('none')} id={`paragraph-${index}`} className='contentEdit text-paragraph' contentEditable='true'>{initialText}</p>}
+                    {type === 'text' && <p suppressContentEditableWarning={true} ref={pRef} key={index} data-type={index} onKeyDown={(event) => handleInput(event)} onFocus={()=>setFocus('block')} onBlur={()=>setFocus('none')} id={`paragraph-${index}`} className='contentEdit text-paragraph' contentEditable='true'>{initialText}</p>}
                     {type === 'photo' && <PhotoButton />}
                 </div>
                 {type ==='text' && showInputMenu &&
