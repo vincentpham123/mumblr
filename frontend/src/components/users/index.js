@@ -17,16 +17,17 @@ const UserShowPage = () =>{
     const dispatch = useDispatch();
     const {userid} = useParams();
     const [pageType,setPageType] =useState('false');
-    const [tabSelection,setTabSelection] = useState('');
+    const [tabSelection,setTabSelection] = useState('posts');
     const history = useHistory();
     const location = useLocation();
     const [errors,setErrors]=useState([]);
     const [accountSettings,setAccountSettings] = useState(false);
     const idRef = useRef()
 
-    useEffect(()=>{
-        setTabSelection(location.pathname);
-    },[location])
+    // useEffect(()=>{
+    //     setTabSelection(location.pathname)
+    //     console.log(tabSelection);
+    // },[location])
     // need sessionUser to determine if it will be a 
     //user or otheruser render
     // each user will have a profile Pic, and backgroundImage
@@ -173,13 +174,17 @@ const handleUnfollowButton = (event) =>{
                             <div className='profilenavigation'>
                                 
                                 <div className='profilelinks'>
-                                    <NavLink className={tabSelection===`/user/${user.id}/` ? 'active' : ''} 
+                                    <NavLink className={(tabSelection===`posts`) ? 'active' : ''}
+                                    onClick={()=>setTabSelection('posts')} 
                                     to={`/user/${userid}/posts`}>Posts</NavLink>
-                                    <NavLink 
+                                    <NavLink className={tabSelection===`likes` ? 'active' : ''} 
+                                    onClick={()=>setTabSelection('likes')} 
                                     to={`/user/${userid}/likes`}>Likes</NavLink>
-                                    <NavLink 
+                                    <NavLink className={tabSelection===`followers` ? 'active' : ''} 
+                                    onClick={()=>setTabSelection('followers')} 
                                     to={`/user/${userid}/followers`}>Followers</NavLink>
-                                    <NavLink 
+                                    <NavLink className={tabSelection===`follows` ? 'active' : ''} 
+                                    onClick={()=>setTabSelection('follows')} 
                                     to={`/user/${userid}/follows`}>Follows</NavLink>
                                 </div>
                             </div>
