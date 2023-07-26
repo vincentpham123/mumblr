@@ -223,11 +223,20 @@ const CommentTextArea = ({post}) => {
     const sessionUser=useSelector(state=>state.session.user);
     const [body,setBody] = useState('');
     const [errors,setErrors] = useState('');
+    const [disable,setDisable]=useState(true)
     useEffect(()=>{
         setTimeout(()=>{
             setErrors('')
         },3000)
     },[errors])
+    useEffect(()=>{
+        if(body.length>0){
+            setDisable(false);
+        } else{
+            setDisable(true);
+
+        }
+    },[body])
     const handleCommentSubmit=(event)=>{
         event.preventDefault();
         const formData=new FormData();
@@ -263,7 +272,7 @@ const CommentTextArea = ({post}) => {
                         <div className='textarea-container'>
                             <textarea value={body} onChange={(event)=>setBody(event.target.value)} placeholder='type here' maxLength='475' rows='1' className='reply-textarea'></textarea>
                         </div>
-                        <button onClick={(event)=>handleCommentSubmit(event)} className='reply-button'>
+                        <button disabled={disable} onClick={(event)=>handleCommentSubmit(event)} className='reply-button'>
                             <span>Reply</span>
                         </button>
 
