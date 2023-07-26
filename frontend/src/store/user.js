@@ -42,7 +42,7 @@ export const fetchUser = (id) => async(dispatch) =>{
     if (response.ok){
         const data = await response.json();
         dispatch(receiveUser(data.user));
-        dispatch(receiveUserPosts(data.posts));
+        // dispatch(receiveUserPosts(data.posts));
         return data;
     }
 

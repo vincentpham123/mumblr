@@ -53,12 +53,16 @@ const UserDashboard = ( {type}) =>{
     useEffect(()=>{
         setError(false);
         setLoading(true);
+        if (pageNumber!==1){
         dispatch(postActions.fetchPosts(pageNumber,type,userid))
             .then((res) =>{
                 setMorePosts(res.postsleft.postsLeft);
                 setLoading(false);
                 // updatePostsMap(Object.values(res.posts))
             })
+        } else{
+            setLoading(false);
+        }
     },[pageNumber]);
     useEffect(()=>{
         // setLoading(true);
@@ -98,6 +102,9 @@ const UserDashboard = ( {type}) =>{
             // setLoading(false);
             return newState;
         })
+        return ()=>{
+            setPostsMap([]);
+        }
     },[posts])
 
 
@@ -110,14 +117,14 @@ const UserDashboard = ( {type}) =>{
     // in seeding, need to have posts reblogged by todayonmumblr
     return (
         <>
-        {type==='likes' && noPosts && postsMap.length==0 &&
+        {type==='likes' && noPosts && 
             <div className='noposts-message'>
                 <h2>Empty :(</h2>
                 <h2>Go out and like some posts! :)</h2>
                 <i className="fa-solid fa-otter fa-bounce"></i>
             </div>
         }
-        {type==='userposts' && noPosts && postsMap.length==0 &&
+        {type==='userposts' && noPosts && 
             <div className='nouserposts-message'>
                 <h2>Empty :(</h2>
                 <h2>A Blog Post will fix that!</h2>
