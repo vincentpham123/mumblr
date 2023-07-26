@@ -19,7 +19,6 @@ const SpotLightDashboard = () =>{
     },[]);
     const postsToShow=Object.values(posts);
     const trendingPosts=[];
-    console.log(postsToShow);
     // if (sessionUser) return <Redirect to="/" />;
     //all Today dashboard will be in here
     //select posts that were reblogged by 

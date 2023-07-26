@@ -41,7 +41,6 @@ const UserShowPage = () =>{
       }, [userid]);
     const sessionUser = useSelector(state=>state.session.user);
     const followed = useSelector(followActions.userFollowed(sessionUser,userid));
-    console.log(tabSelection);
     const handleFollowButton = (event)=>{
     event.preventDefault();
     if(!sessionUser){

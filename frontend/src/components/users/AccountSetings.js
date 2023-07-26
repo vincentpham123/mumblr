@@ -11,7 +11,6 @@ const [profilePreview,setProfilePreview] = useState(null);
 const sessionUser=useSelector(state=>state.session.user);
 const [errors,setErrors] = useState([]);
 const dispatch = useDispatch();
-console.log(profilepic);
 const handleBGInput = (event) =>{
     const file = event.currentTarget.files[0];
     if(file){
