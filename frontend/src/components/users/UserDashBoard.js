@@ -113,7 +113,7 @@ const UserDashboard = ( {type}) =>{
         {type==='likes' && initialLoad && postsMap.length==0 &&
             <div className='noposts-message'>
                 <h2>Empty :(</h2>
-                <h2>Follow some Users to populate For You page!!!</h2>
+                <h2>Go out and like some posts! :)</h2>
                 <i className="fa-solid fa-otter fa-bounce"></i>
             </div>
         }
