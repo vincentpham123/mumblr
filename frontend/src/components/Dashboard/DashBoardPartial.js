@@ -60,7 +60,7 @@ const DashboardPartial = ({type}) =>{
     },[type])
     const posts = useSelector(state=>state.posts);
     useEffect(()=>{
-
+        
         updatePostsMap(posts,type);
        
     },[posts])
