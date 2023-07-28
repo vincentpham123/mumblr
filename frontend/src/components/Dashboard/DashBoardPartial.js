@@ -45,7 +45,6 @@ const DashboardPartial = ({type}) =>{
             .then(res=>{
                 setPostsMap([]);
                 setMorePosts(res.postsleft.postsLeft);
-                console.log(res);
                 if (!res.posts){
                     setNoPosts(true);
                 } else {
@@ -60,7 +59,9 @@ const DashboardPartial = ({type}) =>{
     },[type])
     const posts = useSelector(state=>state.posts);
     useEffect(()=>{
+
         updatePostsMap(posts,type);
+       
     },[posts])
 
     //will trigger a dispatch for more data when
@@ -73,8 +74,6 @@ const DashboardPartial = ({type}) =>{
             .then( (res) =>{
                 setMorePosts(res.postsleft.postsLeft);
                 setLoading(false);
-                console.log(res);
-                updatePostsMap(posts,type)
             })
         }else{
             setLoading(false);
@@ -116,7 +115,6 @@ const DashboardPartial = ({type}) =>{
       };
     // useEffect(()=>{
     //     // setLoading(true);
-        
     //     setPostsMap(state=>{
     //         const stateCopy=[...state];
     //         Object.values(posts).forEach ((post)=>{
