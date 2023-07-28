@@ -5,6 +5,7 @@ import { Redirect } from "react-router-dom";
 import * as postActions from "../../store/posts";
 import * as userActions from '../../store/user'
 const SpotLightDashboard = () =>{
+    const [loading,setLoading] = useState(true);
     const sessionUser = useSelector(state=>state.session.user);
     const dispatch = useDispatch();
     const posts = useSelector(state=>state.posts);
@@ -13,8 +14,11 @@ const SpotLightDashboard = () =>{
    
     useEffect(()=>{
         dispatch(postActions.clearPosts())
-
-        dispatch(userActions.fetchUser(1,'spotlight'));
+        setLoading(true);
+        dispatch(userActions.fetchUser(1,'spotlight'))
+        .then(()=>{
+            setLoading(false);
+        })
         return ()=>{
             dispatch(postActions.clearPosts())
         }
@@ -28,6 +32,12 @@ const SpotLightDashboard = () =>{
     // in seeding, need to have posts reblogged by todayonmumblr
     return (
         <>
+        { loading &&
+            <div className='post-load-container'>
+                <div className='post-load-body'>
+                    <i style={{color:'white'}}className="fa-solid fa-spinner fa-spin"></i>
+                </div>
+        </div>}
         {postsToShow.map ((post)=>{
         return (
             <div className='postMain' key={post.id}>

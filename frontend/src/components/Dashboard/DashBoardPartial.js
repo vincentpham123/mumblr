@@ -38,9 +38,9 @@ const DashboardPartial = ({type}) =>{
         setPostsMap([]);
         setPageNumber(1);
 
-        setTimeout(()=>{
+        
         dispatch(postActions.clearPosts());
-        },0)
+        
         dispatch(postActions.fetchPosts(pageNumber,type))
             .then(res=>{
                 setPostsMap([]);
@@ -131,7 +131,7 @@ const DashboardPartial = ({type}) =>{
                 <i className="fa-solid fa-hippo fa-bounce"></i>
             </div>
         }
-        {postsMap.map ((post,index)=>{
+        {!initialLoad && postsMap.map ((post,index)=>{
             if (postsMap.length === index +1 ) {
                 return (
                     <div ref={lastPostElementRef} key={post.id} className='postMain'>
