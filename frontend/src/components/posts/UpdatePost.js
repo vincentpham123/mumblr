@@ -16,6 +16,7 @@ const UpdatePost = () => {
     const history = useHistory();
     const [title,setTitle] = useState('');
     const [paragraphs,setParagraphs] = useState({});
+    const [rightAuthor,setRightAuthor] = useState(false);
     // each photo will hold a file that will be rendered 
     const [photos,setPhotos]=useState({1:null,2:null,3:null,4:null});
     const [initialTitle,setInitialTitle] = useState((''));
@@ -34,7 +35,16 @@ const UpdatePost = () => {
         populateFields(post);
     },[post])
 
-  
+    useEffect(()=>{
+        if(sessionUser&&post){
+            if(sessionUser.id!==post.author.id){
+                setRightAuthor(false);
+            }else{
+                setRightAuthor(true);
+            }
+        }
+
+    },[sessionUser,post])
     const handleAddParagraph = (event) =>{
         event.preventDefault();
             const newIndex = Object.keys(paragraphs).length+1;
@@ -235,6 +245,16 @@ const handleFile = (event) => {
     );
 return (
     <>
+    {!rightAuthor &&
+    <>
+    <div className='noauthorerror-container'>
+    <div className='notauthorcontainer'>
+    <h1 className='notauthor'>Not your post!</h1>
+    </div>
+    <button className='notauthorbutton' onClick={()=>history.push('/')}>return</button>
+    </div>
+    </>}
+    { rightAuthor &&
     <div className='text-post-container'>
         <div className='postheader-container'>
             <div className='postHeader-body'>
@@ -285,7 +305,7 @@ return (
              </ul>}
         
     </div>
-            
+    }
             
         
     </>

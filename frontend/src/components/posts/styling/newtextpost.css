@@ -237,3 +237,24 @@
     border-style: none;
     background-color: white;
 }
+.noauthorerror-container{
+    display: flex;
+    flex-direction: column;
+    
+}
+.notauthorcontainer{
+    background-color: rgba(var(--purple));
+    padding: 15px;
+}
+.notauthor{
+    color: white;
+    font-size: 25px;
+    background-color: transparent;
+    border-radius: 5px;
+}
+.notauthorbutton{
+    margin-top: 10px;
+    border-style: none;
+    padding: 2px;
+    width: 100%;
+}
