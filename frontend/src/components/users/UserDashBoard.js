@@ -14,9 +14,9 @@ const UserDashboard = ( {type}) =>{
     const [postsMap,setPostsMap] = useState([]);
     const [pageNumber,setPageNumber]=useState(1);
     const [loading,setLoading] = useState(true);
-    const [initialLoad,setInitialLoad]=useState(false)
+    const [initialLoad,setInitialLoad]=useState(true)
     const [hasMore,setHasMore] = useState(false);
-    const [error,setError] = useState(false);
+    const [error,setError] = useState([]);
     const [morePosts,setMorePosts]=useState(true);
     const [noPosts,setNoPosts] = useState(false);
     const observer = useRef();
@@ -35,7 +35,14 @@ const UserDashboard = ( {type}) =>{
     useEffect(()=>{
         setPostsMap([]);
         setPageNumber(1);
-        dispatch(postActions.clearPosts())
+        dispatch(postActions.clearPosts());
+        setLoading(true);
+        setError(false);
+        setHasMore(true);
+        setMorePosts(true);
+        setNoPosts(false);
+        setInitialLoad(false);
+        setTimeout(()=>{
         dispatch(postActions.fetchPosts(pageNumber,type,userid))
             .then(res=>{
                 setPostsMap([]);
@@ -45,6 +52,7 @@ const UserDashboard = ( {type}) =>{
                 } else setNoPosts(false);
 
             })
+        },500)
     },[type,userid])
     useEffect(()=>{
         if (postsMap.length===0){
