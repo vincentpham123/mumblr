@@ -176,7 +176,7 @@ const handleFile = (event) => {
         Object.keys(photos).forEach((key)=>{
             let param = `post[photo${key}]`;
             let photoIdentifier = `!@%^#^photo${key}`
-            if (Object.values(paragraphs).includes(photoIdentifier)&& photos[key]) {
+            if (Object.values(paragraphs).includes(photoIdentifier)&& photos[key] instanceof File) {
                 formData.append(param,photos[key])
             } 
             // else if (!Object.values(paragraphs).includes(photoIdentifier) && photos[key]){
