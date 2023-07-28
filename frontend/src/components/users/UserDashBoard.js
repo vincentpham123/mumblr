@@ -45,8 +45,12 @@ const UserDashboard = ( {type}) =>{
                 } else setNoPosts(false);
 
             })
-    },[type])
-   
+    },[type,userid])
+    useEffect(()=>{
+        if (postsMap.length===0){
+            setInitialLoad(true);
+        } else setInitialLoad(false);
+    },[postsMap])
     const posts = useSelector(state=>state.posts);
     //will trigger a dispatch for more data when
     // pagenumber changes
@@ -134,7 +138,7 @@ const UserDashboard = ( {type}) =>{
             </div>
         }
 
-        {postsMap.map ((post,index)=>{
+        {!initialLoad&&postsMap.map ((post,index)=>{
             if (postsMap.length === index +1 ) {
                 return (
                     <div ref={lastPostElementRef} key={post.id} className='postMain'>

@@ -6,6 +6,7 @@ import { Redirect,useParams } from "react-router-dom";
 import { updatePost } from "../../store/posts";
 import NewPostInput from "./NewPostInputs";
 import { fetchUser } from "../../store/user";
+import { fetchPost } from "../../store/posts";
 
 const UpdatePost = () => {
     const {postid} = useParams();
@@ -26,6 +27,7 @@ const UpdatePost = () => {
     const sessionUser = useSelector(state=>  state.session.user);
     useEffect(()=>{
         dispatch(fetchUser(sessionUser.id));
+        dispatch(fetchPost(postid));
     },[dispatch]);
     
     useEffect(()=>{
