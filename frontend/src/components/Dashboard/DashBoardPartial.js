@@ -47,6 +47,7 @@ const DashboardPartial = ({type}) =>{
                 setMorePosts(res.postsleft.postsLeft);
                 if (!res.posts){
                     setNoPosts(true);
+                    setLoading(false);
                 } else {
                     setNoPosts(false);
                     updatePostsMap(res.posts,type)
@@ -151,7 +152,7 @@ const DashboardPartial = ({type}) =>{
     // },[posts]);
 
     useEffect(()=>{
-        if (postsMap.length===0 && initialLoad){
+        if (postsMap.length===0){
             setInitialLoad(true);
         } else setInitialLoad(false);
     },[postsMap])
