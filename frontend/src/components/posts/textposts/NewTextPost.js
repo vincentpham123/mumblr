@@ -183,7 +183,7 @@ const NewTextPost = () => {
         return bodyCheck ? '' : 'disabled'
     }
 
-    
+    if(!sessionUser) return null;
 return (
     <>
     <div className='text-post-container'>

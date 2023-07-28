@@ -23,7 +23,7 @@
     --color-bluespace-card-background: rgba(var(--white-on-dark), 0.07);
     --color-modal-close-button: rgb(var(--navy));
     --color-modal-close-button-background: rgb(var(--white-on-dark));
-    --font-family: "Favorit Tumblr 85", "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif ;
+    --font-family: "Favorit Tumblr 85", "Favorit Tumblr", Arial, sans-serif ;
     --border-radius-small: 3px;
   }
 html, body, div, span, applet, object, iframe,
