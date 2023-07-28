@@ -24,7 +24,7 @@ const PostText = ({post}) => {
                     case ('!@%^#^photo1'):
                         // photoCount+=1;
                         return(
-                            <div className='image-container'>
+                            <div key={index} className='image-container'>
                                 <figure className='image-figure'>
                                     <div className='image-box'>
                                         <img id='1' src={post.photo1} alt='' className='post-image' ></img>
@@ -35,7 +35,7 @@ const PostText = ({post}) => {
                         case ('!@%^#^photo2'):
                         return(
                             <>
-                            <div className='image-container'>
+                            <div key={index} className='image-container'>
                                 <figure className='image-figure'>
                                     <div className='image-box'>
                                         <img id='2' src={post.photo2} alt='' className='post-image' />
@@ -46,7 +46,7 @@ const PostText = ({post}) => {
                         );
                     case ('!@%^#^photo3'):
                         return(
-                            <div className='image-container'>
+                            <div key={index} className='image-container'>
                                 <figure className='image-figure'>
                                     <div className='image-box'>
                                         <img id='3'src={post.photo3} alt='' className='post-image' />
@@ -56,7 +56,7 @@ const PostText = ({post}) => {
                         );
                     case ('!@%^#^photo4'):
                         return(
-                            <div className='image-container'>
+                            <div key={index} className='image-container'>
                                 <figure className='image-figure'>
                                     <div className='image-box'>
                                         <img id='4' src={post.photo4} alt='' className='post-image' />

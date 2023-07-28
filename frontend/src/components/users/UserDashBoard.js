@@ -138,12 +138,12 @@ const UserDashboard = ( {type}) =>{
             if (postsMap.length === index +1 ) {
                 return (
                     <div ref={lastPostElementRef} key={post.id} className='postMain'>
-                    <ShowPost  post={post} profile={true}/>
+                    <ShowPost key={index} post={post} profile={true}/>
                     </div>)
             } else {
                 return( 
                     <div className='postMain' key={post.id}>
-                        <ShowPost  post={post} profile={true}/>
+                        <ShowPost  key={index} post={post} profile={true}/>
                     </div>
                 )
             }

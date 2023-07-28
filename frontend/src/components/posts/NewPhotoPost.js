@@ -55,6 +55,14 @@ const NewPhotoPost = () => {
     
          setTitle(event.target.innerText);
     }
+    const handleAddParagraph = (event) =>{
+        event.preventDefault();
+            const newIndex = Object.keys(paragraphs).length+1;
+            setParagraphs({
+                ...paragraphs,
+                [newIndex]: ''
+            })
+    }
     const handleKeyDown = (event) => {
         
     
@@ -144,23 +152,45 @@ const NewPhotoPost = () => {
         })
 
         dispatch(createPost(formData))
-            .catch((res)=>{
-                console.log('failed :(')
-            });
-        history.go(-2);
+            .then(()=>{
+                
+                history.push(`/user/${sessionUser.id}/posts`);
+
+            })
+            .catch(async res=>{
+                let data;
+                try{
+                    data = await res.clone().json();
+                } catch{
+                    data = await res.text();
+                }
+                if (data?.errors) setErrors(data.errors);
+                else if (data) setErrors([data]);
+                else setErrors([res.statusText]);
+            })
     }
 
+    if(!sessionUser) return(
+        <div className='post-load-container'>
+            <div className='post-load-body'>
+                <i style={{color:'white'}}className="fa-solid fa-spinner fa-spin"></i>
+            </div>
+        </div>
+    );
     
 return (
     <>
     <div className='text-post-container'>
         <div className='postheader-container'>
             <div className='postHeader-body'>
-            {/* for the left side of the header */}
+                <div className='createpost-pic'>
+                    <img src={sessionUser.profilepic}>
+                    </img>
+
+                </div>
                 <div className='postheader-left'>
                     <div className="post-username">{sessionUser.username}</div>
                 </div>
-                {/* button for the options on the right */}
                 <div className='postheader-right'>
                     <button className='post-options'>
                         <i className='fa-solid fa-gear'></i>
@@ -181,6 +211,10 @@ return (
                                
                             </div>
                         </div>
+                    <div className='add-paragraph-button'>
+                        <button onClick={(event)=>handleAddParagraph(event)}>
+                        </button>
+                    </div>
                     <div className='text-footer'>
                         {/* make this button a div to avoid clashing with the submit button */}
                         <button className='close-text' onClick={()=>history.go(-2)}>Close</button>
@@ -189,6 +223,10 @@ return (
                 </div>
 
             </div>
+            {errors.length>0&& 
+            <ul>
+                 {errors.map(error => <li className='login-errors' key={error}>{error}</li>)}
+             </ul>}
         
     </div>
             

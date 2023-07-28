@@ -228,3 +228,12 @@
 
 }
 
+.add-paragraph-button{
+    background-color: transparent;
+}
+.add-paragraph-button button{
+    width:100%;
+    height:48px;
+    border-style: none;
+    background-color: white;
+}

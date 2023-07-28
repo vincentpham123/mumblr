@@ -20,20 +20,27 @@ const UpdatePost = () => {
     const [initialTitle,setInitialTitle] = useState((''));
     const [initialTitleCheck, setInitialTitleCheck] = useState(false);
     const [currentPhotoIndex,setCurrentPhotoIndex] = useState(1);
-    
+    const [errors,setErrors]=useState([]);
     // need to fetch the post using the params id in an useeffect
+    const post = useSelector(state=>state.posts[postid]);
+    const sessionUser = useSelector(state=>  state.session.user);
     useEffect(()=>{
         dispatch(fetchUser(sessionUser.id));
     },[dispatch]);
-    const sessionUser = useSelector(state=>  state.session.user);
-    const post = useSelector(state=>state.posts[postid]);
     
     useEffect(()=>{
         populateFields(post);
     },[post])
 
   
-
+    const handleAddParagraph = (event) =>{
+        event.preventDefault();
+            const newIndex = Object.keys(paragraphs).length+1;
+            setParagraphs({
+                ...paragraphs,
+                [newIndex]: ''
+            })
+    }
     const populateFields = (post) => {
         if (post){
             const bodyParagraphs = post.body.split('\r\n');
@@ -163,7 +170,8 @@ const handleFile = (event) => {
         }
 
     }
-    
+
+
     const handleSubmit = (event) =>{
         event.preventDefault();
         const formData = new FormData();
@@ -193,23 +201,47 @@ const handleFile = (event) => {
         
         
         dispatch(updatePost(formData,postid))
-        .catch((res)=>{
-            console.log('failed :(')
-        });
-        history.push(`/user/${sessionUser.id}/posts`);
+        .then(()=>{
+                
+            history.push(`/user/${sessionUser.id}/posts`);
+            // history.go(-2);
+        })
+        .catch(async res=>{
+            let data;
+            try{
+                data = await res.clone().json();
+            } catch{
+                data = await res.text();
+            }
+            if (data?.errors) setErrors(data.errors);
+            else if (data) setErrors([data]);
+            else setErrors([res.statusText]);
+        })
     }
-
+ 
+   
     const disableButton = () => {
         return bodyCheck ? '' : 'disabled'
     }
 
-    
+    if(!sessionUser) return(
+        <div className='post-load-container'>
+            <div className='post-load-body'>
+                <i style={{color:'white'}}className="fa-solid fa-spinner fa-spin"></i>
+            </div>
+        </div>
+    );
 return (
     <>
     <div className='text-post-container'>
         <div className='postheader-container'>
             <div className='postHeader-body'>
             {/* for the left side of the header */}
+                <div className='createpost-pic'>
+                    <img src={sessionUser.profilepic}>
+                    </img>
+
+                </div>
                 <div className='postheader-left'>
                     <div className="post-username">{sessionUser.username}</div>
                 </div>
@@ -233,6 +265,10 @@ return (
                                
                             </div>
                         </div>
+                    <div className='add-paragraph-button'>
+                        <button onClick={(event)=>handleAddParagraph(event)}>
+                        </button>
+                    </div>
                     <div className='text-footer'>
                         {/* make this button a div to avoid clashing with the submit button */}
                         <button className='close-text' onClick={()=>history.go(-1)}>Close</button>
@@ -241,6 +277,10 @@ return (
                 </div>
 
             </div>
+            {errors.length>0&& 
+            <ul>
+                 {errors.map(error => <li className='login-errors' key={error}>{error}</li>)}
+             </ul>}
         
     </div>
             
