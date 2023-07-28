@@ -105,12 +105,12 @@ const DashboardPartial = ({type}) =>{
           const newState = [...stateCopy, ...filteredNewPosts];
     
           // Remove duplicates
-          const uniqueState = newState.filter((post, index) => {
-            const storeIndex = Object.values(newPosts).findIndex((storePost) => storePost.id === post.id);
-            return storeIndex === index;
-          });
+        //   const uniqueState = newState.filter((post, index) => {
+        //     const storeIndex = Object.values(newPosts).findIndex((storePost) => storePost.id === post.id);
+        //     return storeIndex === index;
+        //   });
     
-          return uniqueState;
+          return newState;
         });
       };
     // useEffect(()=>{
