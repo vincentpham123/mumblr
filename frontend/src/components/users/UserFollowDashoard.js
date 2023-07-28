@@ -28,7 +28,7 @@ const UserFollowDashboard = ({type}) =>{
     })
     useEffect(()=>{
         setUsersMap([]);
-        setLoading(true);
+        // setLoading(true);
         // dispatch(followActions.clearFollow());
         if (type==='follows'){
             dispatch(followActions.getFollows(userid));

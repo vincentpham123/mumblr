@@ -4,11 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import * as postActions from "../../store/posts";
 import * as userActions from '../../store/user'
+import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
 const SpotLightDashboard = () =>{
     const [loading,setLoading] = useState(true);
     const sessionUser = useSelector(state=>state.session.user);
     const dispatch = useDispatch();
     const posts = useSelector(state=>state.posts);
+    const [postsMap,setPostsMap] = useState([]);
     // can write a fetch that sorts by likes.count descending. limit 10
     // select random ones
    
@@ -20,10 +22,16 @@ const SpotLightDashboard = () =>{
             setLoading(false);
         })
         return ()=>{
-            dispatch(postActions.clearPosts())
+            setPostsMap([]);
+            dispatch(postActions.clearPosts());
         }
-    },[]);
-    const postsToShow=Object.values(posts);
+    },[dispatch]);
+    useEffect(()=>{
+        setPostsMap([...Object.values(posts)]);
+        return ()=>{
+            setPostsMap([]);
+        }
+    },[posts])
     const trendingPosts=[];
     // if (sessionUser) return <Redirect to="/" />;
     //all Today dashboard will be in here
@@ -38,10 +46,10 @@ const SpotLightDashboard = () =>{
                     <i style={{color:'white'}}className="fa-solid fa-spinner fa-spin"></i>
                 </div>
         </div>}
-        {postsToShow.map ((post)=>{
+        {postsMap.map ((post)=>{
         return (
             <div className='postMain' key={post.id}>
-                <ShowPost post={post} profile={false}/>
+                <ShowPost key={post.id} post={post} profile={false}/>
             </div>
         )
         })

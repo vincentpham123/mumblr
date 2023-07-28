@@ -226,7 +226,7 @@ const handleFile = (event) => {
         return bodyCheck ? '' : 'disabled'
     }
 
-    if(!sessionUser) return(
+    if(!sessionUser||!post) return(
         <div className='post-load-container'>
             <div className='post-load-body'>
                 <i style={{color:'white'}}className="fa-solid fa-spinner fa-spin"></i>
@@ -240,7 +240,7 @@ return (
             <div className='postHeader-body'>
             {/* for the left side of the header */}
                 <div className='createpost-pic'>
-                    <img src={sessionUser.profilepic}>
+                    <img src={post.author.profilepic}>
                     </img>
 
                 </div>

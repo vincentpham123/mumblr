@@ -40,71 +40,120 @@ const DashboardPartial = ({type}) =>{
 
         
         dispatch(postActions.clearPosts());
-        
+        setTimeout(()=>{
         dispatch(postActions.fetchPosts(pageNumber,type))
             .then(res=>{
                 setPostsMap([]);
                 setMorePosts(res.postsleft.postsLeft);
+                console.log(res);
                 if (!res.posts){
                     setNoPosts(true);
-                } else setNoPosts(false);
+                } else {
+                    setNoPosts(false);
+                    updatePostsMap(res.posts,type)
+                }
             })
+         },0 )
+         return ()=>{
+            setPostsMap([]);
+         }
     },[type])
-   
     const posts = useSelector(state=>state.posts);
+    useEffect(()=>{
+        updatePostsMap(posts,type);
+    },[posts])
 
     //will trigger a dispatch for more data when
     // pagenumber changes
     useEffect(()=>{
         setLoading(true);
         setError(false);
-        // dispatch(postActions.clearPosts());
+        if(pageNumber!==1){
         dispatch(postActions.fetchPosts(pageNumber,type))
             .then( (res) =>{
                 setMorePosts(res.postsleft.postsLeft);
                 setLoading(false);
-    
+                console.log(res);
+                updatePostsMap(posts,type)
             })
+        }else{
+            setLoading(false);
+        }
     },[pageNumber]);
-    useEffect(()=>{
-        setLoading(true);
-        setPostsMap(state=>{
-            const stateCopy=[...state];
-            Object.values(posts).forEach ((post)=>{
-                //update info for each post 
-                const postIndex = stateCopy.findIndex((origPost)=>origPost.id===post.id)
-                if (postIndex!==-1){
-                    stateCopy[postIndex]={
-                        ...post
-                    };
-                }
-            })
-            const existingPostIds = state.map((post)=>post.id);
-            const newPosts = Object.values(posts).filter(
-                (post)=> !existingPostIds.includes(post.id)
-                )
-            if (type==='trending'){
-                newPosts.sort((post1,post2)=>{
-                   return (post1.commentcount+post1.comentcount)<(post2.comentcount+post2.comentcount) ? 1 : (post1.commentcount+post1.comentcount)>(post2.comentcount+post2.comentcount) ? -1 : 0;
-                })
+    const updatePostsMap = (newPosts, type) => {
+        setPostsMap((state) => {
+          const stateCopy = [...state];
+    
+          // Update existing posts
+          Object.values(newPosts).forEach((post) => {
+            const postIndex = stateCopy.findIndex((origPost) => origPost.id === post.id);
+            if (postIndex !== -1) {
+              stateCopy[postIndex] = { ...post };
             }
-            const newState=[];
-            [...stateCopy,...newPosts].forEach((post)=>{
-                newState.push(post);
-            })
-            newState.forEach((post,index)=>{
-                const storeIndex=Object.values(posts).findIndex((storePost)=>storePost.id===post.id)
-                if (storeIndex===-1){
-                    newState.splice(index,1);
-                }
-            })
-            return newState;
-        })
-        setLoading(false);
-    },[posts])
+          });
+    
+          // Filter and sort new posts
+          const existingPostIds = state.map((post) => post.id);
+          const filteredNewPosts = Object.values(newPosts).filter((post) => !existingPostIds.includes(post.id));
+    
+          if (type === 'trending') {
+            filteredNewPosts.sort((post1, post2) => {
+              return post1.commentcount + post1.comentcount < post2.comentcount + post2.comentcount ? 1 : post1.commentcount + post1.comentcount > post2.comentcount + post2.comentcount ? -1 : 0;
+            });
+          }
+    
+          // Concatenate existing posts with new posts
+          const newState = [...stateCopy, ...filteredNewPosts];
+    
+          // Remove duplicates
+          const uniqueState = newState.filter((post, index) => {
+            const storeIndex = Object.values(newPosts).findIndex((storePost) => storePost.id === post.id);
+            return storeIndex === index;
+          });
+    
+          return uniqueState;
+        });
+      };
+    // useEffect(()=>{
+    //     // setLoading(true);
+        
+    //     setPostsMap(state=>{
+    //         const stateCopy=[...state];
+    //         Object.values(posts).forEach ((post)=>{
+    //             //update info for each post 
+    //             const postIndex = stateCopy.findIndex((origPost)=>origPost.id===post.id)
+    //             if (postIndex!==-1){
+    //                 stateCopy[postIndex]={
+    //                     ...post
+    //                 };
+    //             }
+    //         })
+    //         const existingPostIds = state.map((post)=>post.id);
+    //         const newPosts = Object.values(posts).filter(
+    //             (post)=> !existingPostIds.includes(post.id)
+    //             )
+    //         if (type==='trending'){
+    //             newPosts.sort((post1,post2)=>{
+    //                return (post1.commentcount+post1.comentcount)<(post2.comentcount+post2.comentcount) ? 1 : (post1.commentcount+post1.comentcount)>(post2.comentcount+post2.comentcount) ? -1 : 0;
+    //             })
+    //         }
+    //         const newState=[];
+    //         [...stateCopy,...newPosts].forEach((post)=>{
+    //             newState.push(post);
+    //         })
+    //         newState.forEach((post,index)=>{
+    //             const storeIndex=Object.values(posts).findIndex((storePost)=>storePost.id===post.id)
+    //             if (storeIndex===-1){
+    //                 newState.splice(index,1);
+    //             }
+    //         })
+    //         return newState;
+    //     })
+    //     // setLoading(false);
+    // },[posts]);
 
     useEffect(()=>{
-        if (postsMap.length===0){
+        if (postsMap.length===0 && initialLoad){
             setInitialLoad(true);
         } else setInitialLoad(false);
     },[postsMap])
