@@ -49,6 +49,7 @@ const UserDashboard = ( {type}) =>{
                 setMorePosts(res.postsleft.postsLeft);
                 if(!res.posts){
                     setNoPosts(true);
+                    setLoading(false);
                 } else setNoPosts(false);
 
             })
