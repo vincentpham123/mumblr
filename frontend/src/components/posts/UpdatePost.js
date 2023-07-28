@@ -20,7 +20,7 @@ const UpdatePost = () => {
     const [initialTitle,setInitialTitle] = useState((''));
     const [initialTitleCheck, setInitialTitleCheck] = useState(false);
     const [currentPhotoIndex,setCurrentPhotoIndex] = useState(1);
-    
+    const [errors,setErrors]=useState([]);
     // need to fetch the post using the params id in an useeffect
     useEffect(()=>{
         dispatch(fetchUser(sessionUser.id));
@@ -193,23 +193,46 @@ const handleFile = (event) => {
         
         
         dispatch(updatePost(formData,postid))
-        .catch((res)=>{
-            console.log('failed :(')
-        });
-        history.push(`/user/${sessionUser.id}/posts`);
+        .then(()=>{
+                
+            history.push(`/user/${sessionUser.id}/posts`);
+            // history.go(-2);
+        })
+        .catch(async res=>{
+            let data;
+            try{
+                data = await res.clone().json();
+            } catch{
+                data = await res.text();
+            }
+            if (data?.errors) setErrors(data.errors);
+            else if (data) setErrors([data]);
+            else setErrors([res.statusText]);
+        })
     }
 
     const disableButton = () => {
         return bodyCheck ? '' : 'disabled'
     }
 
-    
+    if(!sessionUser) return(
+        <div className='post-load-container'>
+            <div className='post-load-body'>
+                <i style={{color:'white'}}className="fa-solid fa-spinner fa-spin"></i>
+            </div>
+        </div>
+    );
 return (
     <>
     <div className='text-post-container'>
         <div className='postheader-container'>
             <div className='postHeader-body'>
             {/* for the left side of the header */}
+                <div className='createpost-pic'>
+                    <img src={sessionUser.profilepic}>
+                    </img>
+
+                </div>
                 <div className='postheader-left'>
                     <div className="post-username">{sessionUser.username}</div>
                 </div>

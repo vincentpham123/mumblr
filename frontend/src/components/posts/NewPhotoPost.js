@@ -144,23 +144,44 @@ const NewPhotoPost = () => {
         })
 
         dispatch(createPost(formData))
-            .catch((res)=>{
-                console.log('failed :(')
-            });
-        history.go(-2);
+            .then(()=>{
+                
+                history.go(-2);
+            })
+            .catch(async res=>{
+                let data;
+                try{
+                    data = await res.clone().json();
+                } catch{
+                    data = await res.text();
+                }
+                if (data?.errors) setErrors(data.errors);
+                else if (data) setErrors([data]);
+                else setErrors([res.statusText]);
+            })
     }
 
+    if(!sessionUser) return(
+        <div className='post-load-container'>
+            <div className='post-load-body'>
+                <i style={{color:'white'}}className="fa-solid fa-spinner fa-spin"></i>
+            </div>
+        </div>
+    );
     
 return (
     <>
     <div className='text-post-container'>
         <div className='postheader-container'>
             <div className='postHeader-body'>
-            {/* for the left side of the header */}
+                <div className='createpost-pic'>
+                    <img src={sessionUser.profilepic}>
+                    </img>
+
+                </div>
                 <div className='postheader-left'>
                     <div className="post-username">{sessionUser.username}</div>
                 </div>
-                {/* button for the options on the right */}
                 <div className='postheader-right'>
                     <button className='post-options'>
                         <i className='fa-solid fa-gear'></i>

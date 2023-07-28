@@ -174,7 +174,7 @@ const NewTextPost = () => {
         }) 
         dispatch(createPost(formData))
         .catch((res)=>{
-            console.log('failed :(')
+            
         });
         history.go(-2);
     }
@@ -183,7 +183,13 @@ const NewTextPost = () => {
         return bodyCheck ? '' : 'disabled'
     }
 
-    if(!sessionUser) return null;
+    if(!sessionUser) return(
+        <div className='post-load-container'>
+            <div className='post-load-body'>
+                <i style={{color:'white'}}className="fa-solid fa-spinner fa-spin"></i>
+            </div>
+        </div>
+    );
 return (
     <>
     <div className='text-post-container'>
@@ -212,11 +218,14 @@ return (
                             <div className='textbox-contents'>
                                 <h1 onKeyDown={event=>handleTitleKeyDown(event)} className="contentEdit text-title" contentEditable='true'></h1>
                                 {Object.keys(paragraphs).map((paragraph,index)=>{
-                                return <NewPostInput handleKeyDown={handleKeyDown} index={index+1} handleFile={handleFile} photoState={photos} create={true} handlePhotoRemove={handlePhotoRemove}/>
+                                return <NewPostInput key={index} handleKeyDown={handleKeyDown} index={index+1} handleFile={handleFile} photoState={photos} create={true} handlePhotoRemove={handlePhotoRemove}/>
                                 })}
                                
                             </div>
                         </div>
+                    <div className='add-paragraph-button'>
+
+                    </div>
                     <div className='text-footer'>
                         {/* make this button a div to avoid clashing with the submit button */}
                         <button className='close-text' onClick={()=>history.go(-2)}>Close</button>

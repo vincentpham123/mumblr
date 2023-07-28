@@ -4,8 +4,8 @@ const PostSelection = ({showSelection}) => {
 
     return(
         <div className='post-selection'>
-            <PostCircle onClick={()=>showSelection(false)} type={'text'} />
-            <PostCircle onClick={()=>showSelection(false)} type={'photo'} />
+            <PostCircle onClick={()=>showSelection(false)} closeModal={showSelection} type={'text'} />
+            <PostCircle onClick={()=>showSelection(false)} closeModal={showSelection} type={'photo'} />
         </div>
     )
 

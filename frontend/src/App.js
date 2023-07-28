@@ -43,7 +43,7 @@ function App() {
             </div>
           </Route>
         </Switch>
-        <Route exact path="/new/text">
+          <Route exact path="/new/text">
             <NewTextModal />
           </Route>
           <Route path="/new/photo">

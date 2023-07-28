@@ -1,7 +1,7 @@
 import './styling/postcircle.css';
 import { useEffect,useState } from "react"
 import { Link } from "react-router-dom";
-const PostCircle = ({type}) =>{
+const PostCircle = ({type,closeModal}) =>{
     const [isHovered,setIsHovered] = useState(false);
     const [decorators,setDecorators]=useState({
         color: '',
@@ -38,7 +38,7 @@ const PostCircle = ({type}) =>{
     return(
         <div className='selection-container'>
                     <div className='selection-body'>
-                    <Link className='selection-link' to={`/new/${type}`}>
+                    <Link onClick={()=>closeModal(false)}  className='selection-link' to={`/new/${type}`}>
                         <div className='selection-button' style={{backgroundColor: decorators.color}}>
                             <i className={decorators.icon}></i>
                         </div>
