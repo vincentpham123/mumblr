@@ -27,7 +27,7 @@ class User < ApplicationRecord
   validates :password, length: {in: 6..255}, allow_nil: true 
   has_secure_password
 
-  before_validation :ensure_session_token,:generate_bg_pic,:profile_pic
+  before_validation :ensure_session_token,:generate_bg_pic,:generate_profile_pic
 
   #associations
   has_many :posts,
