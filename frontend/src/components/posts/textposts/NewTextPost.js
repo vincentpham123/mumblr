@@ -13,6 +13,7 @@ const NewTextPost = () => {
     const [title,setTitle] = useState('');
     const [paragraphs,setParagraphs] = useState({1:''});
     const [photos,setPhotos]=useState({1:null,2:null,3:null,4:null});
+    const [errors,setErrors]=useState([]);
 
       // each photo will hold a file that will be rendered 
       //when a user uploads a photo, 1 will be populate, then 2, then 3, then 4
@@ -70,6 +71,14 @@ const NewTextPost = () => {
         setPhotos({...photos,[key]:null})
         setParagraphs({...paragraphs,[index]:''})
         //need to pass this down to the children
+    }
+    const handleAddParagraph = (event) =>{
+        event.preventDefault();
+            const newIndex = Object.keys(paragraphs).length+1;
+            setParagraphs({
+                ...paragraphs,
+                [newIndex]: ''
+            })
     }
     const handleTitleKeyDown = (event) => {
         if (event.key==='Enter'){
@@ -173,10 +182,22 @@ const NewTextPost = () => {
             // if (photos[key]) formData.append(param,photos[key]);
         }) 
         dispatch(createPost(formData))
-        .catch((res)=>{
-            
-        });
-        history.go(-2);
+        .then(()=>{
+                
+            history.push(`/user/${sessionUser.id}/posts`);
+
+        })
+        .catch(async res=>{
+            let data;
+            try{
+                data = await res.clone().json();
+            } catch{
+                data = await res.text();
+            }
+            if (data?.errors) setErrors(data.errors);
+            else if (data) setErrors([data]);
+            else setErrors([res.statusText]);
+        })
     }
 
     const disableButton = () => {
@@ -224,7 +245,8 @@ return (
                             </div>
                         </div>
                     <div className='add-paragraph-button'>
-
+                        <button onClick={(event)=>handleAddParagraph(event)}>
+                        </button>
                     </div>
                     <div className='text-footer'>
                         {/* make this button a div to avoid clashing with the submit button */}
@@ -234,6 +256,10 @@ return (
                 </div>
 
             </div>
+            {errors.length>0&& 
+            <ul>
+                 {errors.map(error => <li className='login-errors' key={error}>{error}</li>)}
+             </ul>}
         
     </div>
             

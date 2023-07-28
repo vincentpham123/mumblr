@@ -22,18 +22,25 @@ const UpdatePost = () => {
     const [currentPhotoIndex,setCurrentPhotoIndex] = useState(1);
     const [errors,setErrors]=useState([]);
     // need to fetch the post using the params id in an useeffect
+    const post = useSelector(state=>state.posts[postid]);
+    const sessionUser = useSelector(state=>  state.session.user);
     useEffect(()=>{
         dispatch(fetchUser(sessionUser.id));
     },[dispatch]);
-    const sessionUser = useSelector(state=>  state.session.user);
-    const post = useSelector(state=>state.posts[postid]);
     
     useEffect(()=>{
         populateFields(post);
     },[post])
 
   
-
+    const handleAddParagraph = (event) =>{
+        event.preventDefault();
+            const newIndex = Object.keys(paragraphs).length+1;
+            setParagraphs({
+                ...paragraphs,
+                [newIndex]: ''
+            })
+    }
     const populateFields = (post) => {
         if (post){
             const bodyParagraphs = post.body.split('\r\n');
@@ -163,7 +170,8 @@ const handleFile = (event) => {
         }
 
     }
-    
+
+
     const handleSubmit = (event) =>{
         event.preventDefault();
         const formData = new FormData();
@@ -210,7 +218,8 @@ const handleFile = (event) => {
             else setErrors([res.statusText]);
         })
     }
-
+ 
+   
     const disableButton = () => {
         return bodyCheck ? '' : 'disabled'
     }
@@ -256,6 +265,10 @@ return (
                                
                             </div>
                         </div>
+                    <div className='add-paragraph-button'>
+                        <button onClick={(event)=>handleAddParagraph(event)}>
+                        </button>
+                    </div>
                     <div className='text-footer'>
                         {/* make this button a div to avoid clashing with the submit button */}
                         <button className='close-text' onClick={()=>history.go(-1)}>Close</button>
@@ -264,6 +277,10 @@ return (
                 </div>
 
             </div>
+            {errors.length>0&& 
+            <ul>
+                 {errors.map(error => <li className='login-errors' key={error}>{error}</li>)}
+             </ul>}
         
     </div>
             
