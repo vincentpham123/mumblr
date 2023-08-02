@@ -2,7 +2,7 @@
 
 [Give it a look!](https://mumblr-3mio.onrender.com)
 
-Mumblr, a tumblr clone, is a website that allows users to express themselvse free of judgement through post creations. Users are able to follow other users as well as like blog posts they come across during their time on the sire. 
+Mumblr, a tumblr clone, is a website that allows users to express themselves free of judgement through post creations. Users are able to follow other users as well as like blog posts they come across during their time on the sire. 
 
 
 ##Libraries and APIs
